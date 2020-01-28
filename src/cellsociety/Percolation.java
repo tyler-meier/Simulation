@@ -15,7 +15,7 @@ public class Percolation extends simulation {
     public Percolation(int size) { //constructor creates and sets a new grid.
         myGrid = new int[size][size]; //creates the grid of size whatever you put
         for (int[] row : myGrid) {
-            Arrays.fill(row, 1); //set the initial state to blocked can be changed acc to file
+            Arrays.fill(row, BLOCKED); //set the initial state to blocked can be changed acc to file
 
         }
 
@@ -42,18 +42,7 @@ Methods are broken down into smaller methods to prioritize design.
   */
     @Override
     public Boolean cellIsOpen(int row, int column) {
-        return null;
-//       for(int i =0; i < myGrid.length; i++){
-//           for(int j =0; j<myGrid.length;j++){
-//               if(myGrid[i][j] != BLOCKED) {
-//                   isOpen = true;
-//               };//if the cell is not equal to blocked, it means its open
-//               if(myGrid[i][j] == FULL){
-//                   isFULL = true;
-//               }
-//           }
-//       }
-
+        return null; //idk how to use this??
     }
 
     /*
@@ -97,6 +86,7 @@ Methods are broken down into smaller methods to prioritize design.
 
     }
     public static void main( String[] args){
+
 
 
 
