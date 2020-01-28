@@ -53,7 +53,7 @@ Methods are broken down into smaller methods to prioritize design.
     The update method updates the state of the cell if it has a neighbour which is
 
      */
-    public void previouState()
+    public void prevState()
 
     {
         initial = myGrid; //initial state, will update more when the file parsing happens. this current
@@ -87,7 +87,7 @@ Methods are broken down into smaller methods to prioritize design.
 
         }
 
-     public void Status(){  //the updated state of the cell is the nextState which becomes myGrid now.
+     public void nextState(){  //the updated state of the cell is the nextState which becomes myGrid now.
       nextState = myGrid;
      }
 
