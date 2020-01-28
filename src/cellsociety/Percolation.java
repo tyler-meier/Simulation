@@ -11,8 +11,11 @@ public class Percolation extends simulation {
     public static final int BLOCKED = 1;
     public static final int OPEN = 2;
     public static final int FULL = 4;
+    private int [][] initial;
+    private int[][] nextState;
 
-    public Percolation(int size) { //constructor creates and sets a new grid.
+
+    public Percolation(int size) {
         myGrid = new int[size][size]; //creates the grid of size whatever you put
         for (int[] row : myGrid) {
             Arrays.fill(row, BLOCKED); //set the initial state to blocked can be changed acc to file
@@ -36,6 +39,7 @@ public class Percolation extends simulation {
        return true;
 
    }
+
  /*
 CellIsOpen method will check if the cell is open and empty, and if its open and full.
 Methods are broken down into smaller methods to prioritize design.
@@ -49,6 +53,12 @@ Methods are broken down into smaller methods to prioritize design.
     The update method updates the state of the cell if it has a neighbour which is
 
      */
+    public void previouState()
+
+    {
+        initial = myGrid; //initial state, will update more when the file parsing happens. this current
+
+    }//value of the grid is the initial value of the grid.
 
     @Override
     public void update() {
@@ -77,6 +87,10 @@ Methods are broken down into smaller methods to prioritize design.
 
         }
 
+     public void Status(){  //the updated state of the cell is the nextState which becomes myGrid now.
+      nextState = myGrid;
+     }
+
 
 
 
@@ -86,6 +100,8 @@ Methods are broken down into smaller methods to prioritize design.
 
     }
     public static void main( String[] args){
+
+
 
 
 
