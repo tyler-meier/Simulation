@@ -9,7 +9,7 @@ public class GameOfLife extends simulation {
     private int aliveCount=0;
 
     public GameOfLife(int size){
-        myGrid = new int[size][size];
+        myGrid = new int[Integer.MAX_VALUE][Integer.MAX_VALUE]; // do people know better way to make infinite grid cells?
         for(int[] row: myGrid){
             Arrays.fill(row,DEAD);  //initialize the grid by making everyone dead.
         }
@@ -17,10 +17,10 @@ public class GameOfLife extends simulation {
     }
 
     public Boolean isBounds(int row, int col){
-        if(row<0 || row>= myGrid.length){
+        if(row< 0 || row>= myGrid.length){
             return false;
         }
-        if(col <0|| row>= myGrid.length){
+        if(col < 0|| row>= myGrid.length){
             return false;
         }
 
@@ -37,42 +37,22 @@ public class GameOfLife extends simulation {
     public int getNeighbourCount() {
         for (int i = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid.length; j++) {
-                if (isBounds(i-1,j-1) & (myGrid[i - 1][j - 1] == ALIVE)){
-                    aliveCount++;
-                }
+                if (isBounds(i-1,j-1) & (myGrid[i - 1][j - 1] == ALIVE)) aliveCount++;
 
-                 if (isBounds(i+1,j+1) & (myGrid[i + 1][j + 1] == ALIVE)){
-                    aliveCount++;
-                }
+                 if (isBounds(i+1,j+1) & (myGrid[i + 1][j + 1] == ALIVE))  aliveCount++;
 
-                if (isBounds(i+1,j-1) & (myGrid[i + 1][j - 1] == ALIVE)){
-                    aliveCount++;
+                if (isBounds(i+1,j-1) & (myGrid[i + 1][j - 1] == ALIVE))  aliveCount++;
 
-                }
+                if (isBounds(i-1,j+1) & (myGrid[i - 1][j+1] == ALIVE))  aliveCount++;
 
-                if (isBounds(i-1,j+1) & (myGrid[i - 1][j+1] == ALIVE)){
-                    aliveCount++;
+                if (isBounds(i,j+1) & (myGrid[i ][j+1] == ALIVE))  aliveCount++;
 
-                }
-                if (isBounds(i,j+1) & (myGrid[i ][j+1] == ALIVE)){
-                    aliveCount++;
+                if (isBounds(i,j-1) & (myGrid[i ][j-1] == ALIVE)) aliveCount++;
 
-                }
+                if (isBounds(i-1,j) & (myGrid[i-1][j] == ALIVE)) aliveCount++;
 
-                if (isBounds(i,j-1) & (myGrid[i ][j-1] == ALIVE)){
-                    aliveCount++;
+                if (isBounds(i+1,j) & (myGrid[i+1][j] == ALIVE)) aliveCount++;
 
-                }
-
-                if (isBounds(i-1,j) & (myGrid[i-1][j] == ALIVE)){
-                    aliveCount++;
-
-                }
-
-                if (isBounds(i+1,j) & (myGrid[i+1][j] == ALIVE)){
-                    aliveCount++;
-
-                }
 
             }
 
@@ -91,9 +71,8 @@ public class GameOfLife extends simulation {
                     else if (alive > 3) myGrid[i][j] = DEAD; //overpopulation
                 }
                 else if (myGrid[i][j]== DEAD){
-                    if(alive>3)myGrid[i][j] = ALIVE;
+                    if(alive== 3)myGrid[i][j] = ALIVE; //reproduction
                 }
-
             }
         }
         return myGrid;
