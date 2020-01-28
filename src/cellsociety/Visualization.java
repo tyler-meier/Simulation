@@ -62,6 +62,10 @@ public class Visualization extends Application {
         Label welcomeLabel = new Label("Welcome to the Simulations!");
         welcomeLabel.setFont(new Font("Arial", 24));
 
+        Label explainLabel = new Label("Click on the simulation that you would like to see.");
+        explainLabel.setFont(new Font("Arial", 15));
+        
+
         gameOfLifeButton = new Button("Game of Life");
         percolationButton = new Button("Percolation");
         segregationButton = new Button("Segregation");
@@ -75,6 +79,7 @@ public class Visualization extends Application {
         fireButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
 
         vBox.getChildren().add(welcomeLabel);
+        vBox.getChildren().add(explainLabel);
         vBox.getChildren().add(gameOfLifeButton);
         vBox.getChildren().add(percolationButton);
         vBox.getChildren().add(segregationButton);
