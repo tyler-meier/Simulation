@@ -2,7 +2,7 @@ package cellsociety;
 
 abstract class simulation {
 
-     abstract public void update();
+     abstract public int[][] update();
 
      abstract public Boolean cellIsOpen(int row, int column);
 

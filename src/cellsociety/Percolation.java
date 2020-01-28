@@ -61,10 +61,10 @@ Methods are broken down into smaller methods to prioritize design.
     }//value of the grid is the initial value of the grid.
 
     @Override
-    public void update() {
+    public int[][] update() {
             //if the cell is open but not full
             for(int i =0; i < myGrid.length; i++)
-                //check its neighbours
+                //check its 8 neighbours
                 for (int j = 0; j < myGrid.length; j++)
                     if (myGrid[i][j] == OPEN)
                             if (isBounds(i - 1, j) == true & (myGrid[i - 1][j]) == FULL) myGrid[i][j] = FULL;
@@ -82,6 +82,7 @@ Methods are broken down into smaller methods to prioritize design.
                                 if (isBounds(i+1, j + 1) == true & (myGrid[i+1][j + 1]) == FULL) myGrid[i][j] = FULL;
                             else
                                 if (isBounds(i+1, j - 1) == true & (myGrid[i+1][j - 1]) == FULL) myGrid[i][j] = FULL;
+            return myGrid;
 
 
         }

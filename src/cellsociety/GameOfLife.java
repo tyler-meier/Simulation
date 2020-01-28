@@ -6,9 +6,7 @@ public class GameOfLife extends simulation {
     public static final int ALIVE = 1;
     public static final int DEAD = 0;
     private int myGrid[][];
-    private int initial[][];
-    private int nextState [][];
-    private int count=0;
+    private int aliveCount=0;
 
     public GameOfLife(int size){
         myGrid = new int[size][size];
@@ -32,21 +30,80 @@ public class GameOfLife extends simulation {
     public void prevState()
 
     {
-        initial = myGrid; //initial state, will update more when the file parsing happens. this current
+        int[][] initial = myGrid; //initial state, will update more when the file parsing happens. this current
 
     }
+   //count the number of dead and alive for each cell. this method is called for every cell in update method.
+    public int getNeighbourCount() {
+        for (int i = 0; i < myGrid.length; i++) {
+            for (int j = 0; j < myGrid.length; j++) {
+                if (isBounds(i-1,j-1) & (myGrid[i - 1][j - 1] == ALIVE)){
+                    aliveCount++;
+                }
 
-    @Override
-    public void update() {
-        for(int i =0; i< myGrid.length;i++){
-            for(int j =0;j<myGrid.length;j++){
-                //if(myGrid[i-1][j-1] ==    )
+                 if (isBounds(i+1,j+1) & (myGrid[i + 1][j + 1] == ALIVE)){
+                    aliveCount++;
+                }
+
+                if (isBounds(i+1,j-1) & (myGrid[i + 1][j - 1] == ALIVE)){
+                    aliveCount++;
+
+                }
+
+                if (isBounds(i-1,j+1) & (myGrid[i - 1][j+1] == ALIVE)){
+                    aliveCount++;
+
+                }
+                if (isBounds(i,j+1) & (myGrid[i ][j+1] == ALIVE)){
+                    aliveCount++;
+
+                }
+
+                if (isBounds(i,j-1) & (myGrid[i ][j-1] == ALIVE)){
+                    aliveCount++;
+
+                }
+
+                if (isBounds(i-1,j) & (myGrid[i-1][j] == ALIVE)){
+                    aliveCount++;
+
+                }
+
+                if (isBounds(i+1,j) & (myGrid[i+1][j] == ALIVE)){
+                    aliveCount++;
+
+                }
 
             }
 
         }
 
+        return aliveCount;
     }
+
+    @Override
+    public int[][] update() {
+        for (int i = 0; i < myGrid.length; i++) {
+            for (int j = 0; j < myGrid.length; j++) {
+                int alive = getNeighbourCount(); //for every i,j it calls this method and counts number of dead and alive neighbours
+                if (myGrid[i][j] == ALIVE) {
+                    if (alive > 2) myGrid[i][j] = DEAD; //underpopulation
+                    else if (alive > 3) myGrid[i][j] = DEAD; //overpopulation
+                }
+                else if (myGrid[i][j]== DEAD){
+                    if(alive>3)myGrid[i][j] = ALIVE;
+                }
+
+            }
+        }
+        return myGrid;
+    }
+
+
+  public void nextState(){
+      int[][] nextState = myGrid;
+  }
+
 
     @Override
     public Boolean cellIsOpen(int row, int column) {
