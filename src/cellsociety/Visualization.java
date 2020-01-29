@@ -39,10 +39,15 @@ public class Visualization extends Application {
     public static final double PREF_BUTTON_WIDTH = 125;
     public static final double PREF_BUTTON_HEIGHT = 50;
     public static final Paint BACKGROUND = Color.GOLD;
+    public static final String PERCOLATION = "Percolation Simulation";
+    public static final String GAME_OF_LIFE = "Game of Life Simulation";
+    public static final String PREDATOR_PREY = "Predator-Prey Simulation";
+    public static final String FIRE = "Fire Simulation";
+    public static final String SEGREGATION = "Segregation Simulation";
     public static final Font titleFont = new Font("Arial", 24);
     public static final Font subtitleFont = new Font("Arial", 15);
 
-    private Scene startScene;
+    private Scene startScene, percolationScene, gameOfLifeScene, predatorPreyScene, fireScene, segregationScene;
     private Stage myStage;
     private Button gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, fireButton, mainMenu;
 
@@ -56,8 +61,20 @@ public class Visualization extends Application {
     public void start(Stage primaryStage) throws Exception {
         myStage = primaryStage;
         myStage.setTitle(TITLE);
-        mainMenu = new Button("Back to Main Menu");
-        startScene = setupFireScene(SIZE, SIZE, BACKGROUND);
+
+        startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
+        percolationScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, PERCOLATION);
+        gameOfLifeScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, GAME_OF_LIFE);
+        predatorPreyScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, PREDATOR_PREY);
+        fireScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, FIRE);
+        segregationScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, SEGREGATION);
+
+        percolationButton.setOnAction(e -> myStage.setScene(percolationScene));
+        gameOfLifeButton.setOnAction(e -> myStage.setScene(gameOfLifeScene));
+        predatorPreyButton.setOnAction(e -> myStage.setScene(predatorPreyScene));
+        fireButton.setOnAction(e -> myStage.setScene(fireScene));
+        segregationButton.setOnAction(e -> myStage.setScene(segregationScene));
+
         myStage.setScene(startScene);
         myStage.show();
     }
@@ -66,7 +83,7 @@ public class Visualization extends Application {
         VBox vBox = new VBox();
         VBox vBox2 = new VBox();
 
-        Label welcomeLabel = new Label("Welcome to the Simulations!");
+        Label welcomeLabel = new Label("MAIN MENU");
         welcomeLabel.setFont(titleFont);
         Label explainLabel = new Label("Click on the simulation that you would like to see.");
         explainLabel.setFont(subtitleFont);
@@ -95,39 +112,19 @@ public class Visualization extends Application {
         BorderPane.setAlignment(vBox2, Pos.CENTER);
 
         BorderPane boPane = new BorderPane(vBox2, vBox, null, null, null);
+        boPane.setStyle("-fx-background-color: mediumspringgreen");
 
         Scene scene = new Scene(boPane, width, height, background);
         return scene;
     }
 
-    private Scene setupGameOfLifeScene(int width, int height, Paint background){
-        Label nameLabel = new Label("Game of Life Simulation");
-        return getScene(width, height, background, nameLabel);
-    }
-
-    private Scene setupPercolationScene(int width, int height, Paint background){
-        Label nameLabel = new Label("Percolation Simulation");
-        return getScene(width, height, background, nameLabel);
-    }
-
-    private Scene setupSegregationScene(int width, int height, Paint background){
-        Label nameLabel = new Label("Segregation Simulation");
-        return getScene(width, height, background, nameLabel);
-    }
-
-    private Scene setupPredatorPreyScene(int width, int height, Paint background){
-        Label nameLabel = new Label("Predator-Prey Simulation");
-        return getScene(width, height, background, nameLabel);
-    }
-
-    private Scene setupFireScene(int width, int height, Paint background){
-        Label nameLabel = new Label("Fire Simulation");
-        return getScene(width, height, background, nameLabel);
-    }
-
-    private Scene getScene(int width, int height, Paint background, Label nameLabel) {
+    private Scene setUpSimulationScene(int width, int height, Paint background, String stringName) {
+        Label nameLabel = new Label(stringName);
         nameLabel.setFont(titleFont);
         nameLabel.setAlignment(Pos.CENTER);
+
+        mainMenu = new Button("Main Menu");
+        mainMenu.setOnAction(e -> myStage.setScene(startScene));
 
         BorderPane.setAlignment(nameLabel, Pos.TOP_CENTER);
         BorderPane.setAlignment(mainMenu, Pos.BOTTOM_CENTER);
@@ -146,7 +143,6 @@ public class Visualization extends Application {
     private void handleKeyInput(KeyCode code){
 
     }
-
 
     public static void main (String[] args) { launch(args); }
 }
