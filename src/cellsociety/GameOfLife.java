@@ -53,11 +53,13 @@ public class GameOfLife extends simulation {
                     if(aliveCount == 3)myGrid[i][j] = ALIVE; //reproduction
                 }
             } }}
-    
+
 
     @Override
     public int[][] update() {
+        getNeighbourCount();
         return myGrid;
+
     }
 
 

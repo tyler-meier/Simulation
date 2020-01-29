@@ -16,10 +16,10 @@ public class Percolation extends simulation {
     public Percolation(int size) {
         myGrid = new int[size][size]; //creates the grid of size whatever you put
         for (int[] row : myGrid) {
-            Arrays.fill(row, BLOCKED); //set the initial state to blocked can be changed acc to file
+            Arrays.fill(row, OPEN); //set the initial state to blocked can be changed acc to file
 
         }
-
+       myGrid[5][8] = FULL;
     }
     /*
     check if the following is in the bounds or not when the file parses in-- this is just a check method to make
