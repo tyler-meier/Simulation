@@ -34,47 +34,29 @@ public class GameOfLife extends simulation {
 
     }
    //count the number of dead and alive for each cell. this method is called for every cell in update method.
-    public int getNeighbourCount() {
-        for (int i = 0; i < myGrid.length; i++) {
+    public void  getNeighbourCount() {
+        for ( int i  = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid.length; j++) {
                 if (isBounds(i-1,j-1) & (myGrid[i - 1][j - 1] == ALIVE)) aliveCount++;
-
                  if (isBounds(i+1,j+1) & (myGrid[i + 1][j + 1] == ALIVE))  aliveCount++;
-
                 if (isBounds(i+1,j-1) & (myGrid[i + 1][j - 1] == ALIVE))  aliveCount++;
-
                 if (isBounds(i-1,j+1) & (myGrid[i - 1][j+1] == ALIVE))  aliveCount++;
-
                 if (isBounds(i,j+1) & (myGrid[i ][j+1] == ALIVE))  aliveCount++;
-
                 if (isBounds(i,j-1) & (myGrid[i ][j-1] == ALIVE)) aliveCount++;
-
                 if (isBounds(i-1,j) & (myGrid[i-1][j] == ALIVE)) aliveCount++;
-
                 if (isBounds(i+1,j) & (myGrid[i+1][j] == ALIVE)) aliveCount++;
-
-
-            }
-
-        }
-
-        return aliveCount;
-    }
+                if (myGrid[i][j] == ALIVE) {
+                    if (aliveCount > 2) myGrid[i][j] = DEAD; //underpopulation
+                    else if (aliveCount > 3) myGrid[i][j] = DEAD; //overpopulation
+                }
+                else if (myGrid[i][j]== DEAD){
+                    if(aliveCount == 3)myGrid[i][j] = ALIVE; //reproduction
+                }
+            } }}
+    
 
     @Override
     public int[][] update() {
-        for (int i = 0; i < myGrid.length; i++) {
-            for (int j = 0; j < myGrid.length; j++) {
-                int alive = getNeighbourCount(); //for every i,j it calls this method and counts number of dead and alive neighbours
-                if (myGrid[i][j] == ALIVE) {
-                    if (alive > 2) myGrid[i][j] = DEAD; //underpopulation
-                    else if (alive > 3) myGrid[i][j] = DEAD; //overpopulation
-                }
-                else if (myGrid[i][j]== DEAD){
-                    if(alive== 3)myGrid[i][j] = ALIVE; //reproduction
-                }
-            }
-        }
         return myGrid;
     }
 
