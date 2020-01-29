@@ -60,6 +60,7 @@ public class Visualization extends Application {
     private Segregation mySegregationGrid;
     private Rectangle[][] myGrid;
     private Group group;
+    private Visualizer myView;
 
 
     /**
@@ -167,15 +168,13 @@ public class Visualization extends Application {
         BorderPane.setAlignment(group, Pos.CENTER);
         BorderPane boPane = new BorderPane(group, nameLabel, null, null, buttonsVBox);
 
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY));
-        step(SECOND_DELAY);
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         Timeline animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
 
         Scene scene = new Scene(boPane, width, height, background);
-        scene.setOnKeyPressed(event -> handleKeyInput(event.getCode()));
         return scene;
     }
 
@@ -186,6 +185,7 @@ public class Visualization extends Application {
         myPercolationGrid.update();
 
     }
+
     private void setUpGrid(){
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[row].length ; col++) {
@@ -209,10 +209,6 @@ public class Visualization extends Application {
         rectangle.setY(y);
 
         return rectangle;
-    }
-
-    private void handleKeyInput(KeyCode code){
-        //need to use arrow keys to step through simulation when game is paused
     }
 
     public static void main (String[] args) { launch(args); }
