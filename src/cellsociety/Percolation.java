@@ -43,8 +43,13 @@ CellIsOpen method will check if the cell is open and empty, and if its open and 
 Methods are broken down into smaller methods to prioritize design.
   */
     @Override
-    public Boolean cellIsOpen(int row, int column) {
-        return null; //idk how to use this??
+
+    public Boolean cellIsOpen(int row, int column){
+        return null;
+    }
+
+    public int cellStatus(int row, int column) {
+        return myGrid[row][column];
     }
 
     /*
