@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,6 +25,8 @@ import javafx.scene.Cursor;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.util.Arrays;
 
 
 /**
@@ -50,6 +54,10 @@ public class Visualization extends Application {
     private Scene startScene, percolationScene, gameOfLifeScene, predatorPreyScene, fireScene, segregationScene;
     private Stage myStage;
     private Button gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, fireButton, mainMenu, pause, resume, speedUp, slowDown;
+    private Percolation myPercolationGrid;
+    private GameOfLife myGoLGrid;
+    private Segregation mySegregationGrid;
+    private Rectangle[][] myGrid;
 
 
     /**
@@ -61,6 +69,8 @@ public class Visualization extends Application {
     public void start(Stage primaryStage) throws Exception {
         myStage = primaryStage;
         myStage.setTitle(TITLE);
+
+        myPercolationGrid = new Percolation(100);
 
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
         percolationScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, PERCOLATION);
@@ -131,6 +141,11 @@ public class Visualization extends Application {
         nameLabel.setFont(titleFont);
         nameLabel.setAlignment(Pos.CENTER);
 
+        Label nameLabel2 = new Label("bottom");
+        nameLabel2.setAlignment(Pos.CENTER);
+        Label nameLabel3 = new Label("right");
+        nameLabel3.setAlignment(Pos.CENTER);
+
         mainMenu = new Button("Main Menu");
         pause = new Button("Pause");
         resume = new Button ("Resume");
@@ -145,18 +160,48 @@ public class Visualization extends Application {
 
         mainMenu.setOnAction(e -> myStage.setScene(startScene));
 
+        myGrid = new Rectangle[40][37];
+        Rectangle full = new Rectangle();
+        Rectangle empty = new Rectangle(15, 15);
+        empty.setFill(Color.BLUE);
+        for (Rectangle[] row : myGrid) {
+            Arrays.fill(row, empty);
+        }
+        Group g = new Group();
+        for (int y = 0; y < myGrid.length; y++) {
+            for (int x = 0 ; x < myGrid[y].length ; x++) {
+                Node rec = myNode(x*15, y*15, 15, 15);
+                g.getChildren().add(rec);
+            }
+        }
+
         buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown);
         buttonsVBox.setAlignment(Pos.CENTER_LEFT);
+        BorderPane.setAlignment(g, Pos.TOP_LEFT);
         BorderPane.setAlignment(nameLabel, Pos.TOP_CENTER);
-        BorderPane boPane = new BorderPane(null, nameLabel, null, null, buttonsVBox);
+        BorderPane.setAlignment(nameLabel2, Pos.TOP_CENTER);
+        BorderPane.setAlignment(nameLabel3, Pos.CENTER_RIGHT);
+        BorderPane boPane = new BorderPane(g, nameLabel, nameLabel3, nameLabel2, buttonsVBox);
 
         Scene scene = new Scene(boPane, width, height, background);
         scene.setOnKeyPressed(event -> handleKeyInput(event.getCode()));
         return scene;
     }
 
-    private void step(double elapsedTime){
+    private Node myNode(double x, double y, double w, double h){
 
+        Rectangle rectangle = new Rectangle(w, h);
+        rectangle.setFill(Color.LIGHTBLUE);
+
+        rectangle.setX(x);
+        rectangle.setY(y);
+
+        return rectangle;
+    }
+    private void step(double elapsedTime){
+        //update cells here i'm guessing
+        //also need to implement pause and resume here
+        //and speed up and slow down i assume
     }
 
     private void handleKeyInput(KeyCode code){
