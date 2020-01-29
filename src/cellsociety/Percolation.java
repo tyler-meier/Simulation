@@ -8,9 +8,9 @@ public class Percolation extends simulation {
     Possible states for the percolation cells are: BLOCKED,OPEN,FULL.
      */
     private int [][] myGrid;
-    public static final int BLOCKED = 1;
-    public static final int OPEN = 2;
-    public static final int FULL = 4;
+    public static final int BLOCKED = 0;
+    public static final int OPEN = 1;
+    public static final int FULL = 2;
 
 
     public Percolation(int size) {
@@ -87,9 +87,6 @@ Methods are broken down into smaller methods to prioritize design.
      public void nextState(){  //the updated state of the cell is the nextState which becomes myGrid now.
          int[][] nextState = myGrid;
      }
-
-
-
 
 
     @Override
