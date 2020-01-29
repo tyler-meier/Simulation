@@ -82,7 +82,6 @@ Methods are broken down into smaller methods to prioritize design.
                                 if (isBounds(i+1, j - 1)  & (myGrid[i+1][j - 1]) == FULL) myGrid[i][j] = FULL;
             return myGrid;
 
-
         }
 
      public void nextState(){  //the updated state of the cell is the nextState which becomes myGrid now.

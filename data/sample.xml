@@ -1,0 +1,6 @@
+<simulation simulationType="Percolation">
+	<title>Percolation Simulation</title>
+	<author>Erik Gregorio</author>
+	<row>10</row>
+	<column>10</column>
+</simulation>
