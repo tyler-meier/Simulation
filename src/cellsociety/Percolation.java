@@ -30,7 +30,7 @@ public class Percolation extends simulation {
        if(row<0 || row>= myGrid.length){
           return false;
        }
-       if(col <0|| row>= myGrid.length){
+       if(col <0|| col>= myGrid[0].length){
            return false;
        }
 
@@ -43,8 +43,13 @@ CellIsOpen method will check if the cell is open and empty, and if its open and 
 Methods are broken down into smaller methods to prioritize design.
   */
     @Override
-    public Boolean cellIsOpen(int row, int column) {
-        return null; //idk how to use this??
+
+    public Boolean cellIsOpen(int row, int column){
+        return null;
+    }
+
+    public int cellStatus(int row, int column) {
+        return myGrid[row][column];
     }
 
     /*
@@ -63,23 +68,23 @@ Methods are broken down into smaller methods to prioritize design.
             //if the cell is open but not full
             for(int i =0; i < myGrid.length; i++)
                 //check its 8 neighbours
-                for (int j = 0; j < myGrid.length; j++)
+                for (int j = 0; j < myGrid[0].length; j++)
                     if (myGrid[i][j] == OPEN)
-                            if (isBounds(i - 1, j)  & (myGrid[i - 1][j]) == FULL) myGrid[i][j] = FULL;
+                            if (isBounds(i - 1, j)  && (myGrid[i - 1][j]) == FULL) myGrid[i][j] = FULL;
                             else //check to right of cell, check if its in bounds
-                                if (isBounds(i + 1, j) & (myGrid[i + 1][j]) == FULL) myGrid[i][j] = FULL;
+                                if (isBounds(i + 1, j) && (myGrid[i + 1][j]) == FULL) myGrid[i][j] = FULL;
                             else //check to see top of cell, check if its in bounds
-                                if (isBounds(i, j - 1) & (myGrid[i][j - 1]) == FULL) myGrid[i][j] = FULL;
+                                if (isBounds(i, j - 1) && (myGrid[i][j - 1]) == FULL) myGrid[i][j] = FULL;
                             else //check to see top of cell, check if its in bounds
-                                if (isBounds(i, j + 1) & (myGrid[i][j + 1]) == FULL) myGrid[i][j] = FULL;
+                                if (isBounds(i, j + 1) && (myGrid[i][j + 1]) == FULL) myGrid[i][j] = FULL;
                             else
-                                if (isBounds(i-1, j - 1) & (myGrid[i-1][j - 1]) == FULL) myGrid[i][j] = FULL;
+                                if (isBounds(i-1, j - 1) && (myGrid[i-1][j - 1]) == FULL) myGrid[i][j] = FULL;
                             else
-                                if (isBounds(i-1, j + 1) & (myGrid[i-1][j + 1]) == FULL) myGrid[i][j] = FULL;
+                                if (isBounds(i-1, j + 1) && (myGrid[i-1][j + 1]) == FULL) myGrid[i][j] = FULL;
                             else
-                                if (isBounds(i+1, j + 1) & (myGrid[i+1][j + 1]) == FULL) myGrid[i][j] = FULL;
+                                if (isBounds(i+1, j + 1) && (myGrid[i+1][j + 1]) == FULL) myGrid[i][j] = FULL;
                             else
-                                if (isBounds(i+1, j - 1)  & (myGrid[i+1][j - 1]) == FULL) myGrid[i][j] = FULL;
+                                if (isBounds(i+1, j - 1)  && (myGrid[i+1][j - 1]) == FULL) myGrid[i][j] = FULL;
             return myGrid;
 
         }
