@@ -5,7 +5,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Percolation extends simulation {
 
@@ -21,7 +20,7 @@ public class Percolation extends simulation {
     public Percolation() throws ParserConfigurationException, IOException, SAXException {
         ReadXML set_grid = new ReadXML(); //new object XML
         File xmlFile = new File("data/samplePercolation.xml"); //created the file object
-        set_grid.setRoot(xmlFile);
+        set_grid.setUpFile(xmlFile);
         set_grid.setMyGrid(); //set up the grid
 
         for(int i =0; i < myGrid.length; i++){

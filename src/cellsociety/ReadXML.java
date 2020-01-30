@@ -43,8 +43,9 @@ public class ReadXML {
     /**
      * Acquires the root element of the xml file
      */
-    public void setRoot(File xmlFile) throws IOException, SAXException {
+    public void setUpFile(File xmlFile) throws IOException, SAXException {
         myRoot = getRootElement(xmlFile);
+        setMyGrid();
     }
     public Element getRootElement(File xmlFile) throws IOException, SAXException {
         DOCUMENT_BUILDER.reset();
