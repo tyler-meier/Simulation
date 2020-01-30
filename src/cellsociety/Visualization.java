@@ -3,31 +3,19 @@ package cellsociety;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.Cursor;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.w3c.dom.css.Rect;
-
-import java.util.Arrays;
 
 
 /**
@@ -73,7 +61,7 @@ public class Visualization extends Application {
         myStage = primaryStage;
         myStage.setTitle(TITLE);
 
-        myPercolationGrid = new Percolation(10);
+        myPercolationGrid = new Percolation();
         myGrid = new Rectangle[10][10];
 
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);

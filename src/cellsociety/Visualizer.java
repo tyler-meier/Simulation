@@ -55,7 +55,7 @@ abstract class Visualizer extends Application {
 
         mainMenu.setOnAction(e -> myStage.setScene(startScene));
 
-        myPercolationGrid = new Percolation(10);
+        myPercolationGrid = new Percolation();
         myGrid = new Rectangle[10][10];
         group = new Group();
         setUpGrid();
