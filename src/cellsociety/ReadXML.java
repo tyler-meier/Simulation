@@ -5,47 +5,102 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.security.PublicKey;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-
-
+/**
+ * A class built to read XML files for the purpose of Simulating various Games. It can receive a file
+ * and parse to set up the intial value of cells
+ * @author erikgregorio
+ */
 public class ReadXML {
-    private final DocumentBuilder DOCUMENT_BUILDER;
-    private final String TYPE;
+    public final DocumentBuilder DOCUMENT_BUILDER;
+    public final String TYPE = "simulationType";
+    public final String ROW = "row";
+    public final String COL = "col";
+    public final String CELL = "cell";
+    public final String STATUS = "status";
+
+    private Element myRoot;
+    private int[][] myGrid;
+    private int row;
+    private int col;
 
     /**
      * Create Parser for a given XML file
      */
-    public ReadXML(String type) throws ParserConfigurationException {
+    public ReadXML() throws ParserConfigurationException {
         DOCUMENT_BUILDER = getDocumentBuilder();
-        TYPE = type;
+    }
+    public DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
+        return DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
 
     /**
      * Acquires the root element of the xml file
      */
+    public void setRoot(File xmlFile) throws IOException, SAXException {
+        myRoot = getRootElement(xmlFile);
+    }
     public Element getRootElement(File xmlFile) throws IOException, SAXException {
         DOCUMENT_BUILDER.reset();
         Document xmlDoc = DOCUMENT_BUILDER.parse(xmlFile);
         return xmlDoc.getDocumentElement();
     }
-
-    public DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
-        return DocumentBuilderFactory.newInstance().newDocumentBuilder();
+    /**
+     * Retrieves column and row values from xml files
+     */
+    public void setMyGrid(){
+        row = Integer.parseInt(getTextValue(myRoot, ROW));
+        col = Integer.parseInt(getTextValue(myRoot, COL));
+        myGrid = new int[row][col];
+        setCells();
+    }
+    /**
+     * Retrieves status value from xml files and assigns it to the cells in the global data structure
+     */
+    public void setCells(){
+        NodeList list = myRoot.getElementsByTagName(CELL);
+        for(int i = 0; i< row; i++){
+            for(int j = 0; j< col; j++){
+                myGrid[i][j] = Integer.parseInt(getTextValue((Element) list.item(i+j), STATUS));
+            }
+        }
+    }
+    /**
+     * Returns cell status for the purpose of simulation filling
+     */
+    public int getCell(int row, int col){
+        return myGrid[row][col];
+    }
+    /**
+     * Returns true or false based on if the xml type is a given simulation type
+     */
+    public boolean isValidFile(String type){
+        return getAttribute(myRoot, TYPE).equals(type);
     }
 
-    public boolean isValidFile(Element root, String type){
-        return getAttribute(root, TYPE).equals(type);
+    /**
+     * Returns the data for given attribute field
+     */
+    public String getParameters(String parameter){
+        return getAttribute(myRoot, parameter);
     }
 
-    public String getAttribute(Element e, String attributeName){
+    /**
+     * Retrives attribute of element by attribute name
+     */
+    private String getAttribute(Element e, String attributeName){
         return e.getAttribute(attributeName);
     }
-
-    public String getTextValue(Element e, String tagName){
+    /**
+     * Retrives data by tag
+     */
+    private String getTextValue(Element e, String tagName){
         NodeList list = e.getElementsByTagName(tagName);
         if(list != null && list.getLength()>0){
             return list.item(0).getTextContent();
@@ -54,11 +109,13 @@ public class ReadXML {
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        ReadXML mySim = new ReadXML("simulationType");
-        File xmlFile = new File("data/sample.xml");
+        ReadXML mySim = new ReadXML();
+        File xmlFile = new File("data/samplePercolation.xml");
+        mySim.setRoot(xmlFile);
         Element root = mySim.getRootElement(xmlFile);
-        System.out.println("Simulation Type is: "+ mySim.getAttribute(root,"simulationType"));
-        System.out.println("My first val is: "+ mySim.getTextValue(root, "author"));
+        System.out.println("Simulation Type is: "+ mySim.getParameters("simulationType"));
+        System.out.println("My first val is: "+ mySim.getTextValue(root, "col"));
+        mySim.setMyGrid();
     }
 }
 
