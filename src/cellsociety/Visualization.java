@@ -25,6 +25,7 @@ import javafx.scene.Cursor;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.w3c.dom.css.Rect;
 
 import java.util.Arrays;
 
@@ -37,7 +38,7 @@ import java.util.Arrays;
 public class Visualization extends Application {
     public static final String TITLE = "Simulation Project";
     public static final int SIZE = 700;
-    public static final int FRAMES_PER_SECOND = 60;
+    public static final int FRAMES_PER_SECOND = 1;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final double PREF_BUTTON_WIDTH = 250;
@@ -58,6 +59,8 @@ public class Visualization extends Application {
     private GameOfLife myGoLGrid;
     private Segregation mySegregationGrid;
     private Rectangle[][] myGrid;
+    private Group group;
+    private Visualizer myView;
 
 
     /**
@@ -70,7 +73,8 @@ public class Visualization extends Application {
         myStage = primaryStage;
         myStage.setTitle(TITLE);
 
-        myPercolationGrid = new Percolation(100);
+        myPercolationGrid = new Percolation(10);
+        myGrid = new Rectangle[10][10];
 
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
         percolationScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, PERCOLATION);
@@ -141,11 +145,6 @@ public class Visualization extends Application {
         nameLabel.setFont(titleFont);
         nameLabel.setAlignment(Pos.CENTER);
 
-        Label nameLabel2 = new Label("bottom");
-        nameLabel2.setAlignment(Pos.CENTER);
-        Label nameLabel3 = new Label("right");
-        nameLabel3.setAlignment(Pos.CENTER);
-
         mainMenu = new Button("Main Menu");
         pause = new Button("Pause");
         resume = new Button ("Resume");
@@ -160,52 +159,56 @@ public class Visualization extends Application {
 
         mainMenu.setOnAction(e -> myStage.setScene(startScene));
 
-        myGrid = new Rectangle[40][37];
-        Rectangle full = new Rectangle();
-        Rectangle empty = new Rectangle(15, 15);
-        empty.setFill(Color.BLUE);
-        for (Rectangle[] row : myGrid) {
-            Arrays.fill(row, empty);
-        }
-        Group g = new Group();
-        for (int y = 0; y < myGrid.length; y++) {
-            for (int x = 0 ; x < myGrid[y].length ; x++) {
-                Node rec = myNode(x*15, y*15, 15, 15);
-                g.getChildren().add(rec);
-            }
-        }
+        group = new Group();
+        setUpGrid();
 
         buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown);
         buttonsVBox.setAlignment(Pos.CENTER_LEFT);
-        BorderPane.setAlignment(g, Pos.TOP_LEFT);
         BorderPane.setAlignment(nameLabel, Pos.TOP_CENTER);
-        BorderPane.setAlignment(nameLabel2, Pos.TOP_CENTER);
-        BorderPane.setAlignment(nameLabel3, Pos.CENTER_RIGHT);
-        BorderPane boPane = new BorderPane(g, nameLabel, nameLabel3, nameLabel2, buttonsVBox);
+        BorderPane.setAlignment(group, Pos.CENTER);
+        BorderPane boPane = new BorderPane(group, nameLabel, null, null, buttonsVBox);
+
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
+        Timeline animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
 
         Scene scene = new Scene(boPane, width, height, background);
-        scene.setOnKeyPressed(event -> handleKeyInput(event.getCode()));
         return scene;
     }
 
-    private Node myNode(double x, double y, double w, double h){
+    private void step(double elapsedTime){
+        //update cells here i'm guessing
+        //also need to implement pause and resume here
+        //and speed up and slow down i assume
+        myPercolationGrid.update();
+
+    }
+
+    private void setUpGrid(){
+        for (int row = 0; row < myGrid.length; row++) {
+            for (int col = 0 ; col < myGrid[row].length ; col++) {
+                Rectangle rec = myRectangle(col*15, row*15, 15, 15);
+                if (myPercolationGrid.cellStatus(row,col) == 2){
+                    rec.setFill(Color.BLUE);
+                }
+                if (myPercolationGrid.cellStatus(row,col) == 4){
+                    rec.setFill(Color.GREEN);
+                }
+                group.getChildren().add(rec);
+            }
+        }
+    }
+    private Rectangle myRectangle(double x, double y, double w, double h){
 
         Rectangle rectangle = new Rectangle(w, h);
-        rectangle.setFill(Color.LIGHTBLUE);
+
 
         rectangle.setX(x);
         rectangle.setY(y);
 
         return rectangle;
-    }
-    private void step(double elapsedTime){
-        //update cells here i'm guessing
-        //also need to implement pause and resume here
-        //and speed up and slow down i assume
-    }
-
-    private void handleKeyInput(KeyCode code){
-        //need to use arrow keys to step through simulation when game is paused
     }
 
     public static void main (String[] args) { launch(args); }
