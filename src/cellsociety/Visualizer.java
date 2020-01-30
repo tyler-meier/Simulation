@@ -16,8 +16,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.xml.sax.SAXException;
 
-abstract class Visualizer extends Application {
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+
+class Visualizer extends Application {
     public static final int FRAMES_PER_SECOND = 1;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -33,8 +37,12 @@ abstract class Visualizer extends Application {
     private Rectangle[][] myGrid;
     private Group group;
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
-    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene) {
+    }
+
+    public void setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene) throws IOException, SAXException, ParserConfigurationException {
         VBox buttonsVBox = new VBox();
 
         Label nameLabel = new Label(stringName);
@@ -54,16 +62,17 @@ abstract class Visualizer extends Application {
         slowDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
 
         mainMenu.setOnAction(e -> myStage.setScene(startScene));
-
         myPercolationGrid = new Percolation();
         myGrid = new Rectangle[10][10];
+        myPercolationGrid = new Percolation(35);
+        myGrid = new Rectangle[35][35];
         group = new Group();
         setUpGrid();
 
         buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown);
         buttonsVBox.setAlignment(Pos.CENTER_LEFT);
         BorderPane.setAlignment(nameLabel, Pos.TOP_CENTER);
-        BorderPane.setAlignment(group, Pos.CENTER);
+        BorderPane.setAlignment(group, Pos.TOP_LEFT);
         BorderPane boPane = new BorderPane(group, nameLabel, null, null, buttonsVBox);
 
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
@@ -73,16 +82,14 @@ abstract class Visualizer extends Application {
         animation.play();
 
         Scene scene = new Scene(boPane, width, height, background);
-        return scene;
+        myStage.setScene(scene);
+        myStage.show();
     }
 
     private void step(double elapsedTime){
-        //update cells here i'm guessing
-        //also need to implement pause and resume here
-        //and speed up and slow down i assume
         myPercolationGrid.update();
-
     }
+
     private void setUpGrid(){
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[row].length ; col++) {
@@ -97,6 +104,7 @@ abstract class Visualizer extends Application {
             }
         }
     }
+
     private Rectangle myRectangle(double x, double y, double w, double h){
         Rectangle rectangle = new Rectangle(w, h);
         rectangle.setX(x);

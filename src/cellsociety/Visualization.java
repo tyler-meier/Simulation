@@ -1,7 +1,5 @@
 package cellsociety;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -15,8 +13,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
 
 /**
  * The visualization class that controls the simulation visuals
@@ -63,19 +59,15 @@ public class Visualization extends Application {
 
         myPercolationGrid = new Percolation();
         myGrid = new Rectangle[10][10];
+        myView = new Visualizer();
 
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
-        percolationScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, PERCOLATION);
-        gameOfLifeScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, GAME_OF_LIFE);
-        predatorPreyScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, PREDATOR_PREY);
-        fireScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, FIRE);
-        segregationScene = setUpSimulationScene(SIZE, SIZE, BACKGROUND, SEGREGATION);
 
-        percolationButton.setOnAction(e -> myStage.setScene(percolationScene));
-        gameOfLifeButton.setOnAction(e -> myStage.setScene(gameOfLifeScene));
-        predatorPreyButton.setOnAction(e -> myStage.setScene(predatorPreyScene));
-        fireButton.setOnAction(e -> myStage.setScene(fireScene));
-        segregationButton.setOnAction(e -> myStage.setScene(segregationScene));
+        percolationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, PERCOLATION, myStage, startScene));
+        gameOfLifeButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, GAME_OF_LIFE, myStage, startScene));
+        predatorPreyButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, PREDATOR_PREY, myStage, startScene));
+        fireButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, FIRE, myStage, startScene));
+        segregationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, SEGREGATION, myStage, startScene));
 
         myStage.setScene(startScene);
         myStage.show();
@@ -124,79 +116,6 @@ public class Visualization extends Application {
 
         Scene scene = new Scene(boPane, width, height, background);
         return scene;
-    }
-
-    private Scene setUpSimulationScene(int width, int height, Paint background, String stringName) {
-        VBox buttonsVBox = new VBox();
-
-        Label nameLabel = new Label(stringName);
-        nameLabel.setFont(titleFont);
-        nameLabel.setAlignment(Pos.CENTER);
-
-        mainMenu = new Button("Main Menu");
-        pause = new Button("Pause");
-        resume = new Button ("Resume");
-        speedUp = new Button ("Speed Up");
-        slowDown = new Button("Slow Down");
-
-        mainMenu.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        resume.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        speedUp.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        slowDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-
-        mainMenu.setOnAction(e -> myStage.setScene(startScene));
-
-        group = new Group();
-        setUpGrid();
-
-        buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown);
-        buttonsVBox.setAlignment(Pos.CENTER_LEFT);
-        BorderPane.setAlignment(nameLabel, Pos.TOP_CENTER);
-        BorderPane.setAlignment(group, Pos.CENTER);
-        BorderPane boPane = new BorderPane(group, nameLabel, null, null, buttonsVBox);
-
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
-        Timeline animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();
-
-        Scene scene = new Scene(boPane, width, height, background);
-        return scene;
-    }
-
-    private void step(double elapsedTime){
-        //update cells here i'm guessing
-        //also need to implement pause and resume here
-        //and speed up and slow down i assume
-        myPercolationGrid.update();
-
-    }
-
-    private void setUpGrid(){
-        for (int row = 0; row < myGrid.length; row++) {
-            for (int col = 0 ; col < myGrid[row].length ; col++) {
-                Rectangle rec = myRectangle(col*15, row*15, 15, 15);
-                if (myPercolationGrid.cellStatus(row,col) == 2){
-                    rec.setFill(Color.BLUE);
-                }
-                if (myPercolationGrid.cellStatus(row,col) == 4){
-                    rec.setFill(Color.GREEN);
-                }
-                group.getChildren().add(rec);
-            }
-        }
-    }
-    private Rectangle myRectangle(double x, double y, double w, double h){
-
-        Rectangle rectangle = new Rectangle(w, h);
-
-
-        rectangle.setX(x);
-        rectangle.setY(y);
-
-        return rectangle;
     }
 
     public static void main (String[] args) { launch(args); }
