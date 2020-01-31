@@ -68,7 +68,7 @@ public class ReadXML {
         NodeList list = myRoot.getElementsByTagName(CELL);
         for(int i = 0; i< row; i++){
             for(int j = 0; j< col; j++){
-                myGrid[i][j] = Integer.parseInt(getTextValue((Element) list.item(i+j), STATUS));
+                myGrid[i][j] = Integer.parseInt(getTextValue((Element)list.item(i+j), STATUS));
             }
         }
     }
