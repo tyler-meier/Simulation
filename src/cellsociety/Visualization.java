@@ -73,6 +73,7 @@ public class Visualization extends Application {
         myStage.show();
     }
 
+
     private Scene setupStartScene(int width, int height, Paint background){
         VBox vBox = new VBox();
         VBox vBox2 = new VBox();
