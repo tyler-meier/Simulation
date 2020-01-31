@@ -134,40 +134,20 @@ public class Segregation extends simulation {
 
     }
 
-    public void move_1(int row, int col){
-        //if any neighbour of population type 1 is empty change the status
-        if (isBounds(row-1,col-1) && myGrid[row-1][col-1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row-1][col -1] = TYPE_1;
+    public void move_1(int i, int j){
+        for(int row=0; row<myGrid.length;row++){
+            for(int col = 0; col< myGrid.length;col++){
+                if(myGrid[row][col] == EMPTY){
+
+
+
+                }
+            }
+
         }
-        if (isBounds(row+1,col+1) && myGrid[row+1][col+1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row+1][col +1] = TYPE_1;
-        }
-        if (isBounds(row-1,col+1) && myGrid[row-1][col+1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row-1][col +1] = TYPE_1;
-        }
-        if (isBounds(row+1,col-1) && myGrid[row+1][col-1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row+1][col -1] = TYPE_1;
-        }
-        if (isBounds(row,col-1) && myGrid[row][col-1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row][col-1] = TYPE_1;
-        }
-        if (isBounds(row,col+1) && myGrid[row][col+1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row][col +1] = TYPE_1;
-        }
-        if (isBounds(row,col) && myGrid[row][col] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row][col] = TYPE_1;
-        }
-        if (isBounds(row-1,col) && myGrid[row-1][col] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row][col-1] = TYPE_1;
-        }
+
+
+
 
 
     }
