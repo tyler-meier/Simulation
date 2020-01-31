@@ -134,12 +134,12 @@ public class Segregation extends simulation {
 
     }
 
-    public void move_1(int i, int j){
+    public void move_1(int i, int j){  //if any vacant cell on the grid ,move!
         for(int row=0; row<myGrid.length;row++){
-            for(int col = 0; col< myGrid.length;col++){
+            for(int col = 0; col< myGrid[0].length;col++){
                 if(myGrid[row][col] == EMPTY){
-
-
+                    myGrid[row][col] = TYPE_1;
+                    myGrid[i][j] = EMPTY;
 
                 }
             }
@@ -152,39 +152,18 @@ public class Segregation extends simulation {
 
     }
 
-    public void move_2(int row, int col){  //if any neighbour of population type 2 is empty change the status
-        if (isBounds(row-1,col-1) && myGrid[row-1][col-1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row-1][col -1] = TYPE_2;
+    public void move_2(int i, int j){  //if any empty cell move
+        for(int row=0; row<myGrid.length;row++){
+            for(int col = 0; col< myGrid[0].length;col++){
+                if(myGrid[row][col] == EMPTY){
+                    myGrid[row][col] = TYPE_2;
+                    myGrid[i][j] = EMPTY;
+
+                }
+            }
+
         }
-        if (isBounds(row+1,col+1) && myGrid[row+1][col+1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row+1][col +1] = TYPE_2;
-        }
-        if (isBounds(row-1,col+1) && myGrid[row-1][col+1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row-1][col +1] = TYPE_2;
-        }
-        if (isBounds(row+1,col-1) && myGrid[row+1][col-1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row+1][col -1] = TYPE_2;
-        }
-        if (isBounds(row,col-1) && myGrid[row][col-1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row][col-1] = TYPE_2;
-        }
-        if (isBounds(row,col+1) && myGrid[row][col+1] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row][col +1] = TYPE_2;
-        }
-        if (isBounds(row,col) && myGrid[row][col] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row][col] = TYPE_2;
-        }
-        if (isBounds(row-1,col) && myGrid[row-1][col] == EMPTY){
-            myGrid[row][col] = EMPTY;
-            myGrid[row][col-1] = TYPE_2;
-        }
+
         
     }
 
