@@ -37,10 +37,12 @@ public class Segregation extends simulation {
 
     }//value of the grid is the initial value of the grid.
 
-    public void getPercent_1(){
 
-        for(int i =0; i<myGrid.length;i++){
-            for(int j =0; j <myGrid[0].length;j++){
+
+    public void getPercent_1(){
+        int i,j = 0;
+        for( i =0; i<myGrid.length;i++){
+            for( j =0; j <myGrid[0].length;j++){
                 if(myGrid[i][j]== TYPE_1) {  //if the cell is equal to type 1 pop
                     if (isBounds(i - 1, j) && myGrid[i-1][j] != EMPTY) { //if the cell neigbour is in the bound
                         totalN++; //if the cell is NOT EQUAL TO EMPTY, then calculate total
@@ -79,7 +81,7 @@ public class Segregation extends simulation {
 
         percent= (percent/totalN)*100;
         if (percent <= satis_Factor){
-            update();
+            move_1(i,j);
         }
 
 
@@ -126,23 +128,90 @@ public class Segregation extends simulation {
                 }}}
             percent = (percent/totalN)*100;
             if (percent <= satis_Factor){
-                move(i,j);
+                move_2(i,j);
             }
 
 
     }
 
-    public void move(int row, int col){
-        //if any neighbour is empty change the value of that neighbour to pop type
-
-
-
+    public void move_1(int row, int col){
+        //if any neighbour of population type 1 is empty change the status
+        if (isBounds(row-1,col-1) && myGrid[row-1][col-1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row-1][col -1] = TYPE_1;
+        }
+        if (isBounds(row+1,col+1) && myGrid[row+1][col+1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row+1][col +1] = TYPE_1;
+        }
+        if (isBounds(row-1,col+1) && myGrid[row-1][col+1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row-1][col +1] = TYPE_1;
+        }
+        if (isBounds(row+1,col-1) && myGrid[row+1][col-1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row+1][col -1] = TYPE_1;
+        }
+        if (isBounds(row,col-1) && myGrid[row][col-1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row][col-1] = TYPE_1;
+        }
+        if (isBounds(row,col+1) && myGrid[row][col+1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row][col +1] = TYPE_1;
+        }
+        if (isBounds(row,col) && myGrid[row][col] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row][col] = TYPE_1;
+        }
+        if (isBounds(row-1,col) && myGrid[row-1][col] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row][col-1] = TYPE_1;
+        }
 
 
     }
 
+    public void move_2(int row, int col){  //if any neighbour of population type 2 is empty change the status
+        if (isBounds(row-1,col-1) && myGrid[row-1][col-1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row-1][col -1] = TYPE_2;
+        }
+        if (isBounds(row+1,col+1) && myGrid[row+1][col+1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row+1][col +1] = TYPE_2;
+        }
+        if (isBounds(row-1,col+1) && myGrid[row-1][col+1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row-1][col +1] = TYPE_2;
+        }
+        if (isBounds(row+1,col-1) && myGrid[row+1][col-1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row+1][col -1] = TYPE_2;
+        }
+        if (isBounds(row,col-1) && myGrid[row][col-1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row][col-1] = TYPE_2;
+        }
+        if (isBounds(row,col+1) && myGrid[row][col+1] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row][col +1] = TYPE_2;
+        }
+        if (isBounds(row,col) && myGrid[row][col] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row][col] = TYPE_2;
+        }
+        if (isBounds(row-1,col) && myGrid[row-1][col] == EMPTY){
+            myGrid[row][col] = EMPTY;
+            myGrid[row][col-1] = TYPE_2;
+        }
+        
+    }
+
     @Override
     public int[][] update() {
+        getPercent_1();
+        getPercent_2();
         return myGrid;
     }
 
