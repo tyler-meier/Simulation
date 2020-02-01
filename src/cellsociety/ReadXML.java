@@ -108,7 +108,7 @@ public class ReadXML {
         else return "";
     }
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+    /*public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         ReadXML mySim = new ReadXML();
         File xmlFile = new File("data/samplePercolation.xml");
         mySim.setRoot(xmlFile);
@@ -116,6 +116,6 @@ public class ReadXML {
         System.out.println("Simulation Type is: "+ mySim.getParameters("simulationType"));
         System.out.println("My first val is: "+ mySim.getTextValue(root, "col"));
         mySim.setMyGrid();
-    }
+    }*/
 }
 

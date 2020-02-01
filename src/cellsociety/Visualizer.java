@@ -16,6 +16,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 class Visualizer extends Application {
     public static final int FRAMES_PER_SECOND = 1;
@@ -37,9 +41,8 @@ class Visualizer extends Application {
     public void start(Stage primaryStage) throws Exception {
 
     }
-
-
-    public void setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene) {
+    
+    public void setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene) throws IOException, SAXException, ParserConfigurationException {
         VBox buttonsVBox = new VBox();
 
         Label nameLabel = new Label(stringName);
@@ -59,8 +62,10 @@ class Visualizer extends Application {
         slowDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
 
         mainMenu.setOnAction(e -> myStage.setScene(startScene));
+        myPercolationGrid = new Percolation();
+        myGrid = new Rectangle[10][10];
 
-        myPercolationGrid = new Percolation(35);
+        //myPercolationGrid = new Percolation(35);
         myGrid = new Rectangle[35][35];
         group = new Group();
         setUpGrid();

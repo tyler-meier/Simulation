@@ -1,5 +1,10 @@
 package cellsociety;
 
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Percolation extends simulation {
@@ -13,14 +18,19 @@ public class Percolation extends simulation {
     public static final int FULL = 4;
 
 
-    public Percolation(int size) {
-        myGrid = new int[size][size]; //creates the grid of size whatever you put
-        for (int[] row : myGrid) {
-            Arrays.fill(row, OPEN); //set the initial state to blocked can be changed acc to file
+    public Percolation() throws ParserConfigurationException, IOException, SAXException {
+        ReadXML set_grid = new ReadXML(); //new object XML
+        File xmlFile = new File("data/samplePercolation.xml"); //created the file object
+        set_grid.setRoot(xmlFile);
+        set_grid.setMyGrid(); //set up the grid
 
-        }
-       myGrid[5][8] = FULL;
+        for(int i =0; i < myGrid.length; i++){
+            for (int j = 0; j < myGrid[0].length; j++){
+                set_grid.getCell(i,j);
+            }
+            }
     }
+
     /*
     check if the following is in the bounds or not when the file parses in-- this is just a check method to make
     sure we are dealing with cells in the bounds.

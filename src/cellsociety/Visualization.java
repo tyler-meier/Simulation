@@ -56,6 +56,9 @@ public class Visualization extends Application {
     public void start(Stage primaryStage) throws Exception {
         myStage = primaryStage;
         myStage.setTitle(TITLE);
+
+        myPercolationGrid = new Percolation();
+        myGrid = new Rectangle[10][10];
         myView = new Visualizer();
 
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
@@ -69,6 +72,7 @@ public class Visualization extends Application {
         myStage.setScene(startScene);
         myStage.show();
     }
+
 
     private Scene setupStartScene(int width, int height, Paint background){
         VBox vBox = new VBox();
