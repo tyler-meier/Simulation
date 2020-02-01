@@ -23,14 +23,15 @@ public class PPCell  {
 
 
 
-    public void  Adjacent_Neighbours() { //all the neighbours of the cell
-      ArrayList<PPCell> myAdjacentNeighbours = new ArrayList<>();
+    public ArrayList<PPCell> Adjacent_Neighbours() { //all the neighbours of the cell
+        ArrayList<PPCell> myAdjacentNeighbours = new ArrayList<>();
       if(Ycol<Grid_Size - 1) myAdjacentNeighbours.add(myGrid[Xrow][Ycol+1]); //East
       if(Ycol>0) myAdjacentNeighbours.add((myGrid[Xrow][Ycol-1])); //West
       if(Xrow <Grid_Size - 1) myAdjacentNeighbours.add((myGrid[Xrow+1][Ycol]));  //South
       if(Xrow>0) myAdjacentNeighbours.add((myGrid[Xrow-1][Ycol]));  //North
 
-  }
+        return myAdjacentNeighbours;
+    }
 
 
   public ArrayList<PPCell> EMPTY_list(){  //all the empty neighbours of the cell.
@@ -45,13 +46,6 @@ public class PPCell  {
 
 
 
-    public  int getX() {
-      return Xrow;
-    }
-
-    public int getY(){
-      return Ycol;
-    }
 
     private ArrayList<PPCell> getEMPTY_N(){
         return EMPTY_N;
@@ -61,12 +55,6 @@ public class PPCell  {
     }
     public void setType(int type){
         this.type = type;
-    }
-    public void setX(int row){
-        this.Xrow = row;
-    }
-    public void setY(int col){
-        this.Ycol = col;
     }
 
 
