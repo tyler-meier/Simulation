@@ -24,6 +24,7 @@ public class PredatorPrey extends simulation {
 
     private ArrayList<PPCell> Empty;
     private ArrayList<PPCell> FishNei;
+    private ArrayList<PPCell> NEW;
 
 
     public PredatorPrey() throws ParserConfigurationException, IOException, SAXException {
@@ -93,6 +94,12 @@ public class PredatorPrey extends simulation {
           for (int i = 0; i < myGrid.length; i++) {
               for (int j = 0; j < myGrid[0].length; j++) {  //
                   if(myGrid[i][j].getTYPE() == FISH && myGrid[i][j].getLife()> FISH_BREEDING){
+                      NEW = myGrid[i][j].Adjacent_Neighbours();
+                      NEW = myGrid[i][j].EMPTY_list();
+                      PPCell new_bi = chooseRandomNeighbour(NEW); //chose a new
+
+
+
 
 
                   }
@@ -106,12 +113,13 @@ public class PredatorPrey extends simulation {
     @Override
     public void update() {
         SHARK_EAT_FISH();
+
         MOVE++;
 
     }
 
     @Override
-    public Boolean cellIsOpen(int row, int column) {
+    public Boolean cellStatus(int row, int column) {
         return null;
     }
 

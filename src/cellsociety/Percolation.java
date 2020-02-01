@@ -55,13 +55,11 @@ Methods are broken down into smaller methods to prioritize design.
   */
     @Override
 
-    public Boolean cellIsOpen(int row, int column){
+    public Boolean cellStatus(int row, int column){
         return null;
     }
 
-    public int cellStatus(int row, int column) {
-        return myGrid[row][column];
-    }
+
 
     /*
     The update method updates the state of the cell if it has a neighbour which is

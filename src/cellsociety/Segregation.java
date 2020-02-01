@@ -171,7 +171,7 @@ public class Segregation extends simulation {
     }
 
     @Override
-    public Boolean cellIsOpen(int row, int column) {
+    public Boolean cellStatus(int row, int column) {
         return null;
     }
 
