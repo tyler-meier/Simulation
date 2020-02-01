@@ -12,7 +12,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.xml.sax.XMLReader;
+
+import java.io.File;
 
 /**
  * The visualization class that controls the simulation visuals
@@ -38,13 +42,14 @@ public class Visualization extends Application {
 
     private Scene startScene, percolationScene, gameOfLifeScene, predatorPreyScene, fireScene, segregationScene;
     private Stage myStage;
-    private Button gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, fireButton, mainMenu, pause, resume, speedUp, slowDown;
+    private Button gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, fireButton, startSimButton;
     private Percolation myPercolationGrid;
     private GameOfLife myGoLGrid;
     private Segregation mySegregationGrid;
     private Rectangle[][] myGrid;
     private Group group;
     private Visualizer myView;
+    private ReadXML mySimFileReader;
 
 
     /**
@@ -57,17 +62,17 @@ public class Visualization extends Application {
         myStage = primaryStage;
         myStage.setTitle(TITLE);
 
-        myPercolationGrid = new Percolation();
-        myGrid = new Rectangle[10][10];
         myView = new Visualizer();
 
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
 
-        percolationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, PERCOLATION, myStage, startScene));
+        /*percolationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, PERCOLATION, myStage, startScene));
         gameOfLifeButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, GAME_OF_LIFE, myStage, startScene));
         predatorPreyButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, PREDATOR_PREY, myStage, startScene));
         fireButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, FIRE, myStage, startScene));
-        segregationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, SEGREGATION, myStage, startScene));
+        segregationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, SEGREGATION, myStage, startScene));*/
+
+        startSimButton.setOnAction(e -> setUpFile(mySimFileReader));
 
         myStage.setScene(startScene);
         myStage.show();
@@ -117,6 +122,13 @@ public class Visualization extends Application {
 
         Scene scene = new Scene(boPane, width, height, background);
         return scene;
+    }
+
+    public void setUpFile(ReadXML mySimFileReader){
+        FileChooser fileChoose = new FileChooser();
+        fileChoose.setTitle("BALKNA");
+        File simFile = fileChoose.showOpenDialog(myStage);
+        //ReadXML.setUpFile(simFile);
     }
 
     public static void main (String[] args) { launch(args); }
