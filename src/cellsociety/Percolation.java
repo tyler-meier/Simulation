@@ -19,16 +19,16 @@ public class Percolation extends simulation {
 
 
     public Percolation() throws ParserConfigurationException, IOException, SAXException {
-        ReadXML set_grid = new ReadXML(); //new object XML
-        File xmlFile = new File("data/samplePercolation.xml"); //created the file object
-        set_grid.setRoot(xmlFile);
-        set_grid.setMyGrid(); //set up the grid
-
-        for(int i =0; i < myGrid.length; i++){
-            for (int j = 0; j < myGrid[0].length; j++){
-                set_grid.getCell(i,j);
-            }
-            }
+//        ReadXML set_grid = new ReadXML(); //new object XML
+//        File xmlFile = new File("data/samplePercolation.xml"); //created the file object
+//        set_grid.setRoot(xmlFile);
+//        set_grid.setMyGrid(); //set up the grid
+//
+//        for(int i =0; i < myGrid.length; i++){
+//            for (int j = 0; j < myGrid[0].length; j++){
+//                set_grid.getCell(i,j);
+//            }
+//            }
     }
 
     /*
@@ -74,7 +74,7 @@ Methods are broken down into smaller methods to prioritize design.
     }//value of the grid is the initial value of the grid.
 
     @Override
-    public int[][] update() {
+    public void update() {
             //if the cell is open but not full
             for(int i =0; i < myGrid.length; i++)
                 //check its 8 neighbours
@@ -95,7 +95,7 @@ Methods are broken down into smaller methods to prioritize design.
                                 if (isBounds(i+1, j + 1) && (myGrid[i+1][j + 1]) == FULL) myGrid[i][j] = FULL;
                             else
                                 if (isBounds(i+1, j - 1)  && (myGrid[i+1][j - 1]) == FULL) myGrid[i][j] = FULL;
-            return myGrid;
+
 
         }
 

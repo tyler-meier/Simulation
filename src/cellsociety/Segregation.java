@@ -164,10 +164,10 @@ public class Segregation extends simulation {
     }
 
     @Override
-    public int[][] update() {
+    public void update() {
         getPercent_1();
         getPercent_2();
-        return myGrid;
+
     }
 
     @Override
