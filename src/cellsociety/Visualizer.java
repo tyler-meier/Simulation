@@ -87,12 +87,15 @@ class Visualizer extends Application {
         myGrid = new Rectangle[mySimFileReader.getRow()][mySimFileReader.getCol()];
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[row].length ; col++) {
-                Rectangle rec = myRectangle(col*15, row*15, 15, 15);
-                if (myCurrSim.cellStatus(row,col) == 2){
+                Rectangle rec = myRectangle(col*25, row*25, 25, 25);
+                if (myCurrSim.cellStatus(row,col) == 1){
                     rec.setFill(Color.BLUE);
                 }
-                if (myCurrSim.cellStatus(row,col) == 4){
+                else if (myCurrSim.cellStatus(row,col) == 2){
                     rec.setFill(Color.GREEN);
+                }
+                else {
+                    rec.setFill(Color.BLACK);
                 }
                 group.getChildren().add(rec);
             }
