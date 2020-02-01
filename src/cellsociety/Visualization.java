@@ -131,7 +131,7 @@ public class Visualization extends Application {
            myCurrSim = new Fire();
         }
         else if(simName.equals("GameOfLife")){
-           myCurrSim = new GameOfLife();
+           myCurrSim = new GameOfLife(10);
         }
     }
     private void step(double elapsedTime){
