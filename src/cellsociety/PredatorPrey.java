@@ -27,11 +27,11 @@ public class PredatorPrey extends simulation {
 
 
     public PredatorPrey() throws ParserConfigurationException, IOException, SAXException {
-        myGrid = new PPCell[grid_size][grid_size]; //makes a grid of PPCell
-        ReadXML set_grid = new ReadXML(); //new object XML
-        File xmlFile = new File("data/samplePP.xml"); //created the file object
-        set_grid.setRoot(xmlFile);
-        set_grid.setMyGrid(); //set up the grid with PPCell.
+//        myGrid = new PPCell[grid_size][grid_size]; //makes a grid of PPCell
+//        ReadXML set_grid = new ReadXML(); //new object XML
+//        File xmlFile = new File("data/samplePP.xml"); //created the file object
+//        set_grid.setRoot(xmlFile);
+//        set_grid.setMyGrid(); //set up the grid with PPCell.
         //still need to set up the grid.
     }
     private int FishN= 0;
@@ -52,50 +52,33 @@ public class PredatorPrey extends simulation {
                             if(FishN == 1){ //if fish is 1
                                 cell.setType(EMPTY); //eat that
                                 EAT = true;  //eaten
-
                             }
-
                         }
-
-                        else{
-                            Fish_MOVE_SHARK(i,j);
-                        }
-
-                        }
+                        else if (!EAT){ MOVE_SHARK(i,j); }
+                    }
                 }
-
+                else if (!EAT)
+                    { FISH_MOVE(i,j);}
 
             } } }
-
-
-    public void Fish_MOVE_SHARK(int i, int j) {
-                Empty = myGrid[i][j].EMPTY_list();
-                    if (!EAT) {
+            public void MOVE_SHARK(int i, int j) {
                         //if the type is FISH then the fish moves to nearby empty cell if it is alive.
-                        if (myGrid[i][j].getTYPE() == SHARK) {
-                            PPCell goal = chooseRandomNeighbour(Empty);
-                            myGrid[i][j].setType(EMPTY);
-                            goal.setType(SHARK);
+                Empty = myGrid[i][j].EMPTY_list();
+                PPCell goal = chooseRandomNeighbour(Empty);
+                myGrid[i][j].setType(EMPTY);
+                goal.setType(SHARK);
+                Empty.clear();
+
                 }
 
-                    }
-                    MOVE++;
-
-            }
-
-      public void FISH_MOVE(int i, int j){
-        if(!EAT){
-
-            if (myGrid[i][j].getTYPE() == FISH) {
-                PPCell goal = chooseRandomNeighbour(Empty); //this is the goal of the fish to move
-                myGrid[i][j].setType(EMPTY);
-                goal.setType(FISH);
-            }
+        public void FISH_MOVE(int i, int j){
+            Empty = myGrid[i][j].EMPTY_list();
+            PPCell goal = chooseRandomNeighbour(Empty); //this is the goal of the fish to move
+            myGrid[i][j].setType(EMPTY);
+            goal.setType(FISH);
             Empty.clear();  //clear it
 
           }
-      }
-
 
 
     public PPCell chooseRandomNeighbour(List<PPCell> neighbours) {
@@ -104,9 +87,24 @@ public class PredatorPrey extends simulation {
     }
 
 
+      public void BREED() {
+          for (int i = 0; i < myGrid.length; i++) {
+              for (int j = 0; j < myGrid[0].length; j++) {  //
+                  if(myGrid[i][j].getTYPE() == FISH && myGrid[i][j].getLife()> FISH_BREEDING){
+
+
+                  }
+
+
+              }
+          }
+      }
+
+
     @Override
     public void update() {
         SHARK_EAT_FISH();
+        MOVE++;
 
     }
 

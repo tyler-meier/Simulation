@@ -20,8 +20,6 @@ public class PPCell  {
     state = type;
     life = life_time;
 
-
-
 }
 
 
@@ -63,7 +61,7 @@ public class PPCell  {
 
 
 
-    public void setLife() { this.life_time = life_time;}
+    public void setLife(int life_time) { this.life_time = life_time;}
     public int getTYPE(){
         return type;
     }
@@ -71,5 +69,7 @@ public class PPCell  {
         this.type = type;
     }
 
-
+    public int getLife() {
+        return life_time;
+    }
 }

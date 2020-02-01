@@ -2,8 +2,8 @@ package cellsociety;
 
 public class Fire extends simulation {
     @Override
-    public int[][] update() {
-        return new int[0][];
+    public void update() {
+       
     }
 
     @Override
