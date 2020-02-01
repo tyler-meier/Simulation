@@ -31,9 +31,6 @@ class Visualizer extends Application {
     public static final Font subtitleFont = new Font("Arial", 25);
 
     private Button mainMenu, pause, resume, speedUp, slowDown;
-    private Percolation myPercolationGrid;
-    private GameOfLife myGoLGrid;
-    private Segregation mySegregationGrid;
     private Rectangle[][] myGrid;
     private Group group;
 
@@ -42,7 +39,7 @@ class Visualizer extends Application {
 
     }
 
-    public void setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene) throws IOException, SAXException, ParserConfigurationException {
+    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene) throws IOException, SAXException, ParserConfigurationException {
         VBox buttonsVBox = new VBox();
 
         Label nameLabel = new Label(stringName);
@@ -71,39 +68,37 @@ class Visualizer extends Application {
         buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown);
         buttonsVBox.setAlignment(Pos.CENTER_LEFT);
         BorderPane.setAlignment(nameLabel, Pos.TOP_CENTER);
-        BorderPane.setAlignment(group, Pos.TOP_LEFT);
+        //BorderPane.setAlignment(group, Pos.TOP_LEFT);
         BorderPane boPane = new BorderPane(group, nameLabel, null, null, buttonsVBox);
 
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
+        /*KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         Timeline animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
-        animation.play();
+        animation.play();*/
 
         Scene scene = new Scene(boPane, width, height, background);
-        myStage.setScene(scene);
-        myStage.show();
+        return scene;
     }
 
     private void step(double elapsedTime){
-        myPercolationGrid.update();
+       // myCurrSim.update();
     }
 
-    private void setUpGrid(){
+    /*public void setUpGrid(simulation myCurrSim){
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[row].length ; col++) {
                 Rectangle rec = myRectangle(col*15, row*15, 15, 15);
-                if (myPercolationGrid.cellStatus(row,col) == 2){
+                if (myCurrSim.cellStatus(row,col) == 2){
                     rec.setFill(Color.BLUE);
                 }
-                if (myPercolationGrid.cellStatus(row,col) == 4){
+                if (myCurrSim.cellStatus(row,col) == 4){
                     rec.setFill(Color.GREEN);
                 }
                 group.getChildren().add(rec);
             }
         }
-    }
-
+    }*/
     private Rectangle myRectangle(double x, double y, double w, double h){
         Rectangle rectangle = new Rectangle(w, h);
         rectangle.setX(x);

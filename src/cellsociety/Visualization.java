@@ -2,7 +2,6 @@ package cellsociety;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,13 +9,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
@@ -34,22 +32,13 @@ public class Visualization extends Application {
     public static final double PREF_BUTTON_WIDTH = 250;
     public static final double PREF_BUTTON_HEIGHT = 100;
     public static final Paint BACKGROUND = Color.GOLD;
-    public static final String PERCOLATION = "Percolation Simulation";
-    public static final String GAME_OF_LIFE = "Game of Life Simulation";
-    public static final String PREDATOR_PREY = "Predator-Prey Simulation";
-    public static final String FIRE = "Fire Simulation";
-    public static final String SEGREGATION = "Segregation Simulation";
     public static final Font titleFont = new Font("Arial", 50);
     public static final Font subtitleFont = new Font("Arial", 25);
 
-    private Scene startScene;
+    private Scene startScene, simScene;
     private Stage myStage;
     private Button startSimButton;
-    private Percolation myPercolationGrid;
-    private GameOfLife myGoLGrid;
-    private Segregation mySegregationGrid;
-    private Rectangle[][] myGrid;
-    private Group group;
+    private simulation myCurrSim;
     private ReadXML mySimFileReader;
     private Visualizer myView;
 
@@ -68,14 +57,19 @@ public class Visualization extends Application {
         mySimFileReader = new ReadXML();
         startSimButton.setOnAction(e -> {
             try {
-                setUpFile();
+                String simName = setUpFile();
+                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene);
+                //myView.setUpGrid(myCurrSim);
+                myStage.setScene(simScene);
+                myStage.show();
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (SAXException ex) {
                 ex.printStackTrace();
+            } catch (ParserConfigurationException ex) {
+                ex.printStackTrace();
             }
         });
-
         myStage.setScene(startScene);
         myStage.show();
     }
@@ -114,12 +108,31 @@ public class Visualization extends Application {
         return scene;
     }
 
-    public void setUpFile() throws IOException, SAXException {
+    public String setUpFile() throws IOException, SAXException {
         FileChooser fileChoose = new FileChooser();
         fileChoose.setTitle("BALKNA");
         File simFile = fileChoose.showOpenDialog(myStage);
         mySimFileReader.setUpFile(simFile);
-        String simName = mySimFileReader.getParameters(mySimFileReader.TEXT);
+        String simName = mySimFileReader.getParameters(mySimFileReader.TYPE);
+        return simName;
+    }
+
+    public void returnSim(String simName) throws IOException, SAXException, ParserConfigurationException {
+        if(simName.equals("Percolation")){
+            myCurrSim = new Percolation(mySimFileReader);
+        }
+        else if(simName.equals("PredatorPrey")){
+            myCurrSim = new Percolation();
+        }
+        else if(simName.equals("Segregation")){
+            myCurrSim = new Percolation();
+        }
+        else if(simName.equals("Fire")){
+            myCurrSim = new Percolation();
+        }
+        else if(simName.equals("GameOfLife")){
+            myCurrSim = new Percolation();
+        }
     }
 
     public static void main (String[] args) { launch(args); }
