@@ -57,8 +57,6 @@ public class Visualization extends Application {
         myStage = primaryStage;
         myStage.setTitle(TITLE);
 
-        myPercolationGrid = new Percolation();
-        myGrid = new Rectangle[10][10];
         myView = new Visualizer();
 
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
