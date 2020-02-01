@@ -38,6 +38,7 @@ class Visualizer extends Application {
 
     }
 
+
     public void setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene) {
         VBox buttonsVBox = new VBox();
 
