@@ -17,7 +17,7 @@ public class Percolation extends simulation {
     public static final int FULL = 4;
 
 
-    public Percolation() throws ParserConfigurationException, IOException, SAXException {
+    public Percolation(ReadXML myReader) throws ParserConfigurationException, IOException, SAXException {
 
 //        ReadXML set_grid = new ReadXML(); //new object XML
 //        File xmlFile = new File("data/samplePercolation.xml"); //created the file object

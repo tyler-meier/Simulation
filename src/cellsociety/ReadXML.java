@@ -91,10 +91,13 @@ public class ReadXML {
     public String getParameters(String parameter){
         return getAttribute(myRoot, parameter);
     }
+    public int getRow(){
+        return Integer.parseInt(getTextValue(myRoot, ROW));
+    }
+    public int getCol() {
+        return Integer.parseInt(getTextValue(myRoot, COL));
+    }
 
-    /**
-     * Retrives attribute of element by attribute name
-     */
     private String getAttribute(Element e, String attributeName){
         return e.getAttribute(attributeName);
     }
