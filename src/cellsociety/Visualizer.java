@@ -86,7 +86,7 @@ class Visualizer extends Application {
     }
 
     public void setUpGrid(simulation myCurrSim, ReadXML mySimFileReader){
-        myGrid = new int[mySimFileReader.getRow()][mySimFileReader.getCol()];
+        myGrid = new Rectangle[mySimFileReader.getRow()][mySimFileReader.getCol()];
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[row].length ; col++) {
                 Rectangle rec = myRectangle(col*15, row*15, 15, 15);

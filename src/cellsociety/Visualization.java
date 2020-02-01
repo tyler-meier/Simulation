@@ -122,16 +122,16 @@ public class Visualization extends Application {
             myCurrSim = new Percolation(mySimFileReader);
         }
         else if(simName.equals("PredatorPrey")){
-           // myCurrSim = new Percolation();
+           myCurrSim = new PredatorPrey();
         }
         else if(simName.equals("Segregation")){
-           // myCurrSim = new Percolation();
+           myCurrSim = new Segregation();
         }
         else if(simName.equals("Fire")){
-           // myCurrSim = new Percolation();
+           myCurrSim = new Fire();
         }
         else if(simName.equals("GameOfLife")){
-           // myCurrSim = new Percolation();
+           myCurrSim = new GameOfLife();
         }
     }
     private void step(double elapsedTime){

@@ -7,8 +7,8 @@ public class Fire extends simulation {
     }
 
     @Override
-    public Boolean cellStatus(int row, int column) {
-        return null;
+    public int cellStatus(int row, int column) {
+        return -1;
     }
 
     @Override

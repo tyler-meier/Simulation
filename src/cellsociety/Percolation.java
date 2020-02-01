@@ -55,8 +55,8 @@ Methods are broken down into smaller methods to prioritize design.
   */
     @Override
 
-    public Boolean cellStatus(int row, int column){
-        return null;
+    public int cellStatus(int row, int column){
+        return -1;
     }
 
 
