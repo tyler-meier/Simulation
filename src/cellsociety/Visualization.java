@@ -59,7 +59,7 @@ public class Visualization extends Application {
             try {
                 String simName = setUpFile();
                 simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene);
-                //myView.setUpGrid(myCurrSim);
+                myView.setUpGrid(myCurrSim, mySimFileReader);
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
@@ -133,6 +133,9 @@ public class Visualization extends Application {
         else if(simName.equals("GameOfLife")){
             myCurrSim = new Percolation();
         }
+    }
+    private void step(double elapsedTime){
+        myView.step(elapsedTime, myCurrSim);
     }
 
     public static void main (String[] args) { launch(args); }

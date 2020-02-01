@@ -81,11 +81,12 @@ class Visualizer extends Application {
         return scene;
     }
 
-    private void step(double elapsedTime){
-       // myCurrSim.update();
+    public void step(double elapsedTime, simulation myCurrSim){
+        myCurrSim.update();
     }
 
-    /*public void setUpGrid(simulation myCurrSim){
+    public void setUpGrid(simulation myCurrSim, ReadXML mySimFileReader){
+        myGrid = new int[mySimFileReader.getRow()][mySimFileReader.getCol()];
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[row].length ; col++) {
                 Rectangle rec = myRectangle(col*15, row*15, 15, 15);
@@ -98,7 +99,7 @@ class Visualizer extends Application {
                 group.getChildren().add(rec);
             }
         }
-    }*/
+    }
     private Rectangle myRectangle(double x, double y, double w, double h){
         Rectangle rectangle = new Rectangle(w, h);
         rectangle.setX(x);
