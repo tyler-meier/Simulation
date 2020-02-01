@@ -12,7 +12,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * The visualization class that controls the simulation visuals
@@ -38,13 +44,14 @@ public class Visualization extends Application {
 
     private Scene startScene, percolationScene, gameOfLifeScene, predatorPreyScene, fireScene, segregationScene;
     private Stage myStage;
-    private Button gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, fireButton, mainMenu, pause, resume, speedUp, slowDown;
+    private Button gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, fireButton, startSimButton;
     private Percolation myPercolationGrid;
     private GameOfLife myGoLGrid;
     private Segregation mySegregationGrid;
     private Rectangle[][] myGrid;
     private Group group;
     private Visualizer myView;
+    private ReadXML mySimFileReader;
 
 
     /**
@@ -57,17 +64,25 @@ public class Visualization extends Application {
         myStage = primaryStage;
         myStage.setTitle(TITLE);
 
-        myPercolationGrid = new Percolation();
-        myGrid = new Rectangle[10][10];
         myView = new Visualizer();
 
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
 
-        percolationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, PERCOLATION, myStage, startScene));
+        /*percolationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, PERCOLATION, myStage, startScene));
         gameOfLifeButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, GAME_OF_LIFE, myStage, startScene));
         predatorPreyButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, PREDATOR_PREY, myStage, startScene));
         fireButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, FIRE, myStage, startScene));
-        segregationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, SEGREGATION, myStage, startScene));
+        segregationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, SEGREGATION, myStage, startScene));*/
+
+        startSimButton.setOnAction(e -> {
+            try {
+                setUpFile(mySimFileReader);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (SAXException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         myStage.setScene(startScene);
         myStage.show();
@@ -88,21 +103,23 @@ public class Visualization extends Application {
         segregationButton = new Button("Segregation");
         predatorPreyButton = new Button("Predator-Prey");
         fireButton = new Button("Fire");
+        startSimButton = new Button("Start a Simulation");
 
         gameOfLifeButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         percolationButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         segregationButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         predatorPreyButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        fireButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        startSimButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+
 
         gameOfLifeButton.setStyle("-fx-font-size: 2em; ");
         percolationButton.setStyle("-fx-font-size: 2em; ");
         segregationButton.setStyle("-fx-font-size: 2em; ");
         predatorPreyButton.setStyle("-fx-font-size: 2em; ");
-        fireButton.setStyle("-fx-font-size: 2em; ");
+        startSimButton.setStyle("-fx-font-size: 2em; ");
 
         vBox.getChildren().addAll(welcomeLabel, explainLabel);
-        vBox2.getChildren().addAll(gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, fireButton);
+        vBox2.getChildren().addAll(gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, startSimButton);
 
         vBox.setAlignment(Pos.CENTER);
         vBox2.setAlignment(Pos.CENTER);
@@ -117,6 +134,13 @@ public class Visualization extends Application {
 
         Scene scene = new Scene(boPane, width, height, background);
         return scene;
+    }
+
+    public void setUpFile(ReadXML mySimFileReader) throws IOException, SAXException {
+        FileChooser fileChoose = new FileChooser();
+        fileChoose.setTitle("BALKNA");
+        File simFile = fileChoose.showOpenDialog(myStage);
+        mySimFileReader.setUpFile(simFile);
     }
 
     public static void main (String[] args) { launch(args); }
