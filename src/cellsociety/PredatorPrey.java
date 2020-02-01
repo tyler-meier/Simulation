@@ -30,7 +30,7 @@ public class PredatorPrey extends simulation {
         myGrid = new PPCell[grid_size][grid_size]; //makes a grid of PPCell
         ReadXML set_grid = new ReadXML(); //new object XML
         File xmlFile = new File("data/samplePP.xml"); //created the file object
-        set_grid.setRoot(xmlFile);
+        //set_grid.setRoot(xmlFile);
         set_grid.setMyGrid(); //set up the grid with PPCell.
         //still need to set up the grid.
     }
