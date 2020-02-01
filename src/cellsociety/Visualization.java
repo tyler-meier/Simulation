@@ -42,16 +42,16 @@ public class Visualization extends Application {
     public static final Font titleFont = new Font("Arial", 50);
     public static final Font subtitleFont = new Font("Arial", 25);
 
-    private Scene startScene, percolationScene, gameOfLifeScene, predatorPreyScene, fireScene, segregationScene;
+    private Scene startScene;
     private Stage myStage;
-    private Button gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, fireButton, startSimButton;
+    private Button startSimButton;
     private Percolation myPercolationGrid;
     private GameOfLife myGoLGrid;
     private Segregation mySegregationGrid;
     private Rectangle[][] myGrid;
     private Group group;
-    private Visualizer myView;
     private ReadXML mySimFileReader;
+    private Visualizer myView;
 
 
     /**
@@ -63,20 +63,12 @@ public class Visualization extends Application {
     public void start(Stage primaryStage) throws Exception {
         myStage = primaryStage;
         myStage.setTitle(TITLE);
-
-        myView = new Visualizer();
-
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
-
-        /*percolationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, PERCOLATION, myStage, startScene));
-        gameOfLifeButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, GAME_OF_LIFE, myStage, startScene));
-        predatorPreyButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, PREDATOR_PREY, myStage, startScene));
-        fireButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, FIRE, myStage, startScene));
-        segregationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, SEGREGATION, myStage, startScene));*/
-
+        myView = new Visualizer();
+        mySimFileReader = new ReadXML();
         startSimButton.setOnAction(e -> {
             try {
-                setUpFile(mySimFileReader);
+                setUpFile();
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (SAXException ex) {
@@ -98,28 +90,14 @@ public class Visualization extends Application {
         Label explainLabel = new Label("Click on the simulation that you would like to see");
         explainLabel.setFont(subtitleFont);
 
-        gameOfLifeButton = new Button("Game of Life");
-        percolationButton = new Button("Percolation");
-        segregationButton = new Button("Segregation");
-        predatorPreyButton = new Button("Predator-Prey");
-        fireButton = new Button("Fire");
         startSimButton = new Button("Start a Simulation");
 
-        gameOfLifeButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        percolationButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        segregationButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        predatorPreyButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         startSimButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
 
-
-        gameOfLifeButton.setStyle("-fx-font-size: 2em; ");
-        percolationButton.setStyle("-fx-font-size: 2em; ");
-        segregationButton.setStyle("-fx-font-size: 2em; ");
-        predatorPreyButton.setStyle("-fx-font-size: 2em; ");
         startSimButton.setStyle("-fx-font-size: 2em; ");
 
         vBox.getChildren().addAll(welcomeLabel, explainLabel);
-        vBox2.getChildren().addAll(gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, startSimButton);
+        vBox2.getChildren().addAll(startSimButton);
 
         vBox.setAlignment(Pos.CENTER);
         vBox2.setAlignment(Pos.CENTER);
@@ -136,11 +114,12 @@ public class Visualization extends Application {
         return scene;
     }
 
-    public void setUpFile(ReadXML mySimFileReader) throws IOException, SAXException {
+    public void setUpFile() throws IOException, SAXException {
         FileChooser fileChoose = new FileChooser();
         fileChoose.setTitle("BALKNA");
         File simFile = fileChoose.showOpenDialog(myStage);
         mySimFileReader.setUpFile(simFile);
+        String simName = mySimFileReader.getParameters(mySimFileReader.TEXT);
     }
 
     public static void main (String[] args) { launch(args); }
