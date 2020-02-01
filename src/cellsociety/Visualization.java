@@ -14,9 +14,11 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * The visualization class that controls the simulation visuals
@@ -72,7 +74,15 @@ public class Visualization extends Application {
         fireButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, FIRE, myStage, startScene));
         segregationButton.setOnAction(e -> myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, SEGREGATION, myStage, startScene));*/
 
-        startSimButton.setOnAction(e -> setUpFile(mySimFileReader));
+        startSimButton.setOnAction(e -> {
+            try {
+                setUpFile(mySimFileReader);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (SAXException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         myStage.setScene(startScene);
         myStage.show();
@@ -93,21 +103,23 @@ public class Visualization extends Application {
         segregationButton = new Button("Segregation");
         predatorPreyButton = new Button("Predator-Prey");
         fireButton = new Button("Fire");
+        startSimButton = new Button("Start a Simulation");
 
         gameOfLifeButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         percolationButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         segregationButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         predatorPreyButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        fireButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        startSimButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+
 
         gameOfLifeButton.setStyle("-fx-font-size: 2em; ");
         percolationButton.setStyle("-fx-font-size: 2em; ");
         segregationButton.setStyle("-fx-font-size: 2em; ");
         predatorPreyButton.setStyle("-fx-font-size: 2em; ");
-        fireButton.setStyle("-fx-font-size: 2em; ");
+        startSimButton.setStyle("-fx-font-size: 2em; ");
 
         vBox.getChildren().addAll(welcomeLabel, explainLabel);
-        vBox2.getChildren().addAll(gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, fireButton);
+        vBox2.getChildren().addAll(gameOfLifeButton, percolationButton, segregationButton, predatorPreyButton, startSimButton);
 
         vBox.setAlignment(Pos.CENTER);
         vBox2.setAlignment(Pos.CENTER);
@@ -124,11 +136,11 @@ public class Visualization extends Application {
         return scene;
     }
 
-    public void setUpFile(ReadXML mySimFileReader){
+    public void setUpFile(ReadXML mySimFileReader) throws IOException, SAXException {
         FileChooser fileChoose = new FileChooser();
         fileChoose.setTitle("BALKNA");
         File simFile = fileChoose.showOpenDialog(myStage);
-        //ReadXML.setUpFile(simFile);
+        mySimFileReader.setUpFile(simFile);
     }
 
     public static void main (String[] args) { launch(args); }
