@@ -7,95 +7,68 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class PredatorPrey extends simulation {
-    public static final int FISH = 1;
-    public static final int SHARK = 2;
-    public static final int EMPTY = 0;
-    private  int SHARK_BREEDING;
+    private int SHARK_BREEDING;
     private int FISH_BREEDING;
-    private int[][] myGrid;
+    private PPCell[][] myGrid;
     private boolean EAT = false;
-    
-
+    private int grid_size;
+    private static final int EMPTY = 0;
+    private static final int SHARK = 2;
+    private static final int FISH = 1;
+    private int MOVE = 0;
 
 
     public PredatorPrey() throws ParserConfigurationException, IOException, SAXException {
+        myGrid = new PPCell[grid_size][grid_size]; //makes a grid of PPCell
         ReadXML set_grid = new ReadXML(); //new object XML
         File xmlFile = new File("data/samplePP.xml"); //created the file object
         set_grid.setRoot(xmlFile);
-        set_grid.setMyGrid(); //set up the grid
-
-        for(int i =0; i < myGrid.length; i++){
-            for (int j = 0; j < myGrid[0].length; j++){
-                set_grid.getCell(i,j);
-            }
-        }
+        set_grid.setMyGrid(); //set up the grid with PPCell.
+        //still need to set up the grid.
     }
 
 
-    public Boolean isBounds(int row, int col){
-        if(row< 0 || row>= myGrid.length){
-            return false;
-        }
-        if(col < 0|| row>= myGrid[0].length){
-            return false;
-        }
-
-        return true;
-
-    }
-
-    public void Detect_EMPTY() {
+    public void Fish_MOVE() {
         for (int i = 0; i < myGrid.length; i++) {
-            for (int j = 0; j < myGrid[0].length; j++) {
-                if (myGrid[i][j] != EMPTY && (isBounds(i - 1, j)) && myGrid[i - 1][j] == EMPTY) {
-
-
-
-
-                }
-
-            }
-        }
-    }
-
-
-    public void FishMove(){
-        for(int i =0; i < myGrid.length;i++){
-            for(int j =0; j< myGrid[0].length;j++){
-//                Random rand = new Random();
-//                int new_x = rand.nextInt(((i+1) - (i-1)) + 1) + (i-1); //generates a random number
-//                //between max and min value of x coordinate of the cell FOR EACH CELL. //neighbours
-//                int new_y = rand.nextInt(((j+1) - (j-1)) + 1) + (j-1); //max min for y coordinate
-//                if(myGrid[new_x][new_y] != EMPTY) {
-//                    do{
-//                        new_x = rand.nextInt(((i + 1) - (i - 1)) + 1) + (i - 1);
-//                        new_y = rand.nextInt(((j + 1) - (j - 1)) + 1) + (j - 1);
-//                        //find a new value for x and y if they are not empty.
-//                    }
-//                    while (myGrid[new_x][new_y] == EMPTY);
-//
-//                }
-
-
-
-
-
-                //if( EAT == false && ((myGrid[new_x][new_y]) == EMPTY)) { // only move to the next neighbour of u are not eaten.
+            for (int j = 0; j < myGrid[0].length; j++) {  //loop through the PPCell grid.
+                  myGrid[i][j].Adjacent_Neighbours();
+                  ArrayList<PPCell> Empty=  myGrid[i][j].EMPTY_list();
+                if (myGrid[i][j].getTYPE() == FISH && EAT == false) {  //if the type is FISH then the fish moves to nearby empty cell if it is alive.
+                      PPCell goal =   chooseRandomNeighbour(Empty); //this is the goal of the fish to move
+                      myGrid[i][j].setType(EMPTY);
+                       goal.setType(FISH);
 
 
                 }
-
-
-
             }
         }
+
     }
+
+
+
+    public PPCell chooseRandomNeighbour(List<PPCell> neighbours) {
+        Random rand = new Random();
+        return neighbours.get(rand.nextInt(neighbours.size())); //find a random cell
+    }
+
+
+
+
+
+
+
+
 
     @Override
     public int[][] update() {
+        Fish_MOVE();
+        
         return new int[0][];
     }
 
