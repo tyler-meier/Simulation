@@ -63,10 +63,10 @@ class Visualizer extends Application {
 
         mainMenu.setOnAction(e -> myStage.setScene(startScene));
 
-        myPercolationGrid = new Percolation();
+        /*myPercolationGrid = new Percolation();
         myGrid = new Rectangle[35][35];
         group = new Group();
-        setUpGrid();
+        setUpGrid();*/
 
         buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown);
         buttonsVBox.setAlignment(Pos.CENTER_LEFT);
