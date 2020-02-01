@@ -12,23 +12,16 @@ public class Percolation extends simulation {
     Possible states for the percolation cells are: BLOCKED,OPEN,FULL.
      */
     private int [][] myGrid;
-    public static final int BLOCKED = 1;
-    public static final int OPEN = 2;
-    public static final int FULL = 4;
+    public static final int BLOCKED = 0;
+    public static final int OPEN = 1;
+    public static final int FULL = 2;
+
+    private ReadXML reader;
 
 
     public Percolation(ReadXML myReader) throws ParserConfigurationException, IOException, SAXException {
-
-//        ReadXML set_grid = new ReadXML(); //new object XML
-//        File xmlFile = new File("data/samplePercolation.xml"); //created the file object
-//        set_grid.setRoot(xmlFile);
-//        set_grid.setMyGrid(); //set up the grid
-//
-//        for(int i =0; i < myGrid.length; i++){
-//            for (int j = 0; j < myGrid[0].length; j++){
-//                set_grid.getCell(i,j);
-//            }
-//            }
+        reader = myReader;
+        readFile();
 
     }
 
@@ -56,7 +49,7 @@ Methods are broken down into smaller methods to prioritize design.
     @Override
 
     public int cellStatus(int row, int column){
-        return -1;
+        return myGrid[row][column];
     }
 
 
@@ -105,7 +98,13 @@ Methods are broken down into smaller methods to prioritize design.
 
     @Override
     public void readFile() {
+        myGrid = new int[reader.getRow()][reader.getCol()];
+        for(int i = 0; i< myGrid.length; i++){
+            for(int j = 0; j< myGrid[0].length; j++){
+                myGrid[i][j] = reader.getCell(i, j);
+            }
 
+        }
     }
     public static void main( String[] args){
 
