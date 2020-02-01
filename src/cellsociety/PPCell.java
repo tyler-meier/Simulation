@@ -10,13 +10,16 @@ public class PPCell  {
     private int Grid_Size;
     private  ArrayList<PPCell> EMPTY_N = new ArrayList<PPCell>();
     private int type;
+    private int life_time;
 
 
 
-    public PPCell(int xPos, int yPos, int state){
+    public PPCell(int xPos, int yPos, int state,int life){
     xPos= Xrow;
     yPos = Ycol;
     state = type;
+    life = life_time;
+
 
 
 }
@@ -44,12 +47,23 @@ public class PPCell  {
 
   }
 
-
-
-
-    private ArrayList<PPCell> getEMPTY_N(){
+    public ArrayList<PPCell> FISH_NUMBER(){  //all the empty neighbours of the cell.
+        for( PPCell cell: myAdjacentNeighbours){
+            if(type == 1){
+                EMPTY_N.add(cell);   //all the empty neighbours
+            }
+        }
         return EMPTY_N;
+
     }
+
+
+
+
+
+
+
+    public void setLife() { this.life_time = life_time;}
     public int getTYPE(){
         return type;
     }

@@ -56,9 +56,8 @@ public class GameOfLife extends simulation {
 
 
     @Override
-    public int[][] update() {
+    public void update() {
         getNeighbourCount();
-        return myGrid;
 
     }
 
