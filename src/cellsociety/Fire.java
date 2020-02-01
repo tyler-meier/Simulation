@@ -3,7 +3,7 @@ package cellsociety;
 public class Fire extends simulation {
     @Override
     public void update() {
-       
+
     }
 
     @Override

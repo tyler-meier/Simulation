@@ -18,12 +18,12 @@ import org.xml.sax.SAXException;
  * @author erikgregorio
  */
 public class ReadXML {
-    public final DocumentBuilder DOCUMENT_BUILDER;
-    public final String TYPE = "simulationType";
-    public final String ROW = "row";
-    public final String COL = "col";
-    public final String CELL = "cell";
-    public final String STATUS = "status";
+    private final DocumentBuilder DOCUMENT_BUILDER;
+    public static final String TYPE = "simulationType";
+    public static final String ROW = "row";
+    public static final String COL = "col";
+    public static final String CELL = "cell";
+    public static final String STATUS = "status";
 
     private Element myRoot;
     private int[][] myGrid;
