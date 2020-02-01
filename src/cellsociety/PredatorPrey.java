@@ -93,14 +93,15 @@ public class PredatorPrey extends simulation {
       public void BREED() {
           for (int i = 0; i < myGrid.length; i++) {
               for (int j = 0; j < myGrid[0].length; j++) {  //
-                  if(myGrid[i][j].getTYPE() == FISH && myGrid[i][j].getLife()> FISH_BREEDING){
-                      NEW = myGrid[i][j].Adjacent_Neighbours();
-                      NEW = myGrid[i][j].EMPTY_list();
-                      PPCell new_bi = chooseRandomNeighbour(NEW); //chose a new
+                  NEW = myGrid[i][j].Adjacent_Neighbours();
+                  NEW = myGrid[i][j].EMPTY_list();
+                  PPCell new_bi = chooseRandomNeighbour(NEW); //chose a new cell for fish to breed
+                  if(myGrid[i][j].getTYPE() == FISH && myGrid[i][j].getLife()> FISH_BREEDING && EAT == false){
+                      new_bi.setType(FISH);
+                  if(myGrid[i][j].getTYPE() == FISH && myGrid[i][j].getLife()> SHARK_BREEDING){
+                          new_bi.setType(SHARK);
 
-
-
-
+                      }
 
                   }
 
@@ -113,8 +114,10 @@ public class PredatorPrey extends simulation {
     @Override
     public void update() {
         SHARK_EAT_FISH();
+        BREED();
 
-        MOVE++;
+
+
 
     }
 
