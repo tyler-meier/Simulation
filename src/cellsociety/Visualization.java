@@ -58,8 +58,7 @@ public class Visualization extends Application {
         startSimButton.setOnAction(e -> {
             try {
                 String simName = setUpFile();
-                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene);
-                myView.setUpGrid(myCurrSim, mySimFileReader);
+                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene, myCurrSim, mySimFileReader);
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {

@@ -39,7 +39,7 @@ class Visualizer extends Application {
 
     }
 
-    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene) throws IOException, SAXException, ParserConfigurationException {
+    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene, simulation myCurrSim, ReadXML mySimFileReader) throws IOException, SAXException, ParserConfigurationException {
         VBox buttonsVBox = new VBox();
 
         Label nameLabel = new Label(stringName);
@@ -60,15 +60,13 @@ class Visualizer extends Application {
 
         mainMenu.setOnAction(e -> myStage.setScene(startScene));
 
-        /*myPercolationGrid = new Percolation();
-        myGrid = new Rectangle[35][35];
         group = new Group();
-        setUpGrid();*/
+        setUpGrid(myCurrSim, mySimFileReader);
 
         buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown);
         buttonsVBox.setAlignment(Pos.CENTER_LEFT);
         BorderPane.setAlignment(nameLabel, Pos.TOP_CENTER);
-        //BorderPane.setAlignment(group, Pos.TOP_LEFT);
+        BorderPane.setAlignment(group, Pos.TOP_LEFT);
         BorderPane boPane = new BorderPane(group, nameLabel, null, null, buttonsVBox);
 
         /*KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
