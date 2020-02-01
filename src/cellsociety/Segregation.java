@@ -146,10 +146,6 @@ public class Segregation extends simulation {
 
         }
 
-
-
-
-
     }
 
     public void move_2(int i, int j){  //if any empty cell move
