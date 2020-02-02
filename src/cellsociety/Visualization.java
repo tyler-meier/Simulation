@@ -32,16 +32,18 @@ public class Visualization extends Application {
     public static final Paint BACKGROUND = Color.GOLD;
     public static final Font titleFont = new Font("Arial", 50);
     public static final Font subtitleFont = new Font("Arial", 25);
-    public static int FRAMES_PER_SECOND = 1;
-    public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-    public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    private int FRAMES_PER_SECOND = 1;
+    private int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+    private Boolean simStarted = false;
 
     private Scene startScene, simScene;
     private Stage myStage;
-    private Button chooseSimButton;
+    private Button chooseSimButton,speedUp, slowDown;
     private simulation myCurrSim;
     private ReadXML mySimFileReader;
     private Visualizer myView;
+    Timeline animation;
+    KeyFrame frame;
 
 
     /**
@@ -57,17 +59,24 @@ public class Visualization extends Application {
         myView = new Visualizer();
         mySimFileReader = new ReadXML();
 
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
-        Timeline animation = new Timeline();
+        frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
+        animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
-        animation.play();
 
         chooseSimButton.setOnAction(e -> {
             try {
                 String simName = setUpFile(mySimFileReader);
                 returnSim(simName);
-                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene, myCurrSim, mySimFileReader, chooseSimButton, animation);
+                if (!simStarted){
+                    animation.play();
+                    simStarted = true;
+                }
+                else {
+                    animation.setRate(FRAMES_PER_SECOND);
+                }
+                System.out.println(animation.getRate());
+                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene, myCurrSim, mySimFileReader, chooseSimButton, animation, speedUp, slowDown);
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
@@ -78,6 +87,8 @@ public class Visualization extends Application {
                 ex.printStackTrace();
             }
         });
+        speedUp.setOnAction(e -> speedSimUp());
+        slowDown.setOnAction(e -> slowSimDown());
 
         myStage.setScene(startScene);
         myStage.show();
@@ -95,6 +106,8 @@ public class Visualization extends Application {
         explainLabel.setWrapText(true);
 
         chooseSimButton = new Button("Choose Simulation");
+        speedUp = new Button("Speed Up");
+        slowDown = new Button("Slow Down");
 
         vBox.getChildren().addAll(welcomeLabel, explainLabel);
         vBox2.getChildren().addAll(chooseSimButton);
@@ -130,15 +143,28 @@ public class Visualization extends Application {
            myCurrSim = new PredatorPrey();
         }
         else if(simName.equals("Segregation")){
-           myCurrSim = new Segregation();
+           myCurrSim = new Segregation(mySimFileReader);
         }
         else if(simName.equals("Fire")){
-           myCurrSim = new Fire();
+           myCurrSim = new Fire(mySimFileReader);
         }
         else if(simName.equals("GameOfLife")){
-           myCurrSim = new GameOfLife(10);
+           myCurrSim = new GameOfLife(mySimFileReader);
         }
     }
+
+    public void slowSimDown(){
+        if (animation.getRate() != 1){
+            animation.setRate(animation.getRate() - 1);
+        }
+    }
+
+    public void speedSimUp(){
+        if (animation.getRate() != 60){
+            animation.setRate(animation.getRate() + 1);
+        }
+    }
+
     private void step(){
         if (myCurrSim != null) {
             myView.step(myCurrSim);

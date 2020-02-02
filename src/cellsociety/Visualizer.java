@@ -31,7 +31,7 @@ class Visualizer extends Application {
     public static int FRAMES_PER_SECOND = 1;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 
-    private Button mainMenu, pause, resume, speedUp, slowDown, differentSim;
+    private Button mainMenu, pause, resume;
     private Rectangle[][] myGrid;
     private Group group;
 
@@ -40,7 +40,7 @@ class Visualizer extends Application {
 
     }
 
-    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene, simulation myCurrSim, ReadXML mySimFileReader, Button simButton, Timeline animation) {
+    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene, simulation myCurrSim, ReadXML mySimFileReader, Button simButton, Timeline animation, Button speedUp, Button slowDown) {
         VBox buttonsVBox = new VBox();
 
         Label nameLabel = new Label(stringName);
@@ -50,8 +50,6 @@ class Visualizer extends Application {
         mainMenu = new Button("Main Menu");
         pause = new Button("Pause");
         resume = new Button ("Resume");
-        speedUp = new Button ("Speed Up");
-        slowDown = new Button("Slow Down");
 
         mainMenu.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
@@ -66,8 +64,6 @@ class Visualizer extends Application {
         mainMenu.setOnAction(e -> myStage.setScene(startScene));
         pause.setOnAction(e -> animation.stop());
         resume.setOnAction(e -> animation.play());
-        //speedUp.setOnAction(e -> speedSimUp(animation, myCurrSim));
-        //slowDown.setOnAction(e -> slowSimDown(animation, myCurrSim));
 
         buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown, simButton);
         buttonsVBox.setAlignment(Pos.CENTER_LEFT);
@@ -122,23 +118,4 @@ class Visualizer extends Application {
         return rectangle;
     }
 
-    /*public void slowSimDown(Timeline animation, simulation myCurrSim){
-        if (FRAMES_PER_SECOND != 1){
-            FRAMES_PER_SECOND -= 1;
-            KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(myCurrSim));
-            animation.setCycleCount(Timeline.INDEFINITE);
-            animation.getKeyFrames().add(frame);
-            animation.play();
-        }
-    }
-
-    public void speedSimUp(Timeline animation, simulation myCurrSim){
-        if (FRAMES_PER_SECOND != 60){
-            FRAMES_PER_SECOND += 1;
-            KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(myCurrSim));
-            animation.setCycleCount(Timeline.INDEFINITE);
-            animation.getKeyFrames().add(frame);
-            animation.play();
-        }
-    }*/
 }
