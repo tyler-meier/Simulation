@@ -1,5 +1,6 @@
 package cellsociety;
 
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -68,25 +69,32 @@ Methods are broken down into smaller methods to prioritize design.
     @Override
     public void update() {
             //if the cell is open but not full
-            for(int i =0; i < myGrid.length; i++)
+            int[][] futureState = new int[myGrid.length][myGrid[0].length];
+            for(int i =0; i < myGrid.length; i++) {
                 //check its 8 neighbours
-                for (int j = 0; j < myGrid[0].length; j++)
-                    if (myGrid[i][j] == OPEN)
-                            if (isBounds(i - 1, j)  && (myGrid[i - 1][j]) == FULL) myGrid[i][j] = FULL;
-                            else //check to right of cell, check if its in bounds
-                                if (isBounds(i + 1, j) && (myGrid[i + 1][j]) == FULL) myGrid[i][j] = FULL;
+                for (int j = 0; j < myGrid[0].length; j++) {
+                    if (myGrid[i][j] == OPEN) {
+                        if (isBounds(i - 1, j) && (myGrid[i - 1][j]) == FULL) futureState[i][j] = FULL;
+                        else //check to right of cell, check if its in bounds
+                            if (isBounds(i + 1, j) && (myGrid[i + 1][j]) == FULL) futureState[i][j] = FULL;
                             else //check to see top of cell, check if its in bounds
-                                if (isBounds(i, j - 1) && (myGrid[i][j - 1]) == FULL) myGrid[i][j] = FULL;
-                            else //check to see top of cell, check if its in bounds
-                                if (isBounds(i, j + 1) && (myGrid[i][j + 1]) == FULL) myGrid[i][j] = FULL;
-                            else
-                                if (isBounds(i-1, j - 1) && (myGrid[i-1][j - 1]) == FULL) myGrid[i][j] = FULL;
-                            else
-                                if (isBounds(i-1, j + 1) && (myGrid[i-1][j + 1]) == FULL) myGrid[i][j] = FULL;
-                            else
-                                if (isBounds(i+1, j + 1) && (myGrid[i+1][j + 1]) == FULL) myGrid[i][j] = FULL;
-                            else
-                                if (isBounds(i+1, j - 1)  && (myGrid[i+1][j - 1]) == FULL) myGrid[i][j] = FULL;
+                                if (isBounds(i, j - 1) && (myGrid[i][j - 1]) == FULL) futureState[i][j] = FULL;
+                                else //check to see top of cell, check if its in bounds
+                                    if (isBounds(i, j + 1) && (myGrid[i][j + 1]) == FULL) futureState[i][j] = FULL;
+                                    else if (isBounds(i - 1, j - 1) && (myGrid[i - 1][j - 1]) == FULL)
+                                        futureState[i][j] = FULL;
+                                    else if (isBounds(i - 1, j + 1) && (myGrid[i - 1][j + 1]) == FULL)
+                                        futureState[i][j] = FULL;
+                                    else if (isBounds(i + 1, j + 1) && (myGrid[i + 1][j + 1]) == FULL)
+                                        futureState[i][j] = FULL;
+                                    else if (isBounds(i + 1, j - 1) && (myGrid[i + 1][j - 1]) == FULL)
+                                        futureState[i][j] = FULL;
+                    }
+                    else if(myGrid[i][j] == FULL) futureState[i][j] = FULL;
+                }
+            }
+            myGrid = futureState;
+
 
 
         }
@@ -103,14 +111,11 @@ Methods are broken down into smaller methods to prioritize design.
             for(int j = 0; j< myGrid[0].length; j++){
                 myGrid[i][j] = reader.getCell(i, j);
             }
-
         }
     }
-    public static void main( String[] args){
 
 
-
-
+    public static void main( String[] args) throws IOException, SAXException, ParserConfigurationException {
 
 
     }
