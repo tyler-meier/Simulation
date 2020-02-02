@@ -12,6 +12,7 @@ public class Percolation extends simulation {
     /*
     Possible states for the percolation cells are: BLOCKED,OPEN,FULL.
      */
+
     private int [][] myGrid;
     public static final int BLOCKED = 0;
     public static final int OPEN = 1;

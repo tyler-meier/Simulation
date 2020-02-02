@@ -52,7 +52,7 @@ public class GameOfLife extends simulation {
                 if (isBounds(i-1,j) && (myGrid[i-1][j] == ALIVE)) aliveCount++;
                 if (isBounds(i+1,j) && (myGrid[i+1][j] == ALIVE)) aliveCount++;
 
-//               System.out.print(myGrid[i][j]);
+               System.out.print(myGrid[i][j]);
 //           System.out.println();
         return aliveCount;
         }
