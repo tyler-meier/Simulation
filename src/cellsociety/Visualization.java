@@ -75,7 +75,6 @@ public class Visualization extends Application {
                 else {
                     animation.setRate(FRAMES_PER_SECOND);
                 }
-                System.out.println(animation.getRate());
                 simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene, myCurrSim, mySimFileReader, chooseSimButton, animation, speedUp, slowDown);
                 myStage.setScene(simScene);
                 myStage.show();
@@ -120,7 +119,6 @@ public class Visualization extends Application {
         BorderPane.setAlignment(vBox2, Pos.CENTER);
 
         BorderPane boPane = new BorderPane(vBox2, vBox, null, null, null);
-        boPane.setStyle("-fx-background-color: mediumspringgreen");
 
         Scene scene = new Scene(boPane, width, height, background);
         return scene;
