@@ -45,12 +45,7 @@ public class Fire extends simulation {
 
                             }
 
-                        }
-
-                    }
-
-
-
+                        } }
             }
         }
         myGrid = futureState;

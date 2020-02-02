@@ -47,6 +47,7 @@ public class FCELL {
         this.type = type;
 
     }
+
     public double  getPRobCatch(){
         return life_time;
     }
