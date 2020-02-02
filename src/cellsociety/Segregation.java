@@ -126,6 +126,7 @@ public class Segregation extends simulation {
         for(int i = 0; i< myGrid.length; i++){
             for(int j = 0; j< myGrid[0].length; j++){
                 myGrid[i][j] = reader.getCell(i, j);
+                System.out.print(myGrid[i][j]);
             }
         }
     }
