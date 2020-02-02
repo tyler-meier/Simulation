@@ -14,7 +14,7 @@ public class Segregation extends simulation {
     private int[][] myGrid, myGrid2;
     public static double percent;
     public static double totalN;
-    private int satis_Factor =50; //this will be given in the file.
+    private int satis_Factor; //this will be given in the file.
 
 
     private ReadXML reader;
@@ -149,6 +149,7 @@ public class Segregation extends simulation {
 
     @Override
     public void readFile() {
+        satis_Factor = Integer.parseInt(reader.getParameters("similarity"));
         myGrid = new int[reader.getRow()][reader.getCol()];
         myGrid2 = new int[reader.getRow()][reader.getCol()];
         for(int i = 0; i< myGrid.length; i++){
