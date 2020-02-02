@@ -33,15 +33,13 @@ class Visualizer extends Application {
     private Button mainMenu, pause, resume, speedUp, slowDown, differentSim;
     private Rectangle[][] myGrid;
     private Group group;
-    private Visualization visual;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
     }
 
-    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene, simulation myCurrSim, ReadXML mySimFileReader, Button simButton) throws IOException, SAXException, ParserConfigurationException {
-        //group.getChildren().clear();
+    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene, simulation myCurrSim, ReadXML mySimFileReader, Button simButton) {
         VBox buttonsVBox = new VBox();
 
         Label nameLabel = new Label(stringName);
@@ -53,7 +51,8 @@ class Visualizer extends Application {
         resume = new Button ("Resume");
         speedUp = new Button ("Speed Up");
         slowDown = new Button("Slow Down");
-        //differentSim = new Button("Different Simulation");
+
+        simButton.setStyle("-fx-font-size: 1em; ");
 
         mainMenu.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
@@ -65,7 +64,6 @@ class Visualizer extends Application {
         group = new Group();
         setUpGrid(myCurrSim, mySimFileReader);
 
-        //visual = new Visualization();
         mainMenu.setOnAction(e -> myStage.setScene(startScene));
 
         buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown, simButton);
@@ -74,18 +72,25 @@ class Visualizer extends Application {
         BorderPane.setAlignment(group, Pos.CENTER);
         BorderPane boPane = new BorderPane(group, nameLabel, null, null, buttonsVBox);
 
-        /*KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
-        Timeline animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();*/
-
         Scene scene = new Scene(boPane, width, height, background);
         return scene;
     }
 
-    public void step(double elapsedTime, simulation myCurrSim){
+    public void step(simulation myCurrSim){
         myCurrSim.update();
+        for (int row = 0; row < myGrid.length; row++) {
+            for (int col = 0 ; col < myGrid[0].length ; col++) {
+                if (myCurrSim.cellStatus(row,col) == 1){
+                    myGrid[row][col].setFill(Color.BLUE);
+                }
+                else if (myCurrSim.cellStatus(row,col) == 2){
+                    myGrid[row][col].setFill(Color.GREEN);
+                }
+                else {
+                    myGrid[row][col].setFill(Color.BLACK);
+                }
+            }
+        }
     }
 
     public void setUpGrid(simulation myCurrSim, ReadXML mySimFileReader){
@@ -103,6 +108,7 @@ class Visualizer extends Application {
                     rec.setFill(Color.BLACK);
                 }
                 group.getChildren().add(rec);
+                myGrid[row][col] = rec;
             }
         }
     }

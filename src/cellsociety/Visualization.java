@@ -1,5 +1,7 @@
 package cellsociety;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,6 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -60,6 +63,7 @@ public class Visualization extends Application {
                 String simName = setUpFile(mySimFileReader);
                 returnSim(simName);
                 simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene, myCurrSim, mySimFileReader, chooseSimButton);
+
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
@@ -70,6 +74,13 @@ public class Visualization extends Application {
                 ex.printStackTrace();
             }
         });
+
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
+        Timeline animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
+
         myStage.setScene(startScene);
         myStage.show();
     }
@@ -135,8 +146,10 @@ public class Visualization extends Application {
            myCurrSim = new GameOfLife(10);
         }
     }
-    private void step(double elapsedTime){
-        myView.step(elapsedTime, myCurrSim);
+    private void step(){
+        if (myCurrSim != null) {
+            myView.step(myCurrSim);
+        }
     }
 
     public static void main (String[] args) { launch(args); }
