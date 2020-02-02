@@ -40,7 +40,7 @@ public class GameOfLife extends simulation {
                 if (isBounds(i+1,j+1) && (myGrid[i + 1][j + 1] == ALIVE))  aliveCount++;
                 if (isBounds(i+1,j-1) && (myGrid[i + 1][j - 1] == ALIVE))  aliveCount++;
                 if (isBounds(i-1,j+1) && (myGrid[i - 1][j+1] == ALIVE))  aliveCount++;
-                if (isBounds(i,j+1) && (myGrid[i ][j+1] == ALIVE))  aliveCount++;
+                if (isBounds(i,j+1) && (myGrid[i][j+1] == ALIVE))  aliveCount++;
                 if (isBounds(i,j-1) && (myGrid[i ][j-1] == ALIVE)) aliveCount++;
                 if (isBounds(i-1,j) && (myGrid[i-1][j] == ALIVE)) aliveCount++;
                 if (isBounds(i+1,j) && (myGrid[i+1][j] == ALIVE)) aliveCount++;
@@ -57,7 +57,7 @@ public class GameOfLife extends simulation {
                 int alive = getNeighbourCount(i,j);
                 if (myGrid[i][j] == ALIVE) {
                     if (alive < 2) futureState[i][j] = DEAD;
-                    if (alive>3) futureState[i][j] = DEAD;
+                    else if (alive>3) futureState[i][j] = DEAD;
                     else futureState[i][j] = ALIVE;
                 }
                 else
