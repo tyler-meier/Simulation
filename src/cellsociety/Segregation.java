@@ -81,13 +81,12 @@ public class Segregation extends simulation {
 
 
 
-    public void move(int type, int i, int j, int[][] futureState){
+    public void move(int type, int[][] futureState){
         int x =0;
         for(int row=0; row<myGrid.length;row++){
             for(int col = 0; col< myGrid[0].length;col++){
                 if(myGrid[row][col] == EMPTY){
                     futureState[row][col] = type;
-                    futureState[i][j] = EMPTY;
                     x = 1;
                     break;
 
@@ -107,7 +106,9 @@ public class Segregation extends simulation {
                 if (myGrid[i][j] == TYPE_1) {
                     double percentage = getPercent(i, j, TYPE_1);
                     if (percentage < satis_Factor) {
-                        move(TYPE_1, i ,j, futureState);
+                        move(TYPE_1, futureState);
+                        futureState[i][j] = EMPTY;
+
 
                     }
                     else{
@@ -119,7 +120,8 @@ public class Segregation extends simulation {
                 else if (myGrid[i][j] == TYPE_2) {
                     double percentage = getPercent(i, j, TYPE_2);
                     if (percentage < satis_Factor) {
-                        move(TYPE_2, i ,j, futureState);
+                        move(TYPE_2, futureState);
+                        futureState[i][j] = EMPTY;
 
 
                     }
@@ -129,10 +131,8 @@ public class Segregation extends simulation {
                 }
                 percent = 0;
                 totalN =0;
-
             }
         }
-
         myGrid = futureState;
     }
 
