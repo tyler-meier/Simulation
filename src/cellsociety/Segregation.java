@@ -14,7 +14,7 @@ public class Segregation extends simulation {
     private int[][] myGrid;
     public static int percent =0;
     public static int totalN =0;
-    private int satis_Factor; //this will be given in the file.
+    private int satis_Factor= 30; //this will be given in the file.
     private int[][] futureState;
 
     private ReadXML reader;
@@ -132,7 +132,7 @@ public class Segregation extends simulation {
         for(int i = 0; i< myGrid.length; i++){
             for(int j = 0; j< myGrid[0].length; j++){
                 myGrid[i][j] = reader.getCell(i, j);
-                System.out.print(myGrid[i][j]);
+                //System.out.print(myGrid[i][j]);
             }
         }
     }
@@ -143,7 +143,7 @@ public class Segregation extends simulation {
         File xmlFile = new File("data/SampleSegregation.xml");
         mySim.setUpFile(xmlFile);
         Segregation abc = new Segregation(mySim);
-        System.out.println();
+       // System.out.println();
         abc.update();
     }
 }
