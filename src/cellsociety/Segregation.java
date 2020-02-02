@@ -14,7 +14,7 @@ public class Segregation extends simulation {
     private int[][] myGrid;
     public static int percent =0;
     public static int totalN =0;
-    private int satis_Factor= 30; //this will be given in the file.
+    private int satis_Factor; //this will be given in the file.
     private int[][] futureState;
 
     private ReadXML reader;
@@ -113,8 +113,12 @@ public class Segregation extends simulation {
 
                     }
                 }
+                percent = 0;
+                totalN =0;
+
             }
         }
+
         myGrid = futureState;
     }
 
