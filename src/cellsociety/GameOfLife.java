@@ -27,7 +27,7 @@ public class GameOfLife extends simulation {
         if(row< 0 || row>= myGrid.length){
             return false;
         }
-        if(col < 0|| row>= myGrid[0].length){
+        if(col < 0 || col >= myGrid[0].length){
             return false;
         }
 
@@ -42,9 +42,7 @@ public class GameOfLife extends simulation {
 
     }
    //count the number of dead and alive for each cell. this method is called for every cell in update method.
-    public void  getNeighbourCount() {
-        for ( int i  = 0; i < myGrid.length; i++) {
-            for (int j = 0; j < myGrid[0].length; j++) {
+    public int  getNeighbourCount(int i, int j) {
                 if (isBounds(i-1,j-1) && (myGrid[i - 1][j - 1] == ALIVE)) aliveCount++;
                 if (isBounds(i+1,j+1) && (myGrid[i + 1][j + 1] == ALIVE))  aliveCount++;
                 if (isBounds(i+1,j-1) && (myGrid[i + 1][j - 1] == ALIVE))  aliveCount++;
@@ -53,27 +51,35 @@ public class GameOfLife extends simulation {
                 if (isBounds(i,j-1) && (myGrid[i ][j-1] == ALIVE)) aliveCount++;
                 if (isBounds(i-1,j) && (myGrid[i-1][j] == ALIVE)) aliveCount++;
                 if (isBounds(i+1,j) && (myGrid[i+1][j] == ALIVE)) aliveCount++;
-                if (myGrid[i][j] == ALIVE) {
-                    if (aliveCount > 2) myGrid[i][j] = DEAD; //underpopulation
-                    else if (aliveCount > 3) myGrid[i][j] = DEAD; //overpopulation
-                }
-                else if (myGrid[i][j]== DEAD){
-                    if(aliveCount == 3)myGrid[i][j] = ALIVE; //reproduction
-                }
-            } }}
+
+//               System.out.print(myGrid[i][j]);
+//           System.out.println();
+        return aliveCount;
+        }
+
 
 
     @Override
     public void update() {
-        getNeighbourCount();
+
+        int[][] futureState = new int[myGrid.length][myGrid[0].length];
+        for(int i =0; i < myGrid.length; i++) {
+            for (int j = 0; j < myGrid[0].length; j++) {
+                int alive = getNeighbourCount(i,j);
+                if (myGrid[i][j] == ALIVE) {
+                    if (alive < 2) futureState[i][j] = DEAD;
+                    if (alive>3) futureState[i][j] = DEAD;
+
+                }
+                else
+                    if( myGrid[i][j] == DEAD){
+                        if(alive ==3) futureState[i][j] = ALIVE;
+                    }
+            }
+        }
+        myGrid = futureState;
 
     }
-
-
-  public void nextState(){
-      int[][] nextState = myGrid;
-  }
-
 
     @Override
     public int cellStatus(int row, int column) {
@@ -86,14 +92,22 @@ public class GameOfLife extends simulation {
         for(int i = 0; i< myGrid.length; i++){
             for(int j = 0; j< myGrid[0].length; j++){
                 myGrid[i][j] = reader.getCell(i, j);
+                System.out.print(myGrid[i][j]);
+
             }
+            System.out.println();
         }
+
     }
 
     public static void main(String args[]) throws ParserConfigurationException, IOException, SAXException {
         ReadXML mySim = new ReadXML();
-        File xmlFile = new File("data/sampleGameOfLife.xml");
+        File xmlFile = new File("data/SampleGOL.xml");
         mySim.setUpFile(xmlFile);
+        GameOfLife abc = new GameOfLife(mySim);
+        System.out.println();
+        abc.update();
+
 
 
     }

@@ -23,7 +23,7 @@ public class Segregation extends simulation {
         if(row< 0 || row>= myGrid.length){
             return false;
         }
-        if(col < 0|| row>= myGrid[0].length){
+        if(col < 0|| col>= myGrid[0].length){
             return false;
         }
 
