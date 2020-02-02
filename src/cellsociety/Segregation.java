@@ -11,12 +11,10 @@ public class Segregation extends simulation {
     public  static final int EMPTY = 0;
     public static final int TYPE_1 = 1;
     public static final int TYPE_2= 2;
-
     private int[][] myGrid, myGrid2;
     public static double percent;
     public static double totalN;
     private int satis_Factor =50; //this will be given in the file.
-
 
 
     private ReadXML reader;
@@ -97,6 +95,7 @@ public class Segregation extends simulation {
                 }
 
             }
+            if(x==1) break;
         }
     }
 
@@ -113,6 +112,10 @@ public class Segregation extends simulation {
                         myGrid2[i][j] = EMPTY;
 
                     }
+                    else{
+                        futureState[i][j] = myGrid[i][j];
+
+                    }
 
                 }
 
@@ -123,14 +126,16 @@ public class Segregation extends simulation {
                         futureState[i][j] = EMPTY;
                         myGrid2[i][j] = EMPTY;
 
+
+                    }
+                    else{
+                         futureState[i][j] = myGrid[i][j];
                     }
                 }
                 percent = 0;
                 totalN =0;
-
             }
         }
-
         myGrid = futureState;
     }
 
