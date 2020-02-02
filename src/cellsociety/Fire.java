@@ -25,10 +25,8 @@ public class Fire extends simulation {
     public void spread(){
         for(int i = 1; i < myGrid.length-1;i++){  //first and last row do not count
             for(int j =1; j< myGrid[0].length-1;j++ ){ //first and last col dont count.
-                neighbours = myGrid[i][j].Adjacent_Neighbours();  //GET the neighbours
-                if(myGrid[i][j].getType()== BURNING){  //simply the burning tree dies.
-                    myGrid[i][j].setType(EMPTY);
-                }
+
+
                 for( FCELL cell : neighbours){  //for all the neighburs of the current cell
                     if(cell.getType() == BURNING && myGrid[i][j].getType()==TREE){ //if the neighbours burning, tree
                         //is present
@@ -58,8 +56,24 @@ public class Fire extends simulation {
 
     @Override
     public void update() {
+        FCELL[][] futureState = new FCELL[myGrid.length][myGrid[0].length]; //new cell set
+        for(int i =0; i < myGrid.length; i++) {
+            for (int j = 0; j < myGrid[0].length; j++) {
+                neighbours = myGrid[i][j].Adjacent_Neighbours();  //GET the neighbours for each cell
+                if(myGrid[i][j].getType()== BURNING){  //simply the burning tree dies.
+                    futureState[i][j].setType(EMPTY);
+
+                }
+
+
+
+            }
+        }
 
     }
+
+
+
 
     @Override
     public int cellStatus(int row, int column) {
