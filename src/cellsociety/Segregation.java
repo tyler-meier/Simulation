@@ -96,15 +96,17 @@ public class Segregation extends simulation {
                 if (myGrid[i][j] == TYPE_1) {
                     int percentage = getPercent(i, j, TYPE_1);
                     if (percentage < satis_Factor) {
-                        futureState[i][j] = EMPTY; //makr the future state as empty
                         move(TYPE_1);
+                        futureState[i][j] = EMPTY; //makr the future state as empty
+
                     }
                 }
                 if (myGrid[i][j] == TYPE_2) {
                     int percentage = getPercent(i, j, TYPE_2);
                     if (percentage < satis_Factor) {
-                        futureState[i][j] = EMPTY;
                         move(TYPE_2);
+                        futureState[i][j] = EMPTY;
+
                     }
                 }
             }
@@ -117,7 +119,7 @@ public class Segregation extends simulation {
 
     @Override
     public int cellStatus(int row, int column) {
-        return -1;
+        return myGrid[row][column];
     }
 
     @Override

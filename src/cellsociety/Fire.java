@@ -16,7 +16,6 @@ public class Fire extends simulation {
 
 
     private ReadXML reader;
-
     public Fire(ReadXML myReader) throws ParserConfigurationException, IOException, SAXException {
         reader = myReader;
         readFile();
@@ -59,7 +58,6 @@ public class Fire extends simulation {
 
     @Override
     public void update() {
-        spread();
 
     }
 

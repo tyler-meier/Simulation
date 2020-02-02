@@ -20,7 +20,6 @@ public class GameOfLife extends simulation {
         reader = myReader;
         readFile();
 
-
     }
 
     public Boolean isBounds(int row, int col){
@@ -34,13 +33,7 @@ public class GameOfLife extends simulation {
         return true;
 
     }
-    public void prevState()
 
-    {
-        int[][] initial = myGrid; //initial state, will update more when the file parsing happens. this current
-
-
-    }
    //count the number of dead and alive for each cell. this method is called for every cell in update method.
     public int  getNeighbourCount(int i, int j) {
                 if (isBounds(i-1,j-1) && (myGrid[i - 1][j - 1] == ALIVE)) aliveCount++;
@@ -52,16 +45,12 @@ public class GameOfLife extends simulation {
                 if (isBounds(i-1,j) && (myGrid[i-1][j] == ALIVE)) aliveCount++;
                 if (isBounds(i+1,j) && (myGrid[i+1][j] == ALIVE)) aliveCount++;
 
-              // System.out.print(myGrid[i][j]);
-//           System.out.println();
         return aliveCount;
         }
 
 
-
     @Override
     public void update() {
-
         int[][] futureState = new int[myGrid.length][myGrid[0].length];
         for(int i =0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid[0].length; j++) {
@@ -75,15 +64,19 @@ public class GameOfLife extends simulation {
                     if( myGrid[i][j] == DEAD){
                         if(alive ==3) futureState[i][j] = ALIVE;
                     }
+                aliveCount =0;
             }
+
+
         }
         myGrid = futureState;
+
 
     }
 
     @Override
     public int cellStatus(int row, int column) {
-        return -1;
+        return myGrid[row][column];
     }
 
     @Override
@@ -92,10 +85,10 @@ public class GameOfLife extends simulation {
         for(int i = 0; i< myGrid.length; i++){
             for(int j = 0; j< myGrid[0].length; j++){
                 myGrid[i][j] = reader.getCell(i, j);
-                //System.out.print(myGrid[i][j]);
+                System.out.print(myGrid[i][j]);
 
             }
-            //System.out.println();
+            System.out.println();
         }
 
     }
@@ -104,9 +97,9 @@ public class GameOfLife extends simulation {
         ReadXML mySim = new ReadXML();
         File xmlFile = new File("data/SampleGOL.xml");
         mySim.setUpFile(xmlFile);
-        //GameOfLife abc = new GameOfLife(mySim);
-        //System.out.println();
-        //abc.update();
+        GameOfLife abc = new GameOfLife(mySim);
+        System.out.println();
+        abc.update();
 
 
 

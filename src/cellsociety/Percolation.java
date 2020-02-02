@@ -60,12 +60,7 @@ Methods are broken down into smaller methods to prioritize design.
     The update method updates the state of the cell if it has a neighbour which is
 
      */
-    public void prevState()
-
-    {
-        int[][] initial = myGrid; //initial state, will update more when the file parsing happens. this current
-
-    }//value of the grid is the initial value of the grid.
+   //value of the grid is the initial value of the grid.
 
     @Override
     public void update() {
