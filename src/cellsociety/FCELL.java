@@ -11,12 +11,8 @@ public class FCELL {
     private int type;
     private double life_time;
 
-    public FCELL(int xPos, int yPos, int state, double prob_catch){
-        xPos= Xrow;
-        yPos = Ycol;
-        state = type;
-        prob_catch = life_time;
-
+    public FCELL(int t){
+        type = t;
     }
 
     public ArrayList<FCELL> Adjacent_Neighbours() { //all the neighbours of the cell
@@ -43,7 +39,7 @@ public class FCELL {
     }
 
 
-    public void setType(int typo) {
+    public void setType(int type) {
         this.type = type;
 
     }
