@@ -29,14 +29,12 @@ import java.io.IOException;
 public class Visualization extends Application {
     public static final String TITLE = "Simulation Project";
     public static final int SIZE = 700;
-    public static final int FRAMES_PER_SECOND = 1;
-    public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-    public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    public static final double PREF_BUTTON_WIDTH = 250;
-    public static final double PREF_BUTTON_HEIGHT = 100;
     public static final Paint BACKGROUND = Color.GOLD;
     public static final Font titleFont = new Font("Arial", 50);
     public static final Font subtitleFont = new Font("Arial", 25);
+    public static int FRAMES_PER_SECOND = 1;
+    public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+    public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
     private Scene startScene, simScene;
     private Stage myStage;
@@ -58,12 +56,18 @@ public class Visualization extends Application {
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
         myView = new Visualizer();
         mySimFileReader = new ReadXML();
+
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
+        Timeline animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
+
         chooseSimButton.setOnAction(e -> {
             try {
                 String simName = setUpFile(mySimFileReader);
                 returnSim(simName);
-                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene, myCurrSim, mySimFileReader, chooseSimButton);
-
+                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene, myCurrSim, mySimFileReader, chooseSimButton, animation);
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
@@ -74,12 +78,6 @@ public class Visualization extends Application {
                 ex.printStackTrace();
             }
         });
-
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
-        Timeline animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();
 
         myStage.setScene(startScene);
         myStage.show();
@@ -98,17 +96,12 @@ public class Visualization extends Application {
 
         chooseSimButton = new Button("Choose Simulation");
 
-        chooseSimButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-
-        chooseSimButton.setStyle("-fx-font-size: 2em; ");
-
         vBox.getChildren().addAll(welcomeLabel, explainLabel);
         vBox2.getChildren().addAll(chooseSimButton);
 
         vBox.setAlignment(Pos.CENTER);
         vBox2.setAlignment(Pos.CENTER);
         vBox.setSpacing(7);
-        vBox2.setSpacing(18);
 
         BorderPane.setAlignment(vBox, Pos.TOP_CENTER);
         BorderPane.setAlignment(vBox2, Pos.CENTER);
