@@ -15,6 +15,7 @@ public class Segregation extends simulation {
     public static int percent =0;
     public static int totalN =0;
     private int satis_Factor; //this will be given in the file.
+    private int[][] futureState;
 
     private ReadXML reader;
 
@@ -79,7 +80,7 @@ public class Segregation extends simulation {
 
 
 
-    int[][] futureState = new int[myGrid.length][myGrid[0].length];
+
     public void move(int type){  //FIND THE NEAREST EMPTY CELL AND MOVE
         for(int row=0; row<myGrid.length;row++){
             for(int col = 0; col< myGrid[0].length;col++){
@@ -93,6 +94,7 @@ public class Segregation extends simulation {
 
     @Override
     public void update() {
+        futureState = new int[myGrid.length][myGrid[0].length];
         for (int i = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid[0].length; j++) {
                 if (myGrid[i][j] == TYPE_1) {
