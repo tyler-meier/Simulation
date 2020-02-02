@@ -14,7 +14,7 @@ public class Segregation extends simulation {
     private int[][] myGrid;
     public static double percent;
     public static double totalN;
-    private int satis_Factor; //this will be given in the file.
+    private int satis_Factor =30; //this will be given in the file.
 
 
     private ReadXML reader;
@@ -82,15 +82,20 @@ public class Segregation extends simulation {
 
 
     public void move(int type, int i, int j, int[][] futureState){
+        int x =0;
         for(int row=0; row<myGrid.length;row++){
             for(int col = 0; col< myGrid[0].length;col++){
                 if(myGrid[row][col] == EMPTY){
                     futureState[row][col] = type;
                     futureState[i][j] = EMPTY;
+                    x = 1;
+                    break;
+
 
                 }
 
             }
+            if(x==1) break;
         }
     }
 
@@ -105,6 +110,9 @@ public class Segregation extends simulation {
                         move(TYPE_1, i ,j, futureState);
 
                     }
+                    else{
+                        myGrid[i][j] = futureState[i][j];
+                    }
 
                 }
 
@@ -114,6 +122,9 @@ public class Segregation extends simulation {
                         move(TYPE_2, i ,j, futureState);
 
 
+                    }
+                    else{
+                        myGrid[i][j] = futureState[i][j];
                     }
                 }
                 percent = 0;
