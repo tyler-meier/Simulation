@@ -37,6 +37,8 @@ public class Segregation extends simulation {
     }
 
     public int getPercent(int i, int j, int type) {
+            percent =0;
+            totalN =0;
             if (isBounds(i - 1, j) && myGrid[i - 1][j] != EMPTY) {
                 totalN++; //count the total neighbours
                 if (myGrid[i - 1][j] == type) percent++;
