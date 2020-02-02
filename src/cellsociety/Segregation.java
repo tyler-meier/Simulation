@@ -112,7 +112,8 @@ public class Segregation extends simulation {
 
                     }
                     else{
-                        myGrid[i][j] = futureState[i][j];
+                        futureState[i][j] = myGrid[i][j];
+                    
                     }
 
                 }
@@ -126,7 +127,7 @@ public class Segregation extends simulation {
 
                     }
                     else{
-                        myGrid[i][j] = futureState[i][j];
+                         futureState[i][j] = myGrid[i][j];
                     }
                 }
                 percent = 0;
