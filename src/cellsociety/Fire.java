@@ -70,7 +70,7 @@ public class Fire extends simulation {
         myGrid = new FCELL[reader.getRow()][reader.getCol()];
         for(int i = 0; i< myGrid.length; i++){
             for(int j = 0; j< myGrid[0].length; j++){
-                myGrid[i][j] = reader.getFireCell(myGrid[i][j].getX(),myGrid[i][j].getY());
+                myGrid[i][j] = new FCELL(reader.getCell(i, j));
             }
         }
     }
