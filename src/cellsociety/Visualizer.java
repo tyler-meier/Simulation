@@ -30,16 +30,18 @@ class Visualizer extends Application {
     public static final Font titleFont = new Font("Arial", 50);
     public static final Font subtitleFont = new Font("Arial", 25);
 
-    private Button mainMenu, pause, resume, speedUp, slowDown;
+    private Button mainMenu, pause, resume, speedUp, slowDown, differentSim;
     private Rectangle[][] myGrid;
     private Group group;
+    private Visualization visual;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
     }
 
-    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene, simulation myCurrSim, ReadXML mySimFileReader) throws IOException, SAXException, ParserConfigurationException {
+    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene, simulation myCurrSim, ReadXML mySimFileReader, Button simButton) throws IOException, SAXException, ParserConfigurationException {
+        //group.getChildren().clear();
         VBox buttonsVBox = new VBox();
 
         Label nameLabel = new Label(stringName);
@@ -51,22 +53,25 @@ class Visualizer extends Application {
         resume = new Button ("Resume");
         speedUp = new Button ("Speed Up");
         slowDown = new Button("Slow Down");
+        //differentSim = new Button("Different Simulation");
 
         mainMenu.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         resume.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         speedUp.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         slowDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-
-        mainMenu.setOnAction(e -> myStage.setScene(startScene));
+        simButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
 
         group = new Group();
         setUpGrid(myCurrSim, mySimFileReader);
 
-        buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown);
+        //visual = new Visualization();
+        mainMenu.setOnAction(e -> myStage.setScene(startScene));
+
+        buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown, simButton);
         buttonsVBox.setAlignment(Pos.CENTER_LEFT);
         BorderPane.setAlignment(nameLabel, Pos.TOP_CENTER);
-        BorderPane.setAlignment(group, Pos.TOP_LEFT);
+        BorderPane.setAlignment(group, Pos.CENTER);
         BorderPane boPane = new BorderPane(group, nameLabel, null, null, buttonsVBox);
 
         /*KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
@@ -87,7 +92,7 @@ class Visualizer extends Application {
         myGrid = new Rectangle[mySimFileReader.getRow()][mySimFileReader.getCol()];
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[row].length ; col++) {
-                Rectangle rec = myRectangle(col*25, row*25, 25, 25);
+                Rectangle rec = myRectangle(col*20, row*20, 20, 20);
                 if (myCurrSim.cellStatus(row,col) == 1){
                     rec.setFill(Color.BLUE);
                 }

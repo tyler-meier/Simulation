@@ -37,7 +37,7 @@ public class Visualization extends Application {
 
     private Scene startScene, simScene;
     private Stage myStage;
-    private Button startSimButton;
+    private Button chooseSimButton;
     private simulation myCurrSim;
     private ReadXML mySimFileReader;
     private Visualizer myView;
@@ -55,11 +55,11 @@ public class Visualization extends Application {
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
         myView = new Visualizer();
         mySimFileReader = new ReadXML();
-        startSimButton.setOnAction(e -> {
+        chooseSimButton.setOnAction(e -> {
             try {
-                String simName = setUpFile();
+                String simName = setUpFile(mySimFileReader);
                 returnSim(simName);
-                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene, myCurrSim, mySimFileReader);
+                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene, myCurrSim, mySimFileReader, chooseSimButton);
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
@@ -81,17 +81,18 @@ public class Visualization extends Application {
 
         Label welcomeLabel = new Label("MAIN MENU");
         welcomeLabel.setFont(titleFont);
-        Label explainLabel = new Label("Click on the simulation that you would like to see");
+        Label explainLabel = new Label("Click on choose simulation and choose the file for the simulation you would like to see");
         explainLabel.setFont(subtitleFont);
+        explainLabel.setWrapText(true);
 
-        startSimButton = new Button("Start a Simulation");
+        chooseSimButton = new Button("Choose Simulation");
 
-        startSimButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        chooseSimButton.setPrefSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
 
-        startSimButton.setStyle("-fx-font-size: 2em; ");
+        chooseSimButton.setStyle("-fx-font-size: 2em; ");
 
         vBox.getChildren().addAll(welcomeLabel, explainLabel);
-        vBox2.getChildren().addAll(startSimButton);
+        vBox2.getChildren().addAll(chooseSimButton);
 
         vBox.setAlignment(Pos.CENTER);
         vBox2.setAlignment(Pos.CENTER);
@@ -108,9 +109,9 @@ public class Visualization extends Application {
         return scene;
     }
 
-    public String setUpFile() throws IOException, SAXException {
+    public String setUpFile(ReadXML mySimFileReader) throws IOException, SAXException {
         FileChooser fileChoose = new FileChooser();
-        fileChoose.setTitle("BALKNA");
+        fileChoose.setTitle("Choose File");
         File simFile = fileChoose.showOpenDialog(myStage);
         mySimFileReader.setUpFile(simFile);
         String simName = mySimFileReader.getParameters(mySimFileReader.TYPE);
