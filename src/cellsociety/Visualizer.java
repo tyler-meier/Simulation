@@ -22,13 +22,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 class Visualizer extends Application {
-    public static final int FRAMES_PER_SECOND = 1;
-    public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-    public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    public static final int RECTANGLE_SIZE = 30;
+    public static final int OPEN = 1;
+    public static final int FULL = 2;
     public static final double PREF_BUTTON_WIDTH = 250;
     public static final double PREF_BUTTON_HEIGHT = 100;
     public static final Font titleFont = new Font("Arial", 50);
-    public static final Font subtitleFont = new Font("Arial", 25);
+    public static int FRAMES_PER_SECOND = 1;
+    public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 
     private Button mainMenu, pause, resume, speedUp, slowDown, differentSim;
     private Rectangle[][] myGrid;
@@ -39,7 +40,7 @@ class Visualizer extends Application {
 
     }
 
-    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene, simulation myCurrSim, ReadXML mySimFileReader, Button simButton) {
+    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene, simulation myCurrSim, ReadXML mySimFileReader, Button simButton, Timeline animation) {
         VBox buttonsVBox = new VBox();
 
         Label nameLabel = new Label(stringName);
@@ -52,8 +53,6 @@ class Visualizer extends Application {
         speedUp = new Button ("Speed Up");
         slowDown = new Button("Slow Down");
 
-        simButton.setStyle("-fx-font-size: 1em; ");
-
         mainMenu.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         resume.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
@@ -65,6 +64,10 @@ class Visualizer extends Application {
         setUpGrid(myCurrSim, mySimFileReader);
 
         mainMenu.setOnAction(e -> myStage.setScene(startScene));
+        pause.setOnAction(e -> animation.stop());
+        resume.setOnAction(e -> animation.play());
+        //speedUp.setOnAction(e -> speedSimUp(animation, myCurrSim));
+        //slowDown.setOnAction(e -> slowSimDown(animation, myCurrSim));
 
         buttonsVBox.getChildren().addAll(mainMenu, pause, resume, speedUp, slowDown, simButton);
         buttonsVBox.setAlignment(Pos.CENTER_LEFT);
@@ -97,11 +100,11 @@ class Visualizer extends Application {
         myGrid = new Rectangle[mySimFileReader.getRow()][mySimFileReader.getCol()];
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[row].length ; col++) {
-                Rectangle rec = myRectangle(col*20, row*20, 20, 20);
-                if (myCurrSim.cellStatus(row,col) == 1){
+                Rectangle rec = myRectangle(col*RECTANGLE_SIZE, row*RECTANGLE_SIZE, RECTANGLE_SIZE, RECTANGLE_SIZE);
+                if (myCurrSim.cellStatus(row,col) == OPEN){
                     rec.setFill(Color.BLUE);
                 }
-                else if (myCurrSim.cellStatus(row,col) == 2){
+                else if (myCurrSim.cellStatus(row,col) == FULL){
                     rec.setFill(Color.GREEN);
                 }
                 else {
@@ -119,4 +122,23 @@ class Visualizer extends Application {
         return rectangle;
     }
 
+    /*public void slowSimDown(Timeline animation, simulation myCurrSim){
+        if (FRAMES_PER_SECOND != 1){
+            FRAMES_PER_SECOND -= 1;
+            KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(myCurrSim));
+            animation.setCycleCount(Timeline.INDEFINITE);
+            animation.getKeyFrames().add(frame);
+            animation.play();
+        }
+    }
+
+    public void speedSimUp(Timeline animation, simulation myCurrSim){
+        if (FRAMES_PER_SECOND != 60){
+            FRAMES_PER_SECOND += 1;
+            KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(myCurrSim));
+            animation.setCycleCount(Timeline.INDEFINITE);
+            animation.getKeyFrames().add(frame);
+            animation.play();
+        }
+    }*/
 }
