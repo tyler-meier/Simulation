@@ -12,8 +12,8 @@ public class Segregation extends simulation {
     public static final int TYPE_1 = 1;
     public static final int TYPE_2= 2;
     private int[][] myGrid;
-    public static int percent =0;
-    public static int totalN =0;
+    public static int percent;
+    public static int totalN;
     private int satis_Factor; //this will be given in the file.
     private int[][] futureState;
 
@@ -71,6 +71,8 @@ public class Segregation extends simulation {
                 if (myGrid[i][j - 1] == type) percent++;
             }
 
+
+
         percent = (percent / totalN) * 100;
         return percent;
 
@@ -79,14 +81,17 @@ public class Segregation extends simulation {
 
 
 
-    public void move(int type){  //FIND THE NEAREST EMPTY CELL AND MOVE
+    public void move(int type, int i, int j){  //FIND THE NEAREST EMPTY CELL AND MOVE
         for(int row=0; row<myGrid.length;row++){
             for(int col = 0; col< myGrid[0].length;col++){
                 if(myGrid[row][col] == EMPTY){
-                    futureState[row][col] = type; //makr the next state as the types new home.
+                    futureState[row][col] = type;
+                    futureState[i][j] = EMPTY;
+                    break;
 
 
                 }
+
             }
         }
     }
@@ -99,17 +104,16 @@ public class Segregation extends simulation {
                 if (myGrid[i][j] == TYPE_1) {
                     int percentage = getPercent(i, j, TYPE_1);
                     if (percentage < satis_Factor) {
-                        move(TYPE_1);
-                        futureState[i][j] = EMPTY; //makr the future state as empty
+                        move(TYPE_1, i ,j);
 
 
                     }
                 }
-                if (myGrid[i][j] == TYPE_2) {
+                else if (myGrid[i][j] == TYPE_2) {
                     int percentage = getPercent(i, j, TYPE_2);
                     if (percentage < satis_Factor) {
-                        move(TYPE_2);
-                        futureState[i][j] = EMPTY;
+                        move(TYPE_2, i ,j);
+
 
                     }
                 }
