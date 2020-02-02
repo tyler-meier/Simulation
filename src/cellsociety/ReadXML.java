@@ -66,9 +66,11 @@ public class ReadXML {
      */
     public void setCells(){
         NodeList list = myRoot.getElementsByTagName(CELL);
+        int index = 0;
         for(int i = 0; i< row; i++){
             for(int j = 0; j< col; j++){
-                myGrid[i][j] = Integer.parseInt(getTextValue((Element)list.item(i+j), STATUS));
+                myGrid[i][j] = Integer.parseInt(getTextValue((Element)list.item(index), STATUS));
+                index++;
             }
         }
     }
