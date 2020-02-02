@@ -3,6 +3,7 @@ package cellsociety;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -12,8 +13,12 @@ public class GameOfLife extends simulation {
     public static final int DEAD = 0;
     private int myGrid[][];
     private int aliveCount=0;
+    private ReadXML reader;
 
-    public GameOfLife(int size){
+
+    public GameOfLife(ReadXML myReader) throws ParserConfigurationException, IOException, SAXException {
+        reader = myReader;
+        readFile();
 
 
     }
@@ -41,7 +46,7 @@ public class GameOfLife extends simulation {
         for ( int i  = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid[0].length; j++) {
                 if (isBounds(i-1,j-1) && (myGrid[i - 1][j - 1] == ALIVE)) aliveCount++;
-                 if (isBounds(i+1,j+1) && (myGrid[i + 1][j + 1] == ALIVE))  aliveCount++;
+                if (isBounds(i+1,j+1) && (myGrid[i + 1][j + 1] == ALIVE))  aliveCount++;
                 if (isBounds(i+1,j-1) && (myGrid[i + 1][j - 1] == ALIVE))  aliveCount++;
                 if (isBounds(i-1,j+1) && (myGrid[i - 1][j+1] == ALIVE))  aliveCount++;
                 if (isBounds(i,j+1) && (myGrid[i ][j+1] == ALIVE))  aliveCount++;
@@ -77,7 +82,12 @@ public class GameOfLife extends simulation {
 
     @Override
     public void readFile() {
-
+        myGrid = new int[reader.getRow()][reader.getCol()];
+        for(int i = 0; i< myGrid.length; i++){
+            for(int j = 0; j< myGrid[0].length; j++){
+                myGrid[i][j] = reader.getCell(i, j);
+            }
+        }
     }
 
     public static void main(String args[]) throws ParserConfigurationException, IOException, SAXException {

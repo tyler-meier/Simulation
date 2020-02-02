@@ -11,12 +11,12 @@ public class Segregation extends simulation {
     public static int totalN =0;
     public static final int satis_Factor = 10; //this will be given in the file.
 
+    private ReadXML reader;
 
-    public void Segregation(int size){
-        myGrid = new int[size][size];
-        for(int [] row: myGrid){
-            Arrays.fill(row,EMPTY);
-        }
+
+    public Segregation(ReadXML myReader) {
+        reader = myReader;
+        readFile();
     }
 
     public Boolean isBounds(int row, int col){
@@ -184,6 +184,11 @@ public class Segregation extends simulation {
 
     @Override
     public void readFile() {
-
+        myGrid = new int[reader.getRow()][reader.getCol()];
+        for(int i = 0; i< myGrid.length; i++){
+            for(int j = 0; j< myGrid[0].length; j++){
+                myGrid[i][j] = reader.getCell(i, j);
+            }
+        }
     }
 }
