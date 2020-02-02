@@ -11,10 +11,10 @@ public class Segregation extends simulation {
     public  static final int EMPTY = 0;
     public static final int TYPE_1 = 1;
     public static final int TYPE_2= 2;
-    private int[][] myGrid;
+    private int[][] myGrid, myGrid2;
     public static double percent;
     public static double totalN;
-    private int satis_Factor =30; //this will be given in the file.
+    private int satis_Factor =50; //this will be given in the file.
 
 
     private ReadXML reader;
@@ -83,10 +83,11 @@ public class Segregation extends simulation {
 
     public void move(int type, int[][] futureState){
         int x =0;
-        for(int row=0; row<myGrid.length;row++){
-            for(int col = 0; col< myGrid[0].length;col++){
-                if(myGrid[row][col] == EMPTY){
+        for(int row=0; row<myGrid2.length;row++){
+            for(int col = 0; col< myGrid2[0].length;col++){
+                if(myGrid2[row][col] == EMPTY){
                     futureState[row][col] = type;
+                    myGrid2[row][col] = type;
                     x = 1;
                     break;
 
@@ -108,7 +109,7 @@ public class Segregation extends simulation {
                     if (percentage < satis_Factor) {
                         move(TYPE_1, futureState);
                         futureState[i][j] = EMPTY;
-
+                        myGrid2[i][j] = EMPTY;
 
                     }
                     else{
@@ -123,6 +124,7 @@ public class Segregation extends simulation {
                     if (percentage < satis_Factor) {
                         move(TYPE_2, futureState);
                         futureState[i][j] = EMPTY;
+                        myGrid2[i][j] = EMPTY;
 
 
                     }
@@ -148,9 +150,16 @@ public class Segregation extends simulation {
     @Override
     public void readFile() {
         myGrid = new int[reader.getRow()][reader.getCol()];
+        myGrid2 = new int[reader.getRow()][reader.getCol()];
         for(int i = 0; i< myGrid.length; i++){
             for(int j = 0; j< myGrid[0].length; j++){
                 myGrid[i][j] = reader.getCell(i, j);
+                //System.out.print(myGrid[i][j]);
+            }
+        }
+        for(int i = 0; i< myGrid2.length; i++){
+            for(int j = 0; j< myGrid2[0].length; j++){
+                myGrid2[i][j] = reader.getCell(i, j);
                 //System.out.print(myGrid[i][j]);
             }
         }
