@@ -38,8 +38,6 @@ public class Segregation extends simulation {
     }
 
     public int getPercent(int i, int j, int type) {
-            percent =0;
-            totalN =0;
             if (isBounds(i - 1, j) && myGrid[i - 1][j] != EMPTY) {
                 totalN++; //count the total neighbours
                 if (myGrid[i - 1][j] == type) percent++;
@@ -82,14 +80,7 @@ public class Segregation extends simulation {
 
 
     public void move(int type){  //FIND THE NEAREST EMPTY CELL AND MOVE
-        for(int row=0; row<myGrid.length;row++){
-            for(int col = 0; col< myGrid[0].length;col++){
-                if(myGrid[row][col] == EMPTY){
-                    futureState[row][col] = type; //makr the next state as the types new home.
 
-                }
-            }
-        }
     }
 
     @Override
@@ -100,8 +91,18 @@ public class Segregation extends simulation {
                 if (myGrid[i][j] == TYPE_1) {
                     int percentage = getPercent(i, j, TYPE_1);
                     if (percentage < satis_Factor) {
-                        move(TYPE_1);
+                        //move(TYPE_1);
+                        for(int row=0; row<myGrid.length;row++){
+                            for(int col = 0; col< myGrid[0].length;col++){
+                                if(myGrid[row][col] == EMPTY){
+                                    futureState[row][col] = TYPE_1; //makr the next state as the types new home.
+
+
+                                }
+                            }
+                        }
                         futureState[i][j] = EMPTY; //makr the future state as empty
+
 
                     }
                 }
