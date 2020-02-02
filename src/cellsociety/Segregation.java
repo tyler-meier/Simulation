@@ -87,7 +87,7 @@ public class Segregation extends simulation {
                 if(myGrid[row][col] == EMPTY){
                     futureState[row][col] = type;
                     futureState[i][j] = EMPTY;
-                    break;
+
 
 
                 }

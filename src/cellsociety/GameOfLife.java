@@ -58,7 +58,7 @@ public class GameOfLife extends simulation {
                 if (myGrid[i][j] == ALIVE) {
                     if (alive < 2) futureState[i][j] = DEAD;
                     if (alive>3) futureState[i][j] = DEAD;
-
+                    else futureState[i][j] = ALIVE;
                 }
                 else
                     if( myGrid[i][j] == DEAD){
