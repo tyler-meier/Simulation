@@ -1,6 +1,7 @@
 package cellsociety;
 
 import java.util.ArrayList;
+import java.util.logging.XMLFormatter;
 
 public class FCELL {
     private  int Xrow, Ycol;
@@ -31,6 +32,14 @@ public class FCELL {
     public int getType(){
 
         return type;
+    }
+
+    public int getX(){
+        return Xrow;
+    }
+
+    public int getY(){
+        return Ycol;
     }
 
 

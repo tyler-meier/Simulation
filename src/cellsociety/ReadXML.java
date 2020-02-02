@@ -27,6 +27,7 @@ public class ReadXML {
 
     private Element myRoot;
     private int[][] myGrid;
+    private FCELL[][] myFireGrid;
     private int row;
     private int col;
 
@@ -80,6 +81,7 @@ public class ReadXML {
     public int getCell(int row, int col){
         return myGrid[row][col];
     }
+    public FCELL getFireCell(int row, int col) {return myFireGrid[row][col];}
     /**
      * Returns true or false based on if the xml type is a given simulation type
      */
