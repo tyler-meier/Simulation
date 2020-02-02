@@ -1,5 +1,10 @@
 package cellsociety;
 
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class GameOfLife extends simulation {
@@ -9,10 +14,7 @@ public class GameOfLife extends simulation {
     private int aliveCount=0;
 
     public GameOfLife(int size){
-        myGrid = new int[Integer.MAX_VALUE][Integer.MAX_VALUE]; // do people know better way to make infinite grid cells?
-        for(int[] row: myGrid){
-            Arrays.fill(row,DEAD);  //initialize the grid by making everyone dead.
-        }
+
 
     }
 
@@ -31,6 +33,7 @@ public class GameOfLife extends simulation {
 
     {
         int[][] initial = myGrid; //initial state, will update more when the file parsing happens. this current
+
 
     }
    //count the number of dead and alive for each cell. this method is called for every cell in update method.
@@ -76,4 +79,14 @@ public class GameOfLife extends simulation {
     public void readFile() {
 
     }
+
+    public static void main(String args[]) throws ParserConfigurationException, IOException, SAXException {
+        ReadXML mySim = new ReadXML();
+        File xmlFile = new File("data/sampleGameOfLife.xml");
+        mySim.setUpFile(xmlFile);
+
+
+    }
+
+
 }

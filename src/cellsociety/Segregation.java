@@ -134,6 +134,13 @@ public class Segregation extends simulation {
 
     }
 
+
+    public void Calculate_percent(){
+
+
+
+    }
+
     public void move_1(int i, int j){  //if any vacant cell on the grid ,move!
         for(int row=0; row<myGrid.length;row++){
             for(int col = 0; col< myGrid[0].length;col++){
