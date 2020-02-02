@@ -73,31 +73,28 @@ Methods are broken down into smaller methods to prioritize design.
             for(int i =0; i < myGrid.length; i++) {
                 //check its 8 neighbours
                 for (int j = 0; j < myGrid[0].length; j++) {
-                    if (myGrid[i][j] == OPEN) {
-                        if (isBounds(i - 1, j) && (myGrid[i - 1][j]) == FULL) futureState[i][j] = FULL;
-                        else //check to right of cell, check if its in bounds
-                            if (isBounds(i + 1, j) && (myGrid[i + 1][j]) == FULL) futureState[i][j] = FULL;
-                            else //check to see top of cell, check if its in bounds
-                                if (isBounds(i, j - 1) && (myGrid[i][j - 1]) == FULL) futureState[i][j] = FULL;
-                                else //check to see top of cell, check if its in bounds
-                                    if (isBounds(i, j + 1) && (myGrid[i][j + 1]) == FULL) futureState[i][j] = FULL;
-                                    else if (isBounds(i - 1, j - 1) && (myGrid[i - 1][j - 1]) == FULL)
-                                        futureState[i][j] = FULL;
-                                    else if (isBounds(i - 1, j + 1) && (myGrid[i - 1][j + 1]) == FULL)
-                                        futureState[i][j] = FULL;
-                                    else if (isBounds(i + 1, j + 1) && (myGrid[i + 1][j + 1]) == FULL)
-                                        futureState[i][j] = FULL;
-                                    else if (isBounds(i + 1, j - 1) && (myGrid[i + 1][j - 1]) == FULL)
-                                        futureState[i][j] = FULL;
+                    if (isNeighborFull(i, j) && myGrid[i][j] == OPEN ) {
+                       futureState[i][j] = FULL;
                     }
-                    else if(myGrid[i][j] == FULL) futureState[i][j] = FULL;
+                    else
+                        futureState[i][j] = myGrid[i][j];
                 }
             }
             myGrid = futureState;
-
-
-
         }
+
+    public Boolean isNeighborFull(int row, int col){
+        if (isBounds(row - 1, col) && (myGrid[row - 1][col]) == FULL) return true;
+        else if (isBounds(row + 1, col) && (myGrid[row + 1][col]) == FULL) return true;
+        else if (isBounds(row, col - 1) && (myGrid[row][col - 1]) == FULL) return true;
+        else if (isBounds(row, col + 1) && (myGrid[row][col + 1]) == FULL) return true;
+        else if (isBounds(row - 1, col - 1) && (myGrid[row - 1][col - 1]) == FULL) return true;
+        else if (isBounds(row - 1, col + 1) && (myGrid[row - 1][col + 1]) == FULL) return true;
+        else if (isBounds(row + 1, col + 1) && (myGrid[row + 1][col + 1]) == FULL) return true;
+        else if (isBounds(row + 1, col - 1) && (myGrid[row + 1][col - 1]) == FULL) return true;
+        return false;
+    }
+
 
      public void nextState(){  //the updated state of the cell is the nextState which becomes myGrid now.
          int[][] nextState = myGrid;
