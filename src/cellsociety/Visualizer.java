@@ -86,7 +86,7 @@ class Visualizer extends Application {
                     myGrid[row][col].setFill(Color.BLUE);
                 }
                 else if (myCurrSim.cellStatus(row,col) == 2){
-                    myGrid[row][col].setFill(Color.GREEN);
+                    myGrid[row][col].setFill(Color.RED);
                 }
                 else {
                     myGrid[row][col].setFill(Color.BLACK);
@@ -104,7 +104,7 @@ class Visualizer extends Application {
                     rec.setFill(Color.BLUE);
                 }
                 else if (myCurrSim.cellStatus(row,col) == FULL){
-                    rec.setFill(Color.GREEN);
+                    rec.setFill(Color.RED);
                 }
                 else {
                     rec.setFill(Color.BLACK);

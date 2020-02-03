@@ -15,16 +15,6 @@ public class FCELL {
         type = t;
     }
 
-//    public ArrayList<FCELL> Adjacent_Neighbours() { //all the neighbours of the cell
-//        ArrayList<FCELL> myAdjacentNeighbours = new ArrayList<>();
-//        if(Ycol<Grid_Size - 1) myAdjacentNeighbours.add(myGrid[Xrow][Ycol+1]); //East
-//        if(Ycol>0) myAdjacentNeighbours.add((myGrid[Xrow][Ycol-1])); //West
-//        if(Xrow <Grid_Size - 1) myAdjacentNeighbours.add((myGrid[Xrow+1][Ycol]));  //South
-//        if(Xrow>0) myAdjacentNeighbours.add((myGrid[Xrow-1][Ycol]));  //North
-//
-//        return myAdjacentNeighbours;
-//    }
-
     public int getType(){
 
         return type;

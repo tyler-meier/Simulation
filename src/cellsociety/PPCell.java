@@ -14,12 +14,8 @@ public class PPCell  {
 
 
 
-    public PPCell(int xPos, int yPos, int state,int life){
-    xPos= Xrow;
-    yPos = Ycol;
+    public PPCell( int state){
     state = type;
-    life = life_time;
-
 }
 
 

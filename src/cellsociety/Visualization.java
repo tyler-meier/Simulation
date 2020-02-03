@@ -138,7 +138,7 @@ public class Visualization extends Application {
             myCurrSim = new Percolation(mySimFileReader);
         }
         else if(simName.equals("PredatorPrey")){
-           myCurrSim = new PredatorPrey();
+           myCurrSim = new PredatorPrey(mySimFileReader);
         }
         else if(simName.equals("Segregation")){
            myCurrSim = new Segregation(mySimFileReader);

@@ -85,10 +85,10 @@ public class GameOfLife extends simulation {
         for(int i = 0; i< myGrid.length; i++){
             for(int j = 0; j< myGrid[0].length; j++){
                 myGrid[i][j] = reader.getCell(i, j);
-                System.out.print(myGrid[i][j]);
+                //System.out.print(myGrid[i][j]);
 
             }
-            System.out.println();
+            //System.out.println();
         }
 
     }
@@ -98,7 +98,7 @@ public class GameOfLife extends simulation {
         File xmlFile = new File("data/SampleGOL.xml");
         mySim.setUpFile(xmlFile);
         GameOfLife abc = new GameOfLife(mySim);
-        System.out.println();
+        //System.out.println();
         abc.update();
 
 
