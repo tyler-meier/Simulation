@@ -35,11 +35,11 @@ public class PredatorPrey extends simulation {
 
         }
 
-        private void  SHARK_EAT_FISH(int i, int  j){
+        private  Boolean SHARK_EAT_FISH(int i, int  j){
             myAdjN = getNeighbourCount(i,j); //find adjN of the cell
             if(myGrid[i][j].getTYPE() == SHARK) { //if it is shark
                 FishNei = FISH_NUMBER(); //get the arraylist of all its neighbours and count the number of fishes
-                if (FishN == EMPTY) { // if number of fishes is empty
+                if (FishN == 0) { // if number of fishes is empty
                     move(i,j,SHARK);  //shark moves
 
                 }
@@ -59,6 +59,7 @@ public class PredatorPrey extends simulation {
                 }
 
                     }
+            return EAT;
                 }
 
 
@@ -89,7 +90,7 @@ public class PredatorPrey extends simulation {
     public void move(int i, int j, int type) {
         Empty = EMPTY_LIST();
         PPCell goal = chooseRandomNeighbour(Empty);
-        futureState[i][j] = new PPCell(goal.getX(),goal.getY(),EMPTY);
+        futureState[i][j] = new PPCell(i,j,EMPTY);
         futureState[goal.getX()][goal.getY()] = new PPCell(goal.getX(),goal.getY(),type);
         Empty.clear();
 
@@ -128,26 +129,30 @@ public class PredatorPrey extends simulation {
     }
 
     int turn =0;
+    boolean eaten =false;
     @Override
     public void update() {
 
         futureState = new PPCell[myGrid.length][myGrid[0].length]; //new cell set
         for (int i = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid[0].length; j++) {  //loop through the PPCell grid.
-                SHARK_EAT_FISH(i,j); //get the number of fishes in sharks neighbourhood. and them getting eaten
-                if(myGrid[i][j].getTYPE() == FISH && EAT == false){
+                eaten = SHARK_EAT_FISH(i,j); //get the number of fishes in sharks neighbourhood. and them getting eaten
+                if(myGrid[i][j].getTYPE() == FISH && eaten == false){
                     move(i,j,FISH);
-
             }
-                BREED(i,j);
+                NEW = EMPTY_LIST(); //breeding
+                PPCell new_bi = chooseRandomNeighbour(NEW); //chose a new cell for fish to breed
+                if(myGrid[i][j].getTYPE() == FISH && turn > FISH_BREEDING && eaten == false){
+                    futureState[new_bi.getX()][new_bi.getY()] = new PPCell(new_bi.getX(),new_bi.getY(),FISH);
+                    if(myGrid[i][j].getTYPE() == FISH && turn> SHARK_BREEDING){
+                        futureState[new_bi.getX()][new_bi.getY()] = new PPCell(new_bi.getX(),new_bi.getY(),SHARK);
 
+                    }
+                }
             }
         }
-
-
          turn++;
         futureState = myGrid;
-
     }
 
     @Override
@@ -156,34 +161,17 @@ public class PredatorPrey extends simulation {
     }
 
 
-      //produce new baby sharkie and fishie
-      public void BREED(int i, int j) {
-                  NEW = EMPTY_LIST();
-                  PPCell new_bi = chooseRandomNeighbour(NEW); //chose a new cell for fish to breed
-                  if(myGrid[i][j].getTYPE() == FISH && turn > FISH_BREEDING && EAT == false){
-                      futureState[new_bi.getX()][new_bi.getY()] = new PPCell(new_bi.getX(),new_bi.getY(),FISH);
-                      if(myGrid[i][j].getTYPE() == FISH && turn> SHARK_BREEDING){
-                          futureState[new_bi.getX()][new_bi.getY()] = new PPCell(new_bi.getX(),new_bi.getY(),SHARK);
-
-                      }
-
-                  }
-
-    }
-
-
-
-
     @Override
     public void readFile() { //sets up the grid
         myGrid = new PPCell[reader.getRow()][reader.getCol()];
         for(int i = 0; i< myGrid.length; i++){
             for(int j = 0; j< myGrid[0].length; j++){
-                myGrid[i][j] = new PPCell(reader.getCell(i, j),i,j);
+                myGrid[i][j] = new PPCell(i,j,reader.getCell(i, j));
 
-                //System.out.println(myGrid[i][j].getX());
+                System.out.println(myGrid[i][j].getY()); //null
+                System.out.println(myGrid[i][j].getY()); //null
             }
-            //System.out.println();
+            System.out.println();
         }
 
 
