@@ -3,7 +3,9 @@ package cellsociety;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -53,6 +56,7 @@ public class Visualization extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
+        //Parent root = FXMLLoader.load(getClass().getResource("stylesheet.css"));
         myStage = primaryStage;
         myStage.setTitle(TITLE);
         startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
@@ -90,6 +94,7 @@ public class Visualization extends Application {
         slowDown.setOnAction(e -> slowSimDown());
 
         myStage.setScene(startScene);
+        //startScene.getStylesheets().add("/Users/tylermeier/Documents/comp308 workspace/simulation_team20/doc/stylesheet.css");
         myStage.show();
     }
 
@@ -100,9 +105,10 @@ public class Visualization extends Application {
 
         Label welcomeLabel = new Label("MAIN MENU");
         welcomeLabel.setFont(titleFont);
-        Label explainLabel = new Label("Click on choose simulation and choose the file for the simulation you would like to see");
+        Label explainLabel = new Label("Click on “Choose Simulation” to choose the file for the simulation that you would like to run. Once you choose the first simulation, you will be able to switch to a different simulation from the current simulation scene. You will not be able to come back to this main menu screen. Have fun looking at the simulations!");
         explainLabel.setFont(subtitleFont);
         explainLabel.setWrapText(true);
+        explainLabel.setTextAlignment(TextAlignment.CENTER);
 
         chooseSimButton = new Button("Choose Simulation");
         speedUp = new Button("Speed Up");
