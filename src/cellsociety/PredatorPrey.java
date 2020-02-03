@@ -77,7 +77,7 @@ public class PredatorPrey extends simulation {
 
 
     public ArrayList<PPCell> getNeighbourCount(int i, int j) {
-        ArrayList<PPCell> neighbours = new ArrayList<>();
+        ArrayList<PPCell> neighbours = new ArrayList<>(); //find neighbours
         if (isBounds(i,j+1))  neighbours.add(myGrid[i][j+1]);
         if (isBounds(i,j-1))  neighbours.add(myGrid[i][j-1]);
         if (isBounds(i-1,j))  neighbours.add(myGrid[i-1][j]);
@@ -93,8 +93,7 @@ public class PredatorPrey extends simulation {
         futureState[i][j] = new PPCell(i,j,EMPTY);
         futureState[goal.getX()][goal.getY()] = new PPCell(goal.getX(),goal.getY(),type);
         Empty.clear();
-
-                }
+    }
 
     public PPCell chooseRandomNeighbour(List<PPCell> neighbours) {
         Random rand = new Random();
@@ -150,6 +149,10 @@ public class PredatorPrey extends simulation {
                     }
                 }
             }
+            myAdjN.clear();
+            Empty.clear();
+            FishNei.clear();
+            NEW.clear();
         }
          turn++;
         futureState = myGrid;
