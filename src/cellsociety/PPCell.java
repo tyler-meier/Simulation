@@ -15,9 +15,10 @@ public class PPCell  {
 
 
     public PPCell( int state, int row, int col){
-    row =Xrow;
-    col = Ycol;
+    Xrow = row;
+    Ycol = col;
     type = state;
+
 }
 
 
