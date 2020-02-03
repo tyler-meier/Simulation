@@ -36,46 +36,42 @@ public class Fire extends simulation {
 
 
     public ArrayList<FCELL> getNeighbourCount(int i, int j) {
-        myNeighbours = new ArrayList<>();
-        if (isBounds(i,j+1))  myNeighbours.add(myGrid[i][j+1]);
-        if (isBounds(i,j-1))  myNeighbours.add(myGrid[i][j-1]);
-        if (isBounds(i-1,j))  myNeighbours.add(myGrid[i-1][j]);
-        if (isBounds(i+1,j))  myNeighbours.add(myGrid[i+1][j]);
-        return myNeighbours;
+        ArrayList<FCELL> neighbours = new ArrayList<>();
+        if (isBounds(i,j+1))  neighbours.add(myGrid[i][j+1]);
+        if (isBounds(i,j-1))  neighbours.add(myGrid[i][j-1]);
+        if (isBounds(i-1,j))  neighbours.add(myGrid[i-1][j]);
+        if (isBounds(i+1,j))  neighbours.add(myGrid[i+1][j]);
+        return neighbours;
     }
 
     @Override
     public void update() {
         FCELL[][] futureState = new FCELL[myGrid.length][myGrid[0].length]; //new cell set
-        futureState = myGrid;
+        //futureState = myGrid;
         for (int i = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid[0].length; j++) {
                 ArrayList<FCELL> neighbours = getNeighbourCount(i, j); //GET the neighbours for each cell
                 if (myGrid[i][j].getType() == BURNING) {  //simply the burning tree dies.
-                    futureState[i][j].setType(EMPTY); //burnt or empty
+                    futureState[i][j] = new FCELL(EMPTY); //burnt or empty
                 } //works
                 else if (myGrid[i][j].getType() == TREE) {
                     for (FCELL cell : neighbours) {  //for all the neighburs of the current cell
                         if (cell.getType() == BURNING ) { //if the neighbours burning, tree
                             double random = Math.random(); //generate a number btw 0 and 1
                             if (random >= myGrid[i][j].getPRobCatch()) { // if the percent is greater than prob catch
-                                futureState[i][j].setType(BURNING); //it burns
-
-                            } else {
-                                futureState[i][j].setType(TREE); //does nothing.
-
+                                futureState[i][j] = new FCELL(BURNING); //it burns
+                                break;
                             }
                         }
+                        futureState[i][j] = new FCELL(TREE); //does nothing.
                     }
                 }
                 else{
                     futureState[i][j] = myGrid[i][j];
                 }
-                myNeighbours.clear();
             }
-            myGrid = futureState;
-
         }
+        myGrid = futureState;
     }
 
 
