@@ -87,12 +87,12 @@ public class PredatorPrey extends simulation {
 
 
 
-            public void move(int i, int j, int type) {
-                Empty = EMPTY_LIST();
-                PPCell goal = chooseRandomNeighbour(Empty);
-                futureState[i][j] = new FCELL(EMPTY);
-                futureState[goal.getX()][goal.getY()] = new FCELL(type);
-                Empty.clear();
+    public void move(int i, int j, int type) {
+        Empty = EMPTY_LIST();
+        PPCell goal = chooseRandomNeighbour(Empty);
+        futureState[i][j] = new FCELL(EMPTY);
+        futureState[goal.getX()][goal.getY()] = new FCELL(type);
+        Empty.clear();
 
                 }
 
@@ -155,8 +155,8 @@ public class PredatorPrey extends simulation {
 
 
 
-      public void BREED() {
-                  NEW = myGrid[i][j].Adjacent_Neighbours();
+      public void BREED(int i, int j) {
+                  NEW = myAdjN;
                   NEW = myGrid[i][j].EMPTY_list();
                   PPCell new_bi = chooseRandomNeighbour(NEW); //chose a new cell for fish to breed
                   if(myGrid[i][j].getTYPE() == FISH && myGrid[i][j].getLife()> FISH_BREEDING && EAT == false){
@@ -170,7 +170,7 @@ public class PredatorPrey extends simulation {
 
 
               }
-          
+
 
 
 
