@@ -49,7 +49,7 @@ public class Fire extends simulation {
         FCELL[][] futureState = new FCELL[myGrid.length][myGrid[0].length]; //new cell set
         //futureState = myGrid;
         for (int i = 0; i < myGrid.length; i++) {
-            for (int j = 0; j < myGrid[0].length; j++) {
+            for (int j =0; j < myGrid[0].length; j++) {
                 ArrayList<FCELL> neighbours = getNeighbourCount(i, j); //GET the neighbours for each cell
                 if (myGrid[i][j].getType() == BURNING) {  //simply the burning tree dies.
                     futureState[i][j] = new FCELL(EMPTY); //burnt or empty
