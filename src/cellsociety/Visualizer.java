@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 class Visualizer extends Application {
@@ -26,7 +27,7 @@ class Visualizer extends Application {
     public static int RECTANGLE_SIZE_COL;
     public static int GRID_SIZE = 350;
 
-    private Button mainMenu, pause, resume, stepThrough;
+    private Button pause, resume, stepThrough;
     private Rectangle[][] myGrid;
     private Group group;
 
@@ -35,19 +36,24 @@ class Visualizer extends Application {
 
     }
 
-    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, Stage myStage, Scene startScene, simulation myCurrSim, ReadXML mySimFileReader, Button simButton, Timeline animation, Button speedUp, Button slowDown) {
+    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, simulation myCurrSim, ReadXML mySimFileReader, Button simButton, Timeline animation, Button speedUp, Button slowDown) {
         VBox buttonsVBox = new VBox();
+        VBox topLabels = new VBox();
 
         Label nameLabel = new Label(stringName);
         nameLabel.setFont(titleFont);
         nameLabel.setAlignment(Pos.CENTER);
 
-        mainMenu = new Button("Main Menu");
+        Label rules = createRuleLabel(stringName);
+        Label buttonDescriptions = createButtonLabel();
+
+        topLabels.getChildren().addAll(nameLabel, rules);
+        topLabels.setSpacing(15);
+
         pause = new Button("Pause");
         resume = new Button ("Resume");
         stepThrough = new Button("Step Through Sim");
 
-        mainMenu.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         resume.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         stepThrough.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
@@ -58,7 +64,6 @@ class Visualizer extends Application {
         group = new Group();
         setUpGrid(myCurrSim, mySimFileReader);
 
-        mainMenu.setOnAction(e -> myStage.setScene(startScene));
         pause.setOnAction(e -> {
             animation.stop();
             stepThrough.setOnAction(ev -> step(myCurrSim)); // when paused, can step through sim
@@ -68,11 +73,13 @@ class Visualizer extends Application {
             stepThrough.setOnAction(ev -> animation.play()); //when it resumes, can't step through anymore (unsure if animation.play is the right thing to do
         });
 
-        buttonsVBox.getChildren().addAll(mainMenu, pause, resume, stepThrough, speedUp, slowDown, simButton);
+        buttonsVBox.getChildren().addAll(pause, resume, stepThrough, speedUp, slowDown, simButton);
         buttonsVBox.setAlignment(Pos.CENTER_LEFT);
+        topLabels.setAlignment(Pos.TOP_CENTER);
         BorderPane.setAlignment(nameLabel, Pos.TOP_CENTER);
+        BorderPane.setAlignment(buttonDescriptions, Pos.CENTER_RIGHT);
         BorderPane.setAlignment(group, Pos.CENTER);
-        BorderPane boPane = new BorderPane(group, nameLabel, null, null, buttonsVBox);
+        BorderPane boPane = new BorderPane(group, topLabels, buttonDescriptions, null, buttonsVBox);
 
         animation.play();
 
@@ -124,5 +131,31 @@ class Visualizer extends Application {
         rectangle.setY(y);
         return rectangle;
     }
+
+    private Label createRuleLabel(String stringName){
+        Label rules = new Label();
+        if (stringName.equals("Percolation")){
+            rules.setText("Percolation Rules: \n\n" +
+                    "1. Some cells start as open(green), some start as closed(blue), and one starts as open and full(red)\n\n" +
+                    "2. The open and full cell will then look at all of its eight surrounding neighbors (up, down, left, right and diagonals) and if any of them are open and not full, it will fill them.\n\n" +
+                    "3. The simulation appears stopped when there are no more cells that are able to be filled");
+        }
+        rules.setAlignment(Pos.CENTER);
+        rules.setWrapText(true);
+        return rules;
+    }
+
+    private Label createButtonLabel(){
+        Label buttons = new Label("Pause - Pauses the simulation\n\n" +
+                "Resume - Resumes the simulation if paused\n\n" +
+                "Step Through Sim - Steps through the simulation one frame at a time\n\n" +
+                "Speed Up - Speeds up the simulation\n\n" +
+                "Slow Down - Slows down the simulation\n\n" +
+                "Choose Simulation - Allows user to choose a different simulation to run");
+        buttons.setPrefWidth(150);
+        buttons.setWrapText(true);
+        return buttons;
+    }
+
 
 }

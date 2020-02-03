@@ -33,7 +33,7 @@ public class Visualization extends Application {
     public static final String TITLE = "Simulation Project";
     public static final int SIZE = 700;
     public static final Paint BACKGROUND = Color.GOLD;
-    public static final Font titleFont = new Font("Arial", 50);
+    public static final Font titleFont = new Font("Arial", 80);
     public static final Font subtitleFont = new Font("Arial", 25);
     private int FRAMES_PER_SECOND = 1;
     private int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -79,7 +79,7 @@ public class Visualization extends Application {
                 else {
                     animation.setRate(FRAMES_PER_SECOND);
                 }
-                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myStage, startScene, myCurrSim, mySimFileReader, chooseSimButton, animation, speedUp, slowDown);
+                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myCurrSim, mySimFileReader, chooseSimButton, animation, speedUp, slowDown);
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
