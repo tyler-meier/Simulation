@@ -48,33 +48,36 @@ public class Fire extends simulation {
     public void update() {
         FCELL[][] futureState = new FCELL[myGrid.length][myGrid[0].length]; //new cell set
         futureState = myGrid;
-        for(int i =0; i < myGrid.length; i++) {
+        for (int i = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid[0].length; j++) {
-                 ArrayList<FCELL> neighbours = getNeighbourCount(i,j) ; //GET the neighbours for each cell
-                if(myGrid[i][j].getType()== BURNING){  //simply the burning tree dies.
+                ArrayList<FCELL> neighbours = getNeighbourCount(i, j); //GET the neighbours for each cell
+                if (myGrid[i][j].getType() == BURNING) {  //simply the burning tree dies.
                     futureState[i][j].setType(EMPTY); //burnt or empty
                 } //works
-                else
-
-                    for( FCELL cell : neighbours){  //for all the neighburs of the current cell
-                        if(cell.getType() == BURNING && myGrid[i][j].getType()==TREE){ //if the neighbours burning, tree
+                else if (myGrid[i][j].getType() == TREE) {
+                    for (FCELL cell : neighbours) {  //for all the neighburs of the current cell
+                        if (cell.getType() == BURNING ) { //if the neighbours burning, tree
                             double random = Math.random(); //generate a number btw 0 and 1
-                            if(random >= myGrid[i][j].getPRobCatch()){ // if the percent is greater than prob catch
+                            if (random >= myGrid[i][j].getPRobCatch()) { // if the percent is greater than prob catch
                                 futureState[i][j].setType(BURNING); //it burns
 
-                            }
-
-                            else{
-                                futureState[i][j].setType(TREE);
+                            } else {
+                                futureState[i][j].setType(TREE); //does nothing.
 
                             }
 
-                        } }
-                    myNeighbours.clear();
+                        }
+                    }
+
+                }
+                else{
+                    futureState[i][j] = myGrid[i][j];
+                }
+                myNeighbours.clear();
             }
-        }
-        myGrid = futureState;
+            myGrid = futureState;
 
+        }
     }
 
 
