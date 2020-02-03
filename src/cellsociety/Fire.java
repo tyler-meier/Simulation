@@ -12,7 +12,7 @@ public class Fire extends simulation {
     public static final int BURNING = 2;
     public static final int EMPTY = 0;
     private int myGrid_size;
-    private ArrayList<FCELL> neighbours;
+    private ArrayList<FCELL> myNeighbours;
 
 
     private ReadXML reader;
@@ -22,16 +22,40 @@ public class Fire extends simulation {
 
     }
 
+    public Boolean isBounds(int row, int col){
+        if(row< 0 || row>= myGrid.length){
+            return false;
+        }
+        if(col < 0|| col>= myGrid[0].length){
+            return false;
+        }
+
+        return true;
+
+    }
+
+
+    public ArrayList<FCELL> getNeighbourCount(int i, int j) {
+        myNeighbours = new ArrayList<>();
+        if (isBounds(i,j+1))  myNeighbours.add(myGrid[i][j+1]);
+        if (isBounds(i,j-1))  myNeighbours.add(myGrid[i][j-1]);
+        if (isBounds(i-1,j))  myNeighbours.add(myGrid[i-1][j]);
+        if (isBounds(i+1,j))  myNeighbours.add(myGrid[i+1][j]);
+        return myNeighbours;
+    }
+
     @Override
     public void update() {
         FCELL[][] futureState = new FCELL[myGrid.length][myGrid[0].length]; //new cell set
-        for(int i =1; i < myGrid.length-1; i++) {
-            for (int j = 1; j < myGrid[0].length-1; j++) {
-                neighbours = myGrid[i][j].Adjacent_Neighbours();  //GET the neighbours for each cell
+        futureState = myGrid;
+        for(int i =0; i < myGrid.length; i++) {
+            for (int j = 0; j < myGrid[0].length; j++) {
+                 ArrayList<FCELL> neighbours = getNeighbourCount(i,j) ; //GET the neighbours for each cell
                 if(myGrid[i][j].getType()== BURNING){  //simply the burning tree dies.
-                    futureState[i][j].setType(EMPTY);
-                }
+                    futureState[i][j].setType(EMPTY); //burnt or empty
+                } //works
                 else
+
                     for( FCELL cell : neighbours){  //for all the neighburs of the current cell
                         if(cell.getType() == BURNING && myGrid[i][j].getType()==TREE){ //if the neighbours burning, tree
                             double random = Math.random(); //generate a number btw 0 and 1
@@ -46,6 +70,7 @@ public class Fire extends simulation {
                             }
 
                         } }
+                    myNeighbours.clear();
             }
         }
         myGrid = futureState;
