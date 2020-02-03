@@ -83,13 +83,13 @@ class Visualizer extends Application {
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[0].length ; col++) {
                 if (myCurrSim.cellStatus(row,col) == 1){
-                    myGrid[row][col].setFill(Color.BLUE);
+                    myGrid[row][col].setFill(Color.GREEN);
                 }
                 else if (myCurrSim.cellStatus(row,col) == 2){
-                    myGrid[row][col].setFill(Color.RED);
+                    myGrid[row][col].setFill(Color.ORANGERED);
                 }
                 else {
-                    myGrid[row][col].setFill(Color.BLACK);
+                    myGrid[row][col].setFill(Color.MIDNIGHTBLUE);
                 }
             }
         }
@@ -101,13 +101,13 @@ class Visualizer extends Application {
             for (int col = 0 ; col < myGrid[row].length ; col++) {
                 Rectangle rec = myRectangle(col*RECTANGLE_SIZE, row*RECTANGLE_SIZE, RECTANGLE_SIZE, RECTANGLE_SIZE);
                 if (myCurrSim.cellStatus(row,col) == OPEN){
-                    rec.setFill(Color.BLUE);
+                    rec.setFill(Color.GREEN);
                 }
                 else if (myCurrSim.cellStatus(row,col) == FULL){
-                    rec.setFill(Color.RED);
+                    rec.setFill(Color.ORANGERED);
                 }
                 else {
-                    rec.setFill(Color.BLACK);
+                    rec.setFill(Color.MIDNIGHTBLUE);
                 }
                 group.getChildren().add(rec);
                 myGrid[row][col] = rec;
