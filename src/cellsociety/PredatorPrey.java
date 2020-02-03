@@ -171,7 +171,7 @@ public class PredatorPrey extends simulation {
             for(int j = 0; j< myGrid[0].length; j++){
                 myGrid[i][j] = new PPCell(i,j,reader.getCell(i, j));
 
-                System.out.println(myGrid[i][j].getY()); //null
+                System.out.println(myGrid[i][j].getX()); //null
                 System.out.println(myGrid[i][j].getY()); //null
             }
             System.out.println();
