@@ -15,7 +15,7 @@ public class PPCell  {
 
 
     public PPCell( int state){
-    state = type;
+    type = state;
 }
 
 
