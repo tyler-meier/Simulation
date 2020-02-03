@@ -16,13 +16,15 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 class Visualizer extends Application {
-    public static final int RECTANGLE_SIZE = 30;
     public static final int OPEN = 1;
     public static final int FULL = 2;
     public static final double PREF_BUTTON_WIDTH = 250;
     public static final double PREF_BUTTON_HEIGHT = 100;
     public static final Font titleFont = new Font("Arial", 50);
     public static int FRAMES_PER_SECOND = 1;
+    public static int RECTANGLE_SIZE_ROW;
+    public static int RECTANGLE_SIZE_COL;
+    public static int GRID_SIZE = 350;
 
     private Button mainMenu, pause, resume, stepThrough;
     private Rectangle[][] myGrid;
@@ -97,9 +99,11 @@ class Visualizer extends Application {
 
     public void setUpGrid(simulation myCurrSim, ReadXML mySimFileReader){
         myGrid = new Rectangle[mySimFileReader.getRow()][mySimFileReader.getCol()];
+        RECTANGLE_SIZE_ROW = (GRID_SIZE/mySimFileReader.getRow());
+        RECTANGLE_SIZE_COL = (GRID_SIZE/mySimFileReader.getCol());
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[row].length ; col++) {
-                Rectangle rec = myRectangle(col*RECTANGLE_SIZE, row*RECTANGLE_SIZE, RECTANGLE_SIZE, RECTANGLE_SIZE);
+                Rectangle rec = myRectangle(col*RECTANGLE_SIZE_COL, row*RECTANGLE_SIZE_ROW, RECTANGLE_SIZE_COL, RECTANGLE_SIZE_ROW);
                 if (myCurrSim.cellStatus(row,col) == OPEN){
                     rec.setFill(Color.GREEN);
                 }
