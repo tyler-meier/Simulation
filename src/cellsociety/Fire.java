@@ -65,10 +65,8 @@ public class Fire extends simulation {
                                 futureState[i][j].setType(TREE); //does nothing.
 
                             }
-
                         }
                     }
-
                 }
                 else{
                     futureState[i][j] = myGrid[i][j];
