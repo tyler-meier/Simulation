@@ -3,16 +3,12 @@ package cellsociety;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
@@ -32,7 +28,6 @@ import java.io.IOException;
 public class Visualization extends Application {
     public static final String TITLE = "Simulation Project";
     public static final int SIZE = 700;
-    public static final Paint BACKGROUND = Color.GOLD;
     public static final Font titleFont = new Font("Arial", 80);
     public static final Font subtitleFont = new Font("Arial", 25);
     private int FRAMES_PER_SECOND = 1;
@@ -59,7 +54,7 @@ public class Visualization extends Application {
         //Parent root = FXMLLoader.load(getClass().getResource("stylesheet.css"));
         myStage = primaryStage;
         myStage.setTitle(TITLE);
-        startScene = setupStartScene(SIZE, SIZE, BACKGROUND);
+        startScene = setupStartScene(SIZE, SIZE);
         myView = new Visualizer();
         mySimFileReader = new ReadXML();
 
@@ -79,7 +74,7 @@ public class Visualization extends Application {
                 else {
                     animation.setRate(FRAMES_PER_SECOND);
                 }
-                simScene = myView.setUpSimulationScene(SIZE, SIZE, BACKGROUND, simName, myCurrSim, mySimFileReader, chooseSimButton, animation, speedUp, slowDown);
+                simScene = myView.setUpSimulationScene(SIZE, SIZE, simName, myCurrSim, mySimFileReader, chooseSimButton, animation, speedUp, slowDown);
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
@@ -94,12 +89,11 @@ public class Visualization extends Application {
         slowDown.setOnAction(e -> slowSimDown());
 
         myStage.setScene(startScene);
-        //startScene.getStylesheets().add("/Users/tylermeier/Documents/comp308 workspace/simulation_team20/doc/stylesheet.css");
         myStage.show();
     }
 
 
-    private Scene setupStartScene(int width, int height, Paint background){
+    private Scene setupStartScene(int width, int height){
         VBox vBox = new VBox();
         VBox vBox2 = new VBox();
 
@@ -126,7 +120,7 @@ public class Visualization extends Application {
 
         BorderPane boPane = new BorderPane(vBox2, vBox, null, null, null);
 
-        Scene scene = new Scene(boPane, width, height, background);
+        Scene scene = new Scene(boPane, width, height);
         return scene;
     }
 

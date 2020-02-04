@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -31,12 +30,38 @@ class Visualizer extends Application {
     private VBox allButtonsVBox, topLabelsVBox;
     private Label buttonDescriptions;
 
+    /**
+     * Start method for visualizer, just need so it can extend application, this start
+     * method doesn't actually do anything
+     * @param primaryStage null stage, doesn't actually show anything
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
     }
 
-    public Scene setUpSimulationScene(int width, int height, Paint background, String stringName, simulation myCurrSim, ReadXML mySimFileReader, Button simButton, Timeline animation, Button speedUp, Button slowDown) {
+    /**
+     * Sets up the scene for each simulation. Creates a border pane as the layout for the scene.
+     * It then creates all the buttons for the scene, then creates the top labels for the scene (title
+     * and rules), then creates the description for the buttons, and then calls setUpGrid to actually
+     * create the grid of rectangles. It then adds all of these to the border pane in their designated
+     * areas and plays the animation, then returns the created scene so the scene can show on stage
+     * @param width width of the entire border pane/scene (700)
+     * @param height height of the entire border pane/scene (700)
+     * @param stringName name of the simulation file as a string that is being set up in scene
+     * @param myCurrSim the current simulation that is about to be run, what the scene is creating
+     * @param mySimFileReader a ReadXML object that allows the grid to read the file and set up
+     *                        the rectangles in the correct positions and correct colors
+     * @param simButton the button that allows the user to file choose a new simulation to run, everything
+     *                  is already set up for this button, it is just being passed onto this scene
+     * @param animation the animation for this scene, being passed from Visualization so that the animation
+     *                  can play in this scene
+     * @param speedUp the button that allows the simulation to speed up by cycles, already set up in visualization
+     * @param slowDown the button that allows the simulation to slow down the cycle, already set up in visualization
+     * @return
+     */
+    public Scene setUpSimulationScene(int width, int height, String stringName, simulation myCurrSim, ReadXML mySimFileReader, Button simButton, Timeline animation, Button speedUp, Button slowDown) {
 
         createAllButtons(speedUp, slowDown, simButton);
         createTopLabels(stringName);
@@ -51,10 +76,17 @@ class Visualizer extends Application {
 
         animation.play();
 
-        Scene scene = new Scene(boPane, width, height, background);
+        Scene scene = new Scene(boPane, width, height);
         return scene;
     }
 
+    /**
+     * Allows the scene to step through each cycle. Each time this function is called,
+     * it calls update on the current sim and goes to that simulation to update based
+     * on its rules. After updating, it updates the rectangle colors to match what just
+     * updated in the simulation
+     * @param myCurrSim the current simulation that is running at the moment
+     */
     public void step(simulation myCurrSim){
         myCurrSim.update();
         for (int row = 0; row < myGrid.length; row++) {
@@ -72,7 +104,7 @@ class Visualizer extends Application {
         }
     }
 
-    public void setUpGrid(simulation myCurrSim, ReadXML mySimFileReader){
+    private void setUpGrid(simulation myCurrSim, ReadXML mySimFileReader){
         group = new Group();
         myGrid = new Rectangle[mySimFileReader.getRow()][mySimFileReader.getCol()];
         RECTANGLE_SIZE_ROW = (GRID_SIZE/mySimFileReader.getRow());
@@ -175,6 +207,4 @@ class Visualizer extends Application {
         buttonDescriptions.setWrapText(true);
         return buttonDescriptions;
     }
-
-
 }
