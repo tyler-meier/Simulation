@@ -13,8 +13,8 @@ import java.util.Random;
 
 public class PredatorPrey extends simulation {
     private static ReadXML reader;
-    private int SHARK_BREEDING =1;
-    private int FISH_BREEDING =1;
+    private int SHARK_BREEDING =0;
+    private int FISH_BREEDING =0;
     private PPCell[][] myGrid;
     private boolean EAT = false;
     private static final int EMPTY = 0;
@@ -44,7 +44,7 @@ public class PredatorPrey extends simulation {
             if(myGrid[i][j].getTYPE() == SHARK) { //if it is shark
                 FishNei = new ArrayList<>();
                 FishNei = FISH_NUMBER(); //get the arraylist of all its neighbours and count the number of fishes
-                System.out.println(FishN);
+                //.out.println(FishN);
                 if (FishN == 0) { // if number of fishes is empty
                     move(i,j,SHARK);  //shark moves
                 }
@@ -96,19 +96,20 @@ public class PredatorPrey extends simulation {
 
 
     public void move(int i, int j, int type) {
-
         Empty = EMPTY_LIST();
-        System.out.print("i am in the move");
-        PPCell goal = chooseRandomNeighbour(Empty);
-        futureState[i][j] = new PPCell(i,j,EMPTY);
-        futureState[goal.getX()][goal.getY()] = new PPCell(goal.getX(),goal.getY(),type);
-        Empty.clear();
+        if (!Empty.isEmpty()) {
+            PPCell goal = chooseRandomNeighbour(Empty);
+            futureState[i][j] = new PPCell(i, j, EMPTY);
+            //System.out.print("i am in the move");
+            futureState[goal.getX()][goal.getY()] = new PPCell(type, goal.getX(), goal.getY());
+            Empty.clear();
+        }
     }
 
     public PPCell chooseRandomNeighbour(List<PPCell> neighbours) {
         Random rand = new Random();
         //System.out.println(rand.nextInt(neighbours.size()));
-        return neighbours.get(rand.nextInt(neighbours.size())); //find a random cell
+        return neighbours.get(Math.abs(rand.nextInt(neighbours.size()))); //find a random cell
 
     }
 
@@ -134,7 +135,7 @@ public class PredatorPrey extends simulation {
 
     public void Fish_Move(int i, int j){
         if(myGrid[i][j].getTYPE() == FISH && eaten == false && futureState[i][j] != null && futureState[i][j].getTYPE() != EMPTY ) {
-            System.out.println("here");
+            //System.out.println("here");
             move(i,j,FISH);
 
         }
@@ -173,16 +174,18 @@ public class PredatorPrey extends simulation {
         NEW = EMPTY_LIST(); //breeding
         if(NEW != null && !NEW.isEmpty()){
             PPCell new_bi = chooseRandomNeighbour(NEW); //chose a new cell for fish to breed
-            if(myGrid[i][j].getTYPE() == FISH && turn > FISH_BREEDING && eaten == false) {
+            if(myGrid[i][j].getTYPE() == FISH && turn > FISH_BREEDING) {
                 futureState[new_bi.getX()][new_bi.getY()] = new PPCell(FISH, new_bi.getX(), new_bi.getY());
-                if (myGrid[i][j].getTYPE() == FISH && turn > SHARK_BREEDING) {
+            }
+            else if (myGrid[i][j].getTYPE() == SHARK && turn > SHARK_BREEDING) {
                     futureState[new_bi.getX()][new_bi.getY()] = new PPCell(SHARK,new_bi.getX(), new_bi.getY());
 
                 }
+
             }
         }
 
-    }
+
 
 
     @Override
