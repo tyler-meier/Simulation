@@ -72,7 +72,6 @@ public class Fire extends simulation {
         myGrid = futureState;
     }
 
-
     @Override
     public int cellStatus(int row, int column) {
         return myGrid[row][column].getType();
@@ -81,7 +80,6 @@ public class Fire extends simulation {
     @Override
     public void readFile() { //updates the grid in the way rules say. the first and last column and the first and last
         life_time = Double.parseDouble(reader.getParameters("probCatch"));
-        System.out.println(life_time);
         myGrid = new FCELL[reader.getRow()][reader.getCol()];
         for( int i = 0; i< myGrid.length; i++){
             for(int j = 0; j< myGrid[0].length; j++){
