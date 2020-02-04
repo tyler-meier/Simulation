@@ -32,8 +32,7 @@ public class PredatorPrey extends simulation {
     public PredatorPrey(ReadXML myReader) throws ParserConfigurationException, IOException, SAXException {
         reader = myReader;
         readFile(); //reads the file
-
-        }
+    }
 
         private  Boolean SHARK_EAT_FISH(int i, int  j){
             myAdjN = getNeighbourCount(i,j); //find adjN of the cell
@@ -57,10 +56,9 @@ public class PredatorPrey extends simulation {
                         }
                     }
                 }
-
-                    }
+            }
             return EAT;
-                }
+    }
 
 
     public Boolean isBounds(int row, int col){
@@ -110,28 +108,24 @@ public class PredatorPrey extends simulation {
 
          }
         return FishNei;
-
-        }
+    }
 
 
 
     public ArrayList<PPCell> EMPTY_LIST(){  //all the empty neighbours of the cell.
-
         for( PPCell cell: myAdjN ){
             if( cell.getTYPE() == EMPTY){
                Empty.add(cell);
-
             }
         }
         return Empty;
-
     }
+
 
     int turn =0;
     boolean eaten =false;
     @Override
     public void update() {
-
         futureState = new PPCell[myGrid.length][myGrid[0].length]; //new cell set
         for (int i = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid[0].length; j++) {  //loop through the PPCell grid.
@@ -149,6 +143,7 @@ public class PredatorPrey extends simulation {
                     }
                 }
             }
+            
             myAdjN.clear();
             Empty.clear();
             FishNei.clear();
