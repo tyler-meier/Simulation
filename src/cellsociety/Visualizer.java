@@ -14,6 +14,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+/**
+ * The visualizer class that sets up the actual simulation and all of its features and
+ * everything found in it. Also holds the main step function that updates the simulation and
+ * updates the grid of rectangles as a result.
+ *
+ * @author Tyler Meier (tkm22)
+ */
 class Visualizer extends Application {
     public static final int OPEN = 1;
     public static final int FULL = 2;
@@ -59,11 +66,11 @@ class Visualizer extends Application {
      *                  can play in this scene
      * @param speedUp the button that allows the simulation to speed up by cycles, already set up in visualization
      * @param slowDown the button that allows the simulation to slow down the cycle, already set up in visualization
-     * @return
+     * @return scene, the whole set up scene for the simulation
      */
     public Scene setUpSimulationScene(int width, int height, String stringName, simulation myCurrSim, ReadXML mySimFileReader, Button simButton, Timeline animation, Button speedUp, Button slowDown) {
 
-        createAllButtons(speedUp, slowDown, simButton);
+        createAllButtons(speedUp, slowDown, simButton, animation, myCurrSim);
         createTopLabels(stringName);
         createButtonLabel();
         setUpGrid(myCurrSim, mySimFileReader);
@@ -91,10 +98,10 @@ class Visualizer extends Application {
         myCurrSim.update();
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[0].length ; col++) {
-                if (myCurrSim.cellStatus(row,col) == 1){
+                if (myCurrSim.cellStatus(row,col) == OPEN){
                     myGrid[row][col].setFill(Color.LIGHTGREEN);
                 }
-                else if (myCurrSim.cellStatus(row,col) == 2){
+                else if (myCurrSim.cellStatus(row,col) == FULL){
                     myGrid[row][col].setFill(Color.ORANGERED);
                 }
                 else {
@@ -134,7 +141,7 @@ class Visualizer extends Application {
         return rectangle;
     }
 
-    private VBox createAllButtons(Button speedUp, Button slowDown, Button simButton){
+    private VBox createAllButtons(Button speedUp, Button slowDown, Button simButton, Timeline animation, simulation myCurrSim){
         allButtonsVBox = new VBox();
 
         pause = new Button("Pause");
@@ -147,6 +154,15 @@ class Visualizer extends Application {
         speedUp.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         slowDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         simButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+
+        pause.setOnAction(e -> {
+            animation.stop();
+            stepThrough.setOnAction(ev -> step(myCurrSim));
+        });
+        resume.setOnAction(e -> {
+            animation.play();
+            stepThrough.setOnAction(ev -> animation.play());
+        });
 
         allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedUp, slowDown, simButton);
         allButtonsVBox.setAlignment(Pos.CENTER_LEFT);
