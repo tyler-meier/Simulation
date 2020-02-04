@@ -14,6 +14,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.util.ResourceBundle;
+
 /**
  * The visualizer class that sets up the actual simulation and all of its features and
  * everything found in it. Also holds the main step function that updates the simulation and
@@ -30,12 +32,16 @@ class Visualizer extends Application {
     public static int RECTANGLE_SIZE_ROW;
     public static int RECTANGLE_SIZE_COL;
     public static int GRID_SIZE = 350;
+    private static final String RESOURCES = "resources";
+    public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+    public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
 
     private Button pause, resume, stepThrough;
     private Rectangle[][] myGrid;
     private Group group;
     private VBox allButtonsVBox, topLabelsVBox;
     private Label buttonDescriptions;
+    private ResourceBundle myResources;
 
     /**
      * Start method for visualizer, just need so it can extend application, this start
@@ -69,6 +75,7 @@ class Visualizer extends Application {
      * @return scene, the whole set up scene for the simulation
      */
     public Scene setUpSimulationScene(int width, int height, String stringName, simulation myCurrSim, ReadXML mySimFileReader, Button simButton, Timeline animation, Button speedUp, Button slowDown) {
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "allStrings");
 
         createAllButtons(speedUp, slowDown, simButton, animation, myCurrSim);
         createTopLabels(stringName);
@@ -144,9 +151,9 @@ class Visualizer extends Application {
     private VBox createAllButtons(Button speedUp, Button slowDown, Button simButton, Timeline animation, simulation myCurrSim){
         allButtonsVBox = new VBox();
 
-        pause = new Button("Pause");
-        resume = new Button ("Resume");
-        stepThrough = new Button("Step Through Sim");
+        pause = new Button(myResources.getString("Pause"));
+        resume = new Button (myResources.getString("Resume"));
+        stepThrough = new Button(myResources.getString("StepThrough"));
 
         pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         resume.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
@@ -174,41 +181,19 @@ class Visualizer extends Application {
         Label nameLabel = new Label(stringName);
         Label rules = new Label();
         if (stringName.equals("Percolation")){
-            rules.setText("Percolation Rules: \n\n" +
-                    "1. Some cells start as open (white), some start as closed (orange red), and one starts as open and full (light green)\n" +
-                    "2. The open and full cell will then look at all of its eight surrounding neighbors (up, down, left, right and diagonals) and if any of them are open and not full, it will fill them (turn light green).\n" +
-                    "3. The simulation appears stopped when there are no more cells that are able to be filled");
+            rules.setText(myResources.getString("PercolationRules"));
         }
         else if (stringName.equals("GameOfLife")){
-            rules.setText("Game Of Life Rules:\n\n" +
-                    "1. Some cells start as alive (light green) and others start as dead (white)\n" +
-                    "2. If a cell that is alive has greater than three or less than two neighbors that are also alive, then that cell will die (turn white). If the cell has exactly 2 or 3 neighbors that are alive, then that cell stays alive (stays light green)\n" +
-                    "3. If a cell that is dead has exactly 3 alive neighbors, then it will become alive (turn light green)\n" +
-                    "4. The simulation is continuous");
+            rules.setText(myResources.getString("GOLRules"));
         }
         else if (stringName.equals("Fire")){
-            rules.setText("Fire Rules:\n\n" +
-                    "1. All cells start as trees (light green) except for one cell that is set to burning (orange red) and an outer boundary that is set to burnt/empty (white)\n" +
-                    "2. Every burnt/empty cell throughout the simulation will stay burnt/empty\n" +
-                    "3. Each burning cell will look at each of its four neighbors (up, down, left, right). If a neighbor is burnt/empty, it won’t affect that cell. If a neighbor cell is a tree, then that cell may or may not be changed to burning based off of a preset probability\n" +
-                    "4. All burning cells only stay burning for one cycle, and then they change to burnt/empty\n" +
-                    "5. The simulation stops running when there are no more burning cells");
+            rules.setText(myResources.getString("FireRules"));
         }
         else if (stringName.equals("PredatorPrey")){
-            rules.setText("Predator Prey Rules:\n\n" +
-                    "1. Some cells start out as sharks (orange red), some start out as fish (light green) and some start out as empty (white)\n" +
-                    "2. Every turn of the simulation a fish will move to a random neighbor cell unless all four are occupied (up, down, left, right)\n" +
-                    "3. If a fish cell has survived the number of cycles necessary to breed, a new fish will be produced if there is an empty neighbor cell\n" +
-                    "4. Also, sharks eat fish. If there are multiple fish in a neighboring cell, it chooses one at random. If there are no neighbor fishes, it moves the same way as fish\n" +
-                    "5. If a shark cell does not eat in a certain number of turns then it will die. If it has survived the number of cycles necessary to breed, a new shark will be produced if there is an empty neighbor cell\n" +
-                    "6. The simulation is continuous unless one species overtakes the other");
+            rules.setText(myResources.getString("PPRules"));
         }
         else if (stringName.equals("Segregation")){
-            rules.setText("Segregation Rules:\n\n" +
-                    "1. Some cells start as population 1 (light green), some start as population 2 (orange red) and some are empty (white)\n" +
-                    "2. Each cell will determine if it is satisfied with its position. This means that it will check if it is surrounded by a preset percentage of cells like itself (of the same population) \n" +
-                    "3. If a cell is not satisfied, then it will move to an empty cell\n" +
-                    "4. The simulation will run as long as it can until all cells are completely satisfied and ‘segregated’. This means the simulation could be continuous");
+            rules.setText(myResources.getString("SegRules"));
         }
         nameLabel.setFont(titleFont);
         nameLabel.setAlignment(Pos.CENTER);
@@ -223,12 +208,7 @@ class Visualizer extends Application {
     }
 
     private Label createButtonLabel(){
-        buttonDescriptions = new Label("Pause - Pauses the simulation\n\n" +
-                "Resume - Resumes the simulation if paused\n\n" +
-                "Step Through Sim - Steps through the simulation one frame at a time\n\n" +
-                "Speed Up - Speeds up the simulation\n\n" +
-                "Slow Down - Slows down the simulation\n\n" +
-                "Choose Simulation - Allows user to choose a different simulation to run");
+        buttonDescriptions = new Label(myResources.getString("ButtonRules"));
         buttonDescriptions.setPrefWidth(150);
         buttonDescriptions.setWrapText(true);
         return buttonDescriptions;

@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 /**
  * The visualization class that controls start of the program
@@ -26,10 +27,12 @@ import java.io.IOException;
  * @author Tyler Meier (tkm22)
  */
 public class Visualization extends Application {
-    public static final String TITLE = "Simulation Project";
     public static final int SIZE = 700;
     public static final Font titleFont = new Font("Arial", 80);
     public static final Font subtitleFont = new Font("Arial", 25);
+    private static final String RESOURCES = "resources";
+    public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+    public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
 
     private int FRAMES_PER_SECOND = 1;
     private int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -43,6 +46,7 @@ public class Visualization extends Application {
     private Visualizer myView;
     private Timeline animation;
     private KeyFrame frame;
+    private ResourceBundle myResources;
 
     /**
      * Initializes what will be displayed and how to display it, also sets the sim button
@@ -53,7 +57,8 @@ public class Visualization extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         myStage = primaryStage;
-        myStage.setTitle(TITLE);
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "allStrings");
+        myStage.setTitle(myResources.getString("TITLE"));
         startScene = setupStartScene(SIZE, SIZE);
 
         frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
@@ -108,9 +113,9 @@ public class Visualization extends Application {
     }
 
     private void setUpButtons() throws ParserConfigurationException {
-        chooseSimButton = new Button("Choose Simulation");
-        speedUp = new Button("Speed Up");
-        slowDown = new Button("Slow Down");
+        chooseSimButton = new Button(myResources.getString("chooseSimButton"));
+        speedUp = new Button(myResources.getString("slowDownButton"));
+        slowDown = new Button(myResources.getString("speedUpButton"));
 
         myView = new Visualizer();
         mySimFileReader = new ReadXML();
@@ -142,12 +147,12 @@ public class Visualization extends Application {
     }
 
     private void setUpWelcomeLabel(){
-        welcomeLabel = new Label("MAIN MENU");
+        welcomeLabel = new Label(myResources.getString("Main_Menu"));
         welcomeLabel.setFont(titleFont);
     }
 
     private void setUpExplainLabel(){
-        explainLabel = new Label("Click on “Choose Simulation” to choose the file for the simulation that you would like to run. Once you choose the first simulation, you will be able to switch to a different simulation from the current simulation scene. You will not be able to come back to this main menu screen. Have fun looking at the simulations!");
+        explainLabel = new Label(myResources.getString("Explain_Label"));
         explainLabel.setFont(subtitleFont);
         explainLabel.setWrapText(true);
         explainLabel.setTextAlignment(TextAlignment.CENTER);
