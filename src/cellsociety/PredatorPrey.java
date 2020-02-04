@@ -199,7 +199,6 @@ public class PredatorPrey extends simulation {
         File xmlFile = new File("data/samplePP.xml");
         mySim.setUpFile(xmlFile);
         PredatorPrey abc = new PredatorPrey(mySim);
-        //System.out.println();
         abc.update();
     }
 }
