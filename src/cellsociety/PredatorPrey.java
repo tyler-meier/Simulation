@@ -142,17 +142,7 @@ public class PredatorPrey extends simulation {
                 if(myGrid[i][j].getTYPE() == FISH && eaten == false && futureState[i][j] != null && futureState[i][j].getTYPE() != EMPTY){
                     move(i,j,FISH);
                 }
-                NEW = EMPTY_LIST(); //breeding
-                if(NEW != null && !NEW.isEmpty()){
-                    PPCell new_bi = chooseRandomNeighbour(NEW); //chose a new cell for fish to breed
-                    if(myGrid[i][j].getTYPE() == FISH && turn > FISH_BREEDING && eaten == false) {
-                        futureState[new_bi.getX()][new_bi.getY()] = new PPCell(FISH, new_bi.getX(), new_bi.getY());
-                        if (myGrid[i][j].getTYPE() == FISH && turn > SHARK_BREEDING) {
-                            futureState[new_bi.getX()][new_bi.getY()] = new PPCell(SHARK,new_bi.getX(), new_bi.getY());
 
-                        }
-                    }
-                }
                 if(futureState[i][j] == null) futureState[i][j] = myGrid[i][j];
 
             }
@@ -169,6 +159,21 @@ public class PredatorPrey extends simulation {
     @Override
     public int cellStatus(int row, int column) {
       return myGrid[row][column].getTYPE();
+    }
+
+    public void Breed(int i, int j){
+        NEW = EMPTY_LIST(); //breeding
+        if(NEW != null && !NEW.isEmpty()){
+            PPCell new_bi = chooseRandomNeighbour(NEW); //chose a new cell for fish to breed
+            if(myGrid[i][j].getTYPE() == FISH && turn > FISH_BREEDING && eaten == false) {
+                futureState[new_bi.getX()][new_bi.getY()] = new PPCell(FISH, new_bi.getX(), new_bi.getY());
+                if (myGrid[i][j].getTYPE() == FISH && turn > SHARK_BREEDING) {
+                    futureState[new_bi.getX()][new_bi.getY()] = new PPCell(SHARK,new_bi.getX(), new_bi.getY());
+
+                }
+            }
+        }
+
     }
 
 

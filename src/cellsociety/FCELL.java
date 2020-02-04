@@ -9,7 +9,8 @@ public class FCELL {
     protected ArrayList<FCELL> myAdjacentNeighbours = new ArrayList<>();
     private int Grid_Size;
     private int type;
-    private double life_time = 0.50;
+
+
 
     public FCELL(int t){
         type = t;
@@ -34,7 +35,5 @@ public class FCELL {
 
     }
 
-    public double  getPRobCatch(){
-        return life_time;
-    }
+
 }

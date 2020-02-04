@@ -13,6 +13,7 @@ public class Fire extends simulation {
     public static final int EMPTY = 0;
     private int myGrid_size;
     private ArrayList<FCELL> myNeighbours;
+    public double life_time;
 
 
     private ReadXML reader;
@@ -20,6 +21,18 @@ public class Fire extends simulation {
         reader = myReader;
         readFile();
 
+    }
+
+    @Override
+    public void readFile() { //updates the grid in the way rules say. the first and last column and the first and last
+        life_time = Integer.parseInt(reader.getParameters("probCatch"));
+        System.out.println(life_time);
+        myGrid = new FCELL[reader.getRow()][reader.getCol()];
+        for(int i = 0; i< myGrid.length; i++){
+            for(int j = 0; j< myGrid[0].length; j++){
+                myGrid[i][j] = new FCELL(reader.getCell(i, j));
+            }
+        }
     }
 
     public Boolean isBounds(int row, int col){
@@ -58,23 +71,16 @@ public class Fire extends simulation {
                     for (FCELL cell : neighbours) {  //for all the neighburs of the current cell
                         if (cell.getType() == BURNING ) { //if the neighbours burning, tree
                             double random = Math.random(); //generate a number btw 0 and 1
-                            if (random >= myGrid[i][j].getPRobCatch()) { // if the percent is greater than prob catch
+                            if (random >= life_time) { // if the percent is greater than prob catch
                                 futureState[i][j] = new FCELL(BURNING); //it burns
                                 break;
-                            }
-                        }
+                            } }
                         futureState[i][j] = new FCELL(TREE); //does nothing.
-                    }
-                }
-                else{
-                    futureState[i][j] = myGrid[i][j];
-                }
-            }
-        }
+                    } }
+                else{ futureState[i][j] = myGrid[i][j]; }
+            } }
         myGrid = futureState;
     }
-
-
 
 
     @Override
@@ -82,14 +88,6 @@ public class Fire extends simulation {
         return myGrid[row][column].getType();
     }
 
-    @Override
-    public void readFile() { //updates the grid in the way rules say. the first and last column and the first and last
-        myGrid = new FCELL[reader.getRow()][reader.getCol()];
-        for(int i = 0; i< myGrid.length; i++){
-            for(int j = 0; j< myGrid[0].length; j++){
-                myGrid[i][j] = new FCELL(reader.getCell(i, j));
-            }
-        }
-    }
+
 
 }
