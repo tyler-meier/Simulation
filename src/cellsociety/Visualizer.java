@@ -105,7 +105,7 @@ class Visualizer extends Application {
                     myGrid[row][col].setFill(Color.ORANGERED);
                 }
                 else {
-                    myGrid[row][col].setFill(Color.BLACK);
+                    myGrid[row][col].setFill(Color.WHITE);
                 }
             }
         }
@@ -126,7 +126,7 @@ class Visualizer extends Application {
                     rec.setFill(Color.ORANGERED);
                 }
                 else {
-                    rec.setFill(Color.BLACK);
+                    rec.setFill(Color.WHITE);
                 }
                 group.getChildren().add(rec);
                 myGrid[row][col] = rec;
@@ -175,20 +175,20 @@ class Visualizer extends Application {
         Label rules = new Label();
         if (stringName.equals("Percolation")){
             rules.setText("Percolation Rules: \n\n" +
-                    "1. Some cells start as open (light green), some start as closed (black), and one starts as open and full (orange red)\n" +
+                    "1. Some cells start as open (light green), some start as closed (white), and one starts as open and full (orange red)\n" +
                     "2. The open and full cell will then look at all of its eight surrounding neighbors (up, down, left, right and diagonals) and if any of them are open and not full, it will fill them (turn orange red).\n" +
                     "3. The simulation appears stopped when there are no more cells that are able to be filled");
         }
         else if (stringName.equals("GameOfLife")){
             rules.setText("Game Of Life Rules:\n\n" +
-                    "1. Some cells start as alive (light green) and others start as dead (black)\n" +
-                    "2. If a cell that is alive has greater than three or less than two neighbors that are also alive, then that cell will die (turn black). If the cell has exactly 2 or 3 neighbors that are alive, then that cell stays alive (stays light green)\n" +
+                    "1. Some cells start as alive (light green) and others start as dead (white)\n" +
+                    "2. If a cell that is alive has greater than three or less than two neighbors that are also alive, then that cell will die (turn white). If the cell has exactly 2 or 3 neighbors that are alive, then that cell stays alive (stays light green)\n" +
                     "3. If a cell that is dead has exactly 3 alive neighbors, then it will become alive (turn light green)\n" +
                     "4. The simulation is continuous");
         }
         else if (stringName.equals("Fire")){
             rules.setText("Fire Rules:\n\n" +
-                    "1. All cells start as trees (light green) except for one cell that is set to burning (orange red) and an outer boundary that is set to burnt/empty (black)\n" +
+                    "1. All cells start as trees (light green) except for one cell that is set to burning (orange red) and an outer boundary that is set to burnt/empty (white)\n" +
                     "2. Every burnt/empty cell throughout the simulation will stay burnt/empty\n" +
                     "3. Each burning cell will look at each of its four neighbors (up, down, left, right). If a neighbor is burnt/empty, it won’t affect that cell. If a neighbor cell is a tree, then that cell may or may not be changed to burning based off of a preset probability\n" +
                     "4. All burning cells only stay burning for one cycle, and then they change to burnt/empty\n" +
@@ -198,7 +198,11 @@ class Visualizer extends Application {
             rules.setText("");
         }
         else if (stringName.equals("Segregation")){
-            rules.setText("");
+            rules.setText("Segregation Rules:\n\n" +
+                    "1. Some cells start as population 1 (light green), some start as population 2 (orange red) and some are empty (white)\n" +
+                    "2. Each cell will determine if it is satisfied with its position. This means that it will check if it is surrounded by a preset percentage of cells like itself (of the same population) \n" +
+                    "3. If a cell is not satisfied, then it will move to an empty cell\n" +
+                    "4. The simulation will run as long as it can until all cells are completely satisfied and ‘segregated’. This means the simulation could be continuous");
         }
         nameLabel.setFont(titleFont);
         nameLabel.setAlignment(Pos.CENTER);
