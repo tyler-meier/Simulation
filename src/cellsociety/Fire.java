@@ -23,17 +23,7 @@ public class Fire extends simulation {
 
     }
 
-    @Override
-    public void readFile() { //updates the grid in the way rules say. the first and last column and the first and last
-        life_time = Integer.parseInt(reader.getParameters("probCatch"));
-        System.out.println(life_time);
-        myGrid = new FCELL[reader.getRow()][reader.getCol()];
-        for(int i = 0; i< myGrid.length; i++){
-            for(int j = 0; j< myGrid[0].length; j++){
-                myGrid[i][j] = new FCELL(reader.getCell(i, j));
-            }
-        }
-    }
+
 
     public Boolean isBounds(int row, int col){
         if(row< 0 || row>= myGrid.length){
@@ -86,6 +76,18 @@ public class Fire extends simulation {
     @Override
     public int cellStatus(int row, int column) {
         return myGrid[row][column].getType();
+    }
+
+    @Override
+    public void readFile() { //updates the grid in the way rules say. the first and last column and the first and last
+        life_time = Double.parseDouble(reader.getParameters("probCatch"));
+        //System.out.println(life_time);
+        myGrid = new FCELL[reader.getRow()][reader.getCol()];
+        for(int i = 0; i< myGrid.length; i++){
+            for(int j = 0; j< myGrid[0].length; j++){
+                myGrid[i][j] = new FCELL(reader.getCell(i, j));
+            }
+        }
     }
 
 

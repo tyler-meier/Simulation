@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 public class PredatorPrey extends simulation {
+    private static ReadXML reader;
     private int SHARK_BREEDING =1;
     private int FISH_BREEDING =1;
     private PPCell[][] myGrid;
@@ -19,12 +20,9 @@ public class PredatorPrey extends simulation {
     private static final int EMPTY = 0;
     private static final int SHARK = 2;
     private static final int FISH = 1;
-
-
     private ArrayList<PPCell> Empty;
     private ArrayList<PPCell> FishNei;
     private ArrayList<PPCell> NEW;
-    private ReadXML reader;
     private int FishN=0;
     private  ArrayList<PPCell> myAdjN;
     private  PPCell[][] futureState;
@@ -39,14 +37,16 @@ public class PredatorPrey extends simulation {
     }
 
 
+
         private  Boolean SHARK_EAT_FISH(int i, int  j){
+            FishN= 0;
             myAdjN = getNeighbourCount(i,j); //find adjN of the cell
             if(myGrid[i][j].getTYPE() == SHARK) { //if it is shark
                 FishNei = new ArrayList<>();
                 FishNei = FISH_NUMBER(); //get the arraylist of all its neighbours and count the number of fishes
+                System.out.println(FishN);
                 if (FishN == 0) { // if number of fishes is empty
                     move(i,j,SHARK);  //shark moves
-
                 }
                 else if(FishN > 1 && !FishNei.isEmpty()) { //if more than one fishie in neighbour
                         PPCell goal_to_eat = chooseRandomNeighbour(FishNei); //choose 1 randomly
@@ -63,6 +63,7 @@ public class PredatorPrey extends simulation {
                     }
                 }
             }
+            //System.out.println("here");
             return EAT;
     }
 
@@ -95,7 +96,9 @@ public class PredatorPrey extends simulation {
 
 
     public void move(int i, int j, int type) {
+
         Empty = EMPTY_LIST();
+        System.out.print("i am in the move");
         PPCell goal = chooseRandomNeighbour(Empty);
         futureState[i][j] = new PPCell(i,j,EMPTY);
         futureState[goal.getX()][goal.getY()] = new PPCell(goal.getX(),goal.getY(),type);
@@ -104,9 +107,10 @@ public class PredatorPrey extends simulation {
 
     public PPCell chooseRandomNeighbour(List<PPCell> neighbours) {
         Random rand = new Random();
+        //System.out.println(rand.nextInt(neighbours.size()));
         return neighbours.get(rand.nextInt(neighbours.size())); //find a random cell
-    }
 
+    }
 
     public ArrayList<PPCell> FISH_NUMBER() {  //all the empty neighbours of the cell.
         for (PPCell cell : myAdjN) {
@@ -118,8 +122,6 @@ public class PredatorPrey extends simulation {
         return FishNei;
     }
 
-
-
     public ArrayList<PPCell> EMPTY_LIST(){  //all the empty neighbours of the cell.
         ArrayList<PPCell> ans = new ArrayList<>();
         for( PPCell cell: myAdjN ){
@@ -130,6 +132,14 @@ public class PredatorPrey extends simulation {
         return ans;
     }
 
+    public void Fish_Move(int i, int j){
+        if(myGrid[i][j].getTYPE() == FISH && eaten == false && futureState[i][j] != null && futureState[i][j].getTYPE() != EMPTY ) {
+            System.out.println("here");
+            move(i,j,FISH);
+
+        }
+
+    }
 
     int turn =0;
     boolean eaten =false;
@@ -138,21 +148,19 @@ public class PredatorPrey extends simulation {
         futureState = new PPCell[myGrid.length][myGrid[0].length]; //new cell set
         for (int i = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid[0].length; j++) {  //loop through the PPCell grid.
-                eaten = SHARK_EAT_FISH(i,j); //get the number of fishes in sharks neighbourhood. and them getting eaten
-                if(myGrid[i][j].getTYPE() == FISH && eaten == false && futureState[i][j] != null && futureState[i][j].getTYPE() != EMPTY){
-                    move(i,j,FISH);
-                }
-
+                eaten = SHARK_EAT_FISH(i,j);
+                Fish_Move(i,j);
                 if(futureState[i][j] == null) futureState[i][j] = myGrid[i][j];
-
+                Breed(i,j);
             }
-            
             myAdjN.clear();
             Empty.clear();
             FishNei.clear();
             NEW.clear();
+
         }
          turn++;
+
         myGrid = futureState;
     }
 
@@ -189,6 +197,7 @@ public class PredatorPrey extends simulation {
 
 
     public static void main(String args[]) throws ParserConfigurationException, IOException, SAXException {
+        int breeding = Integer.parseInt(reader.getParameters("similarity"));
         ReadXML mySim = new ReadXML();
         File xmlFile = new File("data/samplePP.xml");
         mySim.setUpFile(xmlFile);

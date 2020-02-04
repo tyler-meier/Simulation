@@ -6,7 +6,6 @@ import java.util.logging.XMLFormatter;
 public class FCELL {
     private  int Xrow, Ycol;
     private FCELL[][] myGrid;
-    protected ArrayList<FCELL> myAdjacentNeighbours = new ArrayList<>();
     private int Grid_Size;
     private int type;
 
