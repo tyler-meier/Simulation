@@ -83,11 +83,12 @@ public class Fire extends simulation {
         life_time = Double.parseDouble(reader.getParameters("probCatch"));
         //System.out.println(life_time);
         myGrid = new FCELL[reader.getRow()][reader.getCol()];
-        for(int i = 0; i< myGrid.length; i++){
+        for( int i = 0; i< myGrid.length; i++){
             for(int j = 0; j< myGrid[0].length; j++){
                 myGrid[i][j] = new FCELL(reader.getCell(i, j));
             }
         }
+
     }
 
 
