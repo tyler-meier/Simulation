@@ -114,8 +114,8 @@ public class Visualization extends Application {
 
     private void setUpButtons() throws ParserConfigurationException {
         chooseSimButton = new Button(myResources.getString("chooseSimButton"));
-        speedUp = new Button(myResources.getString("slowDownButton"));
-        slowDown = new Button(myResources.getString("speedUpButton"));
+        speedUp = new Button(myResources.getString("speedUpButton"));
+        slowDown = new Button(myResources.getString("slowDownButton"));
 
         myView = new Visualizer();
         mySimFileReader = new ReadXML();
