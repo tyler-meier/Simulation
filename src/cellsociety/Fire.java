@@ -61,7 +61,7 @@ public class Fire extends simulation {
                     for (FCELL cell : neighbours) {  //for all the neighburs of the current cell
                         if (cell.getType() == BURNING ) { //if the neighbours burning, tree
                             double random = Math.random(); //generate a number btw 0 and 1
-                            if (random >= life_time) { // if the percent is greater than prob catch
+                            if (random <= life_time) { // if the percent is greater than prob catch
                                 futureState[i][j] = new FCELL(BURNING); //it burns
                                 break;
                             } }
@@ -80,7 +80,7 @@ public class Fire extends simulation {
 
     @Override
     public void readFile() { //updates the grid in the way rules say. the first and last column and the first and last
-        life_time = Double.parseDouble(reader.getParameters("probCatch"));
+        life_time = Double.parseDouble(reader.getParameters("probCatch"))/100;
         //System.out.println(life_time);
         myGrid = new FCELL[reader.getRow()][reader.getCol()];
         for( int i = 0; i< myGrid.length; i++){
