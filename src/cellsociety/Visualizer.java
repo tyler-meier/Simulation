@@ -195,7 +195,13 @@ class Visualizer extends Application {
                     "5. The simulation stops running when there are no more burning cells");
         }
         else if (stringName.equals("PredatorPrey")){
-            rules.setText("");
+            rules.setText("Predator Prey Rules:\n\n" +
+                    "1. Some cells start out as sharks (orange red), some start out as fish (light green) and some start out as empty (white)\n" +
+                    "2. Every turn of the simulation a fish will move to a random neighbor cell unless all four are occupied (up, down, left, right)\n" +
+                    "3. If a fish cell has survived the number of cycles necessary to breed, a new fish will be produced if there is an empty neighbor cell\n" +
+                    "4. Also, sharks eat fish. If there are multiple fish in a neighboring cell, it chooses one at random. If there are no neighbor fishes, it moves the same way as fish\n" +
+                    "5. If a shark cell does not eat in a certain number of turns then it will die. If it has survived the number of cycles necessary to breed, a new shark will be produced if there is an empty neighbor cell\n" +
+                    "6. The simulation is continuous unless one species overtakes the other");
         }
         else if (stringName.equals("Segregation")){
             rules.setText("Segregation Rules:\n\n" +
