@@ -176,7 +176,7 @@ class Visualizer extends Application {
         if (stringName.equals("Percolation")){
             rules.setText("Percolation Rules: \n\n" +
                     "1. Some cells start as open (white), some start as closed (orange red), and one starts as open and full (light green)\n" +
-                    "2. The open and full cell will then look at all of its eight surrounding neighbors (up, down, left, right and diagonals) and if any of them are open and not full, it will fill them (turn orange red).\n" +
+                    "2. The open and full cell will then look at all of its eight surrounding neighbors (up, down, left, right and diagonals) and if any of them are open and not full, it will fill them (turn light green).\n" +
                     "3. The simulation appears stopped when there are no more cells that are able to be filled");
         }
         else if (stringName.equals("GameOfLife")){
