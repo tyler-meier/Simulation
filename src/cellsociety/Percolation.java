@@ -14,9 +14,9 @@ public class Percolation extends simulation {
      */
 
     private int [][] myGrid;
-    public static final int BLOCKED = 0;
-    public static final int OPEN = 1;
-    public static final int FULL = 2;
+    public static final int BLOCKED = 2;
+    public static final int OPEN = 0;
+    public static final int FULL = 1;
 
     private ReadXML reader;
 
