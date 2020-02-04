@@ -139,7 +139,7 @@ public class PredatorPrey extends simulation {
         for (int i = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid[0].length; j++) {  //loop through the PPCell grid.
                 eaten = SHARK_EAT_FISH(i,j); //get the number of fishes in sharks neighbourhood. and them getting eaten
-                if(myGrid[i][j].getTYPE() == FISH && eaten == false){
+                if(myGrid[i][j].getTYPE() == FISH && eaten == false && futureState[i][j] != null && futureState[i][j].getTYPE() != EMPTY){
                     move(i,j,FISH);
                 }
                 NEW = EMPTY_LIST(); //breeding
@@ -180,8 +180,6 @@ public class PredatorPrey extends simulation {
                 myGrid[i][j] = new PPCell(reader.getCell(i, j),i,j);
             }
         }
-
-
     }
 
 
