@@ -135,7 +135,7 @@ public class Visualization extends Application {
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
-                ex.printStackTrace();
+                ex.printStackTrace(); //need to fix this to something else, change these exceptions, REALLY NEED TO CHANGE
             } catch (SAXException ex) {
                 ex.printStackTrace();
             } catch (ParserConfigurationException ex) {
