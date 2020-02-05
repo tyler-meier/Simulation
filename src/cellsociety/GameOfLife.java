@@ -62,10 +62,10 @@ public class GameOfLife extends simulation {
                     else if (alive>3) futureState[i][j] = new CELL(DEAD);
                     else futureState[i][j] = new CELL(ALIVE);
                 }
-                else
-                    if( myGrid[i][j].getType() == DEAD){
+                else if( myGrid[i][j].getType() == DEAD){
                         if(alive ==3) futureState[i][j] = new CELL(ALIVE);
-                    }
+                        else  futureState[i][j] = myGrid[i][j];
+                }
                 aliveCount =0;
             }
 
