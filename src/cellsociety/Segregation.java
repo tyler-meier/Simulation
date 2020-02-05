@@ -2,6 +2,7 @@ package cellsociety;
 
 import org.xml.sax.SAXException;
 
+
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
@@ -85,8 +86,8 @@ public class Segregation extends simulation {
         for(int row=0; row<myGrid2.length;row++){
             for(int col = 0; col< myGrid2[0].length;col++){
                 if(myGrid2[row][col] == EMPTY){
-                    futureState[row][col] = type;
-                    myGrid2[row][col] = type;
+                    futureState[row][col] =(type);
+                    myGrid2[row][col]=(type);
                     x = 1;
                     break;
 
@@ -107,8 +108,8 @@ public class Segregation extends simulation {
                     double percentage = getPercent(i, j, TYPE_1);
                     if (percentage < satis_Factor) {
                         move(TYPE_1, futureState);
-                        futureState[i][j] = EMPTY;
-                        myGrid2[i][j] = EMPTY;
+                        futureState[i][j] = (EMPTY);
+                        myGrid2[i][j]=(EMPTY);
                     }
                     else{
                         futureState[i][j] = myGrid[i][j];
@@ -117,8 +118,8 @@ public class Segregation extends simulation {
                     double percentage = getPercent(i, j, TYPE_2);
                     if (percentage < satis_Factor) {
                         move(TYPE_2, futureState);
-                        futureState[i][j] = EMPTY;
-                        myGrid2[i][j] = EMPTY;
+                        futureState[i][j] = (EMPTY);
+                        myGrid2[i][j] =(EMPTY);
                     }
                     else{ futureState[i][j] = myGrid[i][j];
                     } }

@@ -1,13 +1,12 @@
 package cellsociety;
 
 import org.xml.sax.SAXException;
+import resources.cell.PPCell;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -131,7 +130,7 @@ public class PredatorPrey extends simulation {
     public void Fish_Move(int i, int j){
 
        if(myGrid[i][j].getTYPE() == FISH && eaten == false) {//&& futureState[i][j] != null && futureState[i][j].getTYPE() != EMPTY ) {
-           System.out.println("we are in move for fishie");
+           //System.out.println("we are in move for fishie");
             move(i,j,FISH);
 
         }
@@ -172,11 +171,11 @@ public class PredatorPrey extends simulation {
             PPCell new_bi = chooseRandomNeighbour(NEW); //chose a new cell for fish to breed
             if(myGrid[i][j].getTYPE() == FISH && futureState[i][j].getLife() > breeding) {
                 futureState[new_bi.getX()][new_bi.getY()] = new PPCell(FISH, new_bi.getX(), new_bi.getY(),0);
-                System.out.println("fish reproducing");
+                //System.out.println("fish reproducing");
                 //System.out.println(futureState[new_bi.getY()][new_bi.getY()].getLife());
             }
             else if (myGrid[i][j].getTYPE() == SHARK && futureState[i][j].getLife() > breeding) {
-                System.out.println("sharkie reproduce");
+               // System.out.println("sharkie reproduce");
                     futureState[new_bi.getX()][new_bi.getY()] = new PPCell(SHARK,new_bi.getX(), new_bi.getY(),0);
 
                 }
