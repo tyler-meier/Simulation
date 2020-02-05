@@ -78,7 +78,6 @@ public class GameOfLife extends simulation {
 
     @Override
     public int cellStatus(int row, int column) {
-        System.out.print(myGrid[row][column]);
       return myGrid[row][column].getType();
 
     }

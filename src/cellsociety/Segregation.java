@@ -1,6 +1,7 @@
 package cellsociety;
 
 import org.xml.sax.SAXException;
+import resources.cell.CELL;
 
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,7 +12,7 @@ public class Segregation extends simulation {
     public  static final int EMPTY = 0;
     public static final int TYPE_1 = 1;
     public static final int TYPE_2= 2;
-    private int[][] myGrid, myGrid2;
+    private CELL[][] myGrid, myGrid2;
     public static double percent;
     public static double totalN;
     private int satis_Factor; //this will be given in the file.
@@ -38,38 +39,38 @@ public class Segregation extends simulation {
     }
 
     public double getPercent(int i, int j, int type) {
-            if (isBounds(i - 1, j) && myGrid[i - 1][j] != EMPTY) {
-                totalN++; //count the total neighbours
-                if (myGrid[i - 1][j] == type) percent++;
-            }
-            if (isBounds(i + 1, j) && myGrid[i + 1][j] != EMPTY) {
-                totalN++;
-                if (myGrid[i + 1][j] == type) percent++;
-            }
-            if (isBounds(i + 1, j + 1) && myGrid[i + 1][j + 1] != EMPTY) {
-                totalN++;
-                if (myGrid[i + 1][j + 1] == type) percent++;
-            }
-            if (isBounds(i - 1, j - 1) && myGrid[i - 1][j - 1] != EMPTY) {
-                totalN++;
-                if (myGrid[i - 1][j - 1] == type) percent++;
-            }
-            if (isBounds(i + 1, j - 1) && myGrid[i + 1][j - 1] != EMPTY) {
-                totalN++;
-                if (myGrid[i + 1][j - 1] == type) percent++;
-            }
-            if (isBounds(i - 1, j + 1) && myGrid[i - 1][j + 1] != EMPTY) {
-                totalN++;
-                if (myGrid[i - 1][j + 1] == type) percent++;
-            }
-            if (isBounds(i, j + 1) && myGrid[i][j +1] != EMPTY) {
-                totalN++;
-                if (myGrid[i][j + 1] == type) percent++;
-            }
-            if (isBounds(i, j - 1) && myGrid[i][j - 1] != EMPTY) {
-                totalN++;
-                if (myGrid[i][j - 1] == type) percent++;
-            }
+        if (isBounds(i - 1, j) && myGrid[i - 1][j].getType() != EMPTY) {
+            totalN++; //count the total neighbours
+            if (myGrid[i - 1][j].getType() == type) percent++;
+        }
+        if (isBounds(i + 1, j) && myGrid[i + 1][j].getType() != EMPTY) {
+            totalN++;
+            if (myGrid[i + 1][j].getType() == type) percent++;
+        }
+        if (isBounds(i + 1, j + 1) && myGrid[i + 1][j + 1].getType() != EMPTY) {
+            totalN++;
+            if (myGrid[i + 1][j + 1].getType() == type) percent++;
+        }
+        if (isBounds(i - 1, j - 1) && myGrid[i - 1][j - 1].getType() != EMPTY) {
+            totalN++;
+            if (myGrid[i - 1][j - 1].getType() == type) percent++;
+        }
+        if (isBounds(i + 1, j - 1) && myGrid[i + 1][j - 1].getType() != EMPTY) {
+            totalN++;
+            if (myGrid[i + 1][j - 1].getType() == type) percent++;
+        }
+        if (isBounds(i - 1, j + 1) && myGrid[i - 1][j + 1].getType() != EMPTY) {
+            totalN++;
+            if (myGrid[i - 1][j + 1].getType() == type) percent++;
+        }
+        if (isBounds(i, j + 1) && myGrid[i][j +1].getType() != EMPTY) {
+            totalN++;
+            if (myGrid[i][j + 1].getType() == type) percent++;
+        }
+        if (isBounds(i, j - 1) && myGrid[i][j - 1].getType() != EMPTY) {
+            totalN++;
+            if (myGrid[i][j - 1].getType() == type) percent++;
+        }
 
 
 
@@ -81,13 +82,13 @@ public class Segregation extends simulation {
 
 
 
-    public void move(int type, int[][] futureState){
+    public void move(int type, CELL[][] futureState){
         int x =0;
         for(int row=0; row<myGrid2.length;row++){
             for(int col = 0; col< myGrid2[0].length;col++){
-                if(myGrid2[row][col] == EMPTY){
-                    futureState[row][col] =(type);
-                    myGrid2[row][col]=(type);
+                if(myGrid2[row][col].getType() == EMPTY){
+                    futureState[row][col] =new CELL(type);
+                    myGrid2[row][col].setType(type);
                     x = 1;
                     break;
 
@@ -101,42 +102,48 @@ public class Segregation extends simulation {
 
     @Override
     public void update() {
-        int[][] futureState = new int[myGrid.length][myGrid[0].length];
+        CELL[][] futureState = new CELL[myGrid.length][myGrid[0].length];
         for (int i = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid[0].length; j++) {
-                if (myGrid[i][j] == TYPE_1) {
+                if (myGrid[i][j].getType() == TYPE_1) {
                     double percentage = getPercent(i, j, TYPE_1);
                     if (percentage < satis_Factor) {
                         move(TYPE_1, futureState);
-                        futureState[i][j] = (EMPTY);
-                        myGrid2[i][j]=(EMPTY);
+                        futureState[i][j] = new CELL(EMPTY);
+                        myGrid2[i][j].setType(EMPTY);
                     }
                     else{
                         futureState[i][j] = myGrid[i][j];
-                    } }
-                else if (myGrid[i][j] == TYPE_2) {
+                    }
+                }
+                else if (myGrid[i][j].getType() == TYPE_2) {
                     double percentage = getPercent(i, j, TYPE_2);
                     if (percentage < satis_Factor) {
                         move(TYPE_2, futureState);
-                        futureState[i][j] = (EMPTY);
-                        myGrid2[i][j] =(EMPTY);
+                        futureState[i][j] = new CELL(EMPTY);
+                        myGrid2[i][j] = new CELL(EMPTY);
                     }
                     else{ futureState[i][j] = myGrid[i][j];
-                    } }
+                    }
+                }
+                else {
+                    futureState[i][j] = myGrid2[i][j];
+                }
                 percent = 0;
                 totalN =0;
-            } }
+            }
+        }
         myGrid = futureState; }
 
     @Override
     public int cellStatus(int row, int column) {
-        return myGrid[row][column];
+        return myGrid[row][column].getType();
     }
 
-    public void createGrid(int[][] grid){
+    public void createGrid(CELL[][] grid){
         for(int i = 0; i< grid.length; i++){
             for(int j = 0; j< grid[0].length; j++){
-                grid[i][j] = reader.getCell(i, j);
+                grid[i][j] = new CELL(reader.getCell(i, j));
                 //System.out.print(myGrid[i][j]);
             }
         }
@@ -145,8 +152,8 @@ public class Segregation extends simulation {
     @Override
     public void readFile() {
         satis_Factor = Integer.parseInt(reader.getParameters("similarity"));
-        myGrid = new int[reader.getRow()][reader.getCol()];
-        myGrid2 = new int[reader.getRow()][reader.getCol()];
+        myGrid = new CELL[reader.getRow()][reader.getCol()];
+        myGrid2 = new CELL[reader.getRow()][reader.getCol()];
         createGrid(myGrid);
         createGrid(myGrid2);
     }
@@ -157,7 +164,7 @@ public class Segregation extends simulation {
         File xmlFile = new File("data/SampleSegregation.xml");
         mySim.setUpFile(xmlFile);
         Segregation abc = new Segregation(mySim);
-       // System.out.println();
+        // System.out.println();
         abc.update();
     }
 }
