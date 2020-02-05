@@ -14,10 +14,11 @@ public class PPCell  {
 
 
 
-    public PPCell( int state, int row, int col){
+    public PPCell( int state, int row, int col, int life){
     Xrow = row;
     Ycol = col;
     type = state;
+    life_time = life;
 
 }
 
@@ -41,4 +42,5 @@ public class PPCell  {
     public int getLife() {
         return life_time;
     }
+
 }
