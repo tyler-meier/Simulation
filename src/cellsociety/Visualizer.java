@@ -34,23 +34,23 @@ class Visualizer extends Application {
     public static int GRID_SIZE = 350;
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
-    public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
 
-    private Button pause, resume, stepThrough;
+    private Button pause, resume, stepThrough, slowSimDown, speedSimUp, chooseSimButtonSim, anotherWindowButton;
     private Rectangle[][] myGrid;
     private Group group;
     private VBox allButtonsVBox, topLabelsVBox;
     private Label buttonDescriptions;
     private ResourceBundle myResources;
+    private Timeline theAnimation;
 
     /**
      * Start method for visualizer, just need so it can extend application, this start
      * method doesn't actually do anything
-     * @param primaryStage null stage, doesn't actually show anything
+     * @param secondaryStage null stage, doesn't actually show anything
      * @throws Exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage secondaryStage) throws Exception {
 
     }
 
@@ -66,18 +66,19 @@ class Visualizer extends Application {
      * @param myCurrSim the current simulation that is about to be run, what the scene is creating
      * @param mySimFileReader a ReadXML object that allows the grid to read the file and set up
      *                        the rectangles in the correct positions and correct colors
-     * @param simButton the button that allows the user to file choose a new simulation to run, everything
-     *                  is already set up for this button, it is just being passed onto this scene
+     * @param oldSimButton the button that allows the user to file choose a new simulation to run, everything
+     *                  is already set up for this button, it is just being passed onto this scene to be 'copied'
+     * @param oldAnotherWindow the button that brings up a whole other window of the specified simulation, everything
+     *                         is already set up for this button, it is just being passed onto this scene to be 'copied'
      * @param animation the animation for this scene, being passed from Visualization so that the animation
      *                  can play in this scene
-     * @param speedUp the button that allows the simulation to speed up by cycles, already set up in visualization
-     * @param slowDown the button that allows the simulation to slow down the cycle, already set up in visualization
      * @return scene, the whole set up scene for the simulation
      */
-    public Scene setUpSimulationScene(int width, int height, String stringName, simulation myCurrSim, ReadXML mySimFileReader, Button simButton, Timeline animation, Button speedUp, Button slowDown) {
+    public Scene setUpSimulationScene(int width, int height, String stringName, simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Button oldAnotherWindow, Timeline animation) {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "allStrings");
+        theAnimation = animation;
 
-        createAllButtons(speedUp, slowDown, simButton, animation, myCurrSim);
+        createAllButtons(myCurrSim, oldSimButton, oldAnotherWindow);
         createTopLabels(stringName);
         createButtonLabel();
         setUpGrid(myCurrSim, mySimFileReader);
@@ -148,30 +149,40 @@ class Visualizer extends Application {
         return rectangle;
     }
 
-    private VBox createAllButtons(Button speedUp, Button slowDown, Button simButton, Timeline animation, simulation myCurrSim){
+    private VBox createAllButtons(simulation myCurrSim, Button oldSimButton, Button oldAnotherWindow){
         allButtonsVBox = new VBox();
 
         pause = new Button(myResources.getString("Pause"));
         resume = new Button (myResources.getString("Resume"));
         stepThrough = new Button(myResources.getString("StepThrough"));
+        speedSimUp = new Button(myResources.getString("speedUpButton"));
+        slowSimDown = new Button(myResources.getString("slowDownButton"));
+        chooseSimButtonSim = new Button(myResources.getString("chooseSimButton"));
+        anotherWindowButton = new Button(myResources.getString("windowButton"));
 
         pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         resume.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         stepThrough.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        speedUp.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        slowDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        simButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        speedSimUp.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        slowSimDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        chooseSimButtonSim.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        anotherWindowButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
 
         pause.setOnAction(e -> {
-            animation.stop();
+            theAnimation.stop();
             stepThrough.setOnAction(ev -> step(myCurrSim));
         });
         resume.setOnAction(e -> {
-            animation.play();
-            stepThrough.setOnAction(ev -> animation.play());
+            theAnimation.play();
+            stepThrough.setOnAction(ev -> theAnimation.play());
         });
+        speedSimUp.setOnAction(e -> speedSimUp());
+        slowSimDown.setOnAction(e -> slowSimDown());
+        chooseSimButtonSim.setOnAction(oldSimButton.getOnAction());
+        anotherWindowButton.setOnAction(oldAnotherWindow.getOnAction());
 
-        allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedUp, slowDown, simButton);
+
+        allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedSimUp, slowSimDown, chooseSimButtonSim, anotherWindowButton);
         allButtonsVBox.setAlignment(Pos.CENTER_LEFT);
         return allButtonsVBox;
     }
@@ -212,5 +223,17 @@ class Visualizer extends Application {
         buttonDescriptions.setPrefWidth(150);
         buttonDescriptions.setWrapText(true);
         return buttonDescriptions;
+    }
+
+    private void speedSimUp(){
+        if (theAnimation.getRate() != 60){
+            theAnimation.setRate(theAnimation.getRate() + 1);
+        }
+    }
+
+    private void slowSimDown(){
+        if (theAnimation.getRate() != 1){
+            theAnimation.setRate(theAnimation.getRate() - 1);
+        }
     }
 }
