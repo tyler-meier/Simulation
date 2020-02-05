@@ -89,10 +89,10 @@ public class GameOfLife extends simulation {
         for(int i = 0; i< myGrid.length; i++){
             for(int j = 0; j< myGrid[0].length; j++){
                 myGrid[i][j] = new CELL(reader.getCell(i, j));
-                System.out.print(myGrid[i][j].getType());
+                //System.out.print(myGrid[i][j].getType());
 
             }
-            System.out.println();
+            //System.out.println();
         }
 
     }
