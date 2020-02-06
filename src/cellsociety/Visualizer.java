@@ -30,13 +30,13 @@ public class Visualizer extends Application {
     public static final int FULL = 2;
     public static final double PREF_BUTTON_WIDTH = 250;
     public static final double PREF_BUTTON_HEIGHT = 100;
-    public static final Font titleFont = new Font("Arial", 50);
-    public static int RECTANGLE_SIZE_ROW;
-    public static int RECTANGLE_SIZE_COL;
-    public static int GRID_SIZE = 350;
+    private static final Font titleFont = new Font("Arial", 50);
+    public static final int GRID_SIZE = 350;
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
 
+    private int RECTANGLE_SIZE_ROW;
+    private int RECTANGLE_SIZE_COL;
     private Button pause, resume, stepThrough, slowSimDown, speedSimUp, chooseSimButtonSim, anotherWindowButton;
     private Rectangle[][] myGrid;
     private Group group;

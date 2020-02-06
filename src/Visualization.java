@@ -1,4 +1,5 @@
 import cellsociety.Visualizer;
+import javafx.scene.control.Alert;
 import ruleset.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -91,14 +92,19 @@ public class Visualization extends Application {
         FileChooser fileChoose = new FileChooser();
         fileChoose.setTitle("Choose File");
         File simFile;
-        if (!firstRound){
+        if (!firstRound) {
             simFile = fileChoose.showOpenDialog(myStage);
             firstRound = true;
-        }
-        else {
+        } else {
             simFile = fileChoose.showOpenDialog(anotherStage);
         }
-        mySimFileReader.setUpFile(simFile);
+
+        try{
+            mySimFileReader.setUpFile(simFile);
+        } catch(IllegalArgumentException e){
+            dealWithException();
+        }
+
         String simName = mySimFileReader.getParameters(mySimFileReader.TYPE);
         return simName;
     }
@@ -143,11 +149,11 @@ public class Visualization extends Application {
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
-                ex.printStackTrace(); //need to fix this to something else, change these exceptions, REALLY NEED TO CHANGE
+                dealWithException(); //need to fix this to something else, change these exceptions, REALLY NEED TO CHANGE
             } catch (SAXException ex) {
-                ex.printStackTrace();
+                dealWithException();
             } catch (ParserConfigurationException ex) {
-                ex.printStackTrace();
+                dealWithException();
             }
         });
 
@@ -168,11 +174,11 @@ public class Visualization extends Application {
                 anotherStage.setScene(simScene);
                 anotherStage.show();
             } catch (IOException ex) {
-                ex.printStackTrace();
+                dealWithException();
             } catch (SAXException ex) {
-                ex.printStackTrace();
+                dealWithException();
             } catch (ParserConfigurationException ex) {
-                ex.printStackTrace();
+                dealWithException();
             }
 
         });
@@ -194,6 +200,13 @@ public class Visualization extends Application {
         if (myCurrSim != null) {
             myView.step(myCurrSim);
         }
+    }
+
+    private void dealWithException(){
+        Alert errorMessage = new Alert(Alert.AlertType.ERROR);
+        errorMessage.setTitle("Error");
+        errorMessage.setContentText("Sorry, but you can't do what you just did!");
+        errorMessage.show();
     }
 
 
