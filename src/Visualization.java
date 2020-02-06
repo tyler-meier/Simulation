@@ -1,5 +1,4 @@
-package cellsociety;
-
+import cellsociety.Visualizer;
 import ruleset.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,6 +14,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.xml.sax.SAXException;
+import xmlreading.ReadXML;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
@@ -43,7 +43,7 @@ public class Visualization extends Application {
     private Stage myStage, anotherStage;
     private Button chooseSimButtonMain, anotherWindow;
     private Label welcomeLabel, explainLabel;
-    private simulation myCurrSim;
+    private Simulation myCurrSim;
     private ReadXML mySimFileReader;
     private Visualizer myView;
     private Timeline animation, newAnimation;

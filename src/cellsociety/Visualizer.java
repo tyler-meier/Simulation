@@ -1,7 +1,7 @@
 package cellsociety;
 
-import ruleset.ReadXML;
-import ruleset.simulation;
+import xmlreading.ReadXML;
+import ruleset.Simulation;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
  *
  * @author Tyler Meier (tkm22)
  */
-class Visualizer extends Application {
+public class Visualizer extends Application {
     public static final int OPEN = 1;
     public static final int FULL = 2;
     public static final double PREF_BUTTON_WIDTH = 250;
@@ -74,11 +74,11 @@ class Visualizer extends Application {
      *                  is already set up for this button, it is just being passed onto this scene to be 'copied'
      * @param oldAnotherWindow the button that brings up a whole other window of the specified simulation, everything
      *                         is already set up for this button, it is just being passed onto this scene to be 'copied'
-     * @param animation the animation for this scene, being passed from cellsociety.Visualization so that the animation
+     * @param animation the animation for this scene, being passed from Visualization so that the animation
      *                  can play in this scene
      * @return scene, the whole set up scene for the simulation
      */
-    public Scene setUpSimulationScene(int width, int height, String stringName, simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Button oldAnotherWindow, Timeline animation, Stage myStage) {
+    public Scene setUpSimulationScene(int width, int height, String stringName, Simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Button oldAnotherWindow, Timeline animation, Stage myStage) {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "allStrings");
         theAnimation = animation;
         myChart = new Chart();
@@ -107,7 +107,7 @@ class Visualizer extends Application {
      * updated in the simulation
      * @param myCurrSim the current simulation that is running at the moment
      */
-    public void step(simulation myCurrSim){
+    public void step(Simulation myCurrSim){
         myCurrSim.update();
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[0].length ; col++) {
@@ -124,7 +124,7 @@ class Visualizer extends Application {
         }
     }
 
-    private void setUpGrid(simulation myCurrSim, ReadXML mySimFileReader){
+    private void setUpGrid(Simulation myCurrSim, ReadXML mySimFileReader){
         group = new Group();
         myGrid = new Rectangle[mySimFileReader.getRow()][mySimFileReader.getCol()];
         RECTANGLE_SIZE_ROW = (GRID_SIZE/mySimFileReader.getRow());
@@ -154,7 +154,7 @@ class Visualizer extends Application {
         return rectangle;
     }
 
-    private VBox createAllButtons(simulation myCurrSim, Button oldSimButton, Button oldAnotherWindow){
+    private VBox createAllButtons(Simulation myCurrSim, Button oldSimButton, Button oldAnotherWindow){
         allButtonsVBox = new VBox();
 
         pause = new Button(myResources.getString("Pause"));

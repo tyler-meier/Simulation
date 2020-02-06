@@ -4,6 +4,7 @@ import neighbourhood.Square;
 import cell.CELL;
 import org.xml.sax.SAXException;
 import grid.FiniteGrid;
+import xmlreading.ReadXML;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class PredatorPrey extends simulation {
+public class PredatorPrey extends Simulation {
     private static ReadXML reader;
     private static int breeding;
     private CELL[][] myGrid;

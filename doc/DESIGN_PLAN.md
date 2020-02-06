@@ -8,7 +8,7 @@ of our simulation will be to it be flexible enough to add more simulations. We w
 private with getter methods to access the variables.
 
 ## Overview
-We plan on orignally having three classes simulation, cellsociety.Visualization and Main class. simulation class has 5 subclasses
+We plan on orignally having three classes simulation, Visualization and Main class. simulation class has 5 subclasses
 which are the 5 different simulations. We have a separate class for front end and then a main class that 
 helps switching scene. An alternative design which we thought about is having a cell class and let the cells become
 the main controlling force in the program, the cells and simulation class run side by side and get updated
@@ -32,7 +32,7 @@ Heres a picture in the doc folder.
 Design Details:
 	Simulation Super Class:
 		This class takes care of updating the cells and it’s an abstract class. Each simulation will have a subclass that is part of this superclass. Within these subclasses, there will be data structures to maintain each individual cell within the simulation. Additionally, there will be update methods to keep the next state of each cell current. This update method will make sure to distinguish between middle and edge cells. This class provides the current state of each cell to the visualization class and also reads in the XML file.
-	cellsociety.Visualization Class:
+	Visualization Class:
 		This class takes care of displaying the information going on in the simulation. It will acquire a cell’s state using getter methods located in the simulation class. Furthermore, it will have a global variable to be able to modify the FPS of the animation. This helps implement the slowdown, speed up features in the specification. It will also include a button to upload a new file and begin a new simulation.
 	Main Class:
 		This class sets up the main menu and creates a new visualization object to run. 
@@ -59,7 +59,7 @@ An assumption our team is making is that the user will not want to load a differ
 
 ## Team Responsibilities
 
-Erik: cellsociety.Visualization
+Erik: Visualization
 Farzeen: Simulation Subclasses
 Tyler: Simulation subclasses
 

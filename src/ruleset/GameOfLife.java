@@ -3,13 +3,14 @@ package ruleset;
 import cell.CELL;
 import org.xml.sax.SAXException;
 import grid.FiniteGrid;
+import xmlreading.ReadXML;
 
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.IOException;
 
-public class GameOfLife extends simulation {
+public class GameOfLife extends Simulation {
     public static final int ALIVE = 1;
     public static final int DEAD = 0;
     private CELL myGrid[][];

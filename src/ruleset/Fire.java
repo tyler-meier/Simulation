@@ -4,12 +4,13 @@ import neighbourhood.Square;
 import cell.CELL;
 import org.xml.sax.SAXException;
 import grid.FiniteGrid;
+import xmlreading.ReadXML;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Fire extends simulation {
+public class Fire extends Simulation {
     private CELL[][] myGrid;
     public static final int TREE = 1;
     public static final int BURNING = 2;

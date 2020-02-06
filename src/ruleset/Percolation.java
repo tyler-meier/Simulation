@@ -3,11 +3,12 @@ package ruleset;
 import cell.CELL;
 import org.xml.sax.SAXException;
 import grid.FiniteGrid;
+import xmlreading.ReadXML;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
-public class Percolation extends simulation {
+public class Percolation extends Simulation {
 
     /*
     Possible states for the percolation cells are: BLOCKED,OPEN,FULL.

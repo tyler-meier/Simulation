@@ -5,7 +5,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
-abstract public class simulation {
+abstract public class Simulation {
 
      abstract public void update();
 

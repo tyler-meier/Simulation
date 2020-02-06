@@ -3,13 +3,14 @@ package ruleset;
 import cell.CELL;
 import org.xml.sax.SAXException;
 import grid.FiniteGrid;
+import xmlreading.ReadXML;
 
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
-public class Segregation extends simulation {
+public class Segregation extends Simulation {
     public  static final int EMPTY = 0;
     public static final int TYPE_1 = 1;
     public static final int TYPE_2= 2;
