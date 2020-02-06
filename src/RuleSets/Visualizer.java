@@ -1,4 +1,4 @@
-package cellsociety;
+package RuleSets;
 
 import javafx.animation.Timeline;
 import javafx.application.Application;

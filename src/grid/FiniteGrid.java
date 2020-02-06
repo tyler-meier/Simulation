@@ -2,7 +2,7 @@ package grid;
 
 
 import cell.CELL;
-import cellsociety.ReadXML;
+import RuleSets.ReadXML;
 
 
 public class FiniteGrid {

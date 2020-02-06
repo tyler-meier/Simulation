@@ -1,4 +1,4 @@
-package cellsociety;
+package RuleSets;
 
 import cell.CELL;
 import org.xml.sax.SAXException;

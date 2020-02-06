@@ -1,5 +1,6 @@
-package cellsociety;
+package RuleSets;
 
+import Neighbourhood.Square;
 import cell.CELL;
 import org.xml.sax.SAXException;
 import grid.FiniteGrid;
@@ -22,38 +23,17 @@ public class Fire extends simulation {
         readFile();
 
     }
-
-
-
-    public Boolean isBounds(int row, int col){
-        if(row< 0 || row>= myGrid.length){
-            return false;
-        }
-        if(col < 0|| col>= myGrid[0].length){
-            return false;
-        }
-
-        return true;
-
-    }
-
-
-    public ArrayList<CELL> getNeighbourCount(int i, int j) {
-        ArrayList<CELL> neighbours = new ArrayList<>();
-        if (isBounds(i,j+1))  neighbours.add(myGrid[i][j+1]);
-        if (isBounds(i,j-1))  neighbours.add(myGrid[i][j-1]);
-        if (isBounds(i-1,j))  neighbours.add(myGrid[i-1][j]);
-        if (isBounds(i+1,j))  neighbours.add(myGrid[i+1][j]);
-        return neighbours;
+    public ArrayList<CELL> formNeighbours(int i, int j, CELL[][] Grid){
+        Square nei = new Square(i, j);
+        return nei.getFourNeighbourCount(i,j,myGrid);
     }
 
     @Override
     public void update() {
         CELL[][] futureState = new CELL[myGrid.length][myGrid[0].length]; //new cell set
-        //futureState = myGrid;
         for (int i = 0; i < myGrid.length; i++) {
             for (int j =0; j < myGrid[0].length; j++) {
-                ArrayList<CELL> neighbours = getNeighbourCount(i, j); //GET the neighbours for each cell
+                ArrayList<CELL> neighbours = formNeighbours(i, j,myGrid); //GET the neighbours for each cell
                 if (myGrid[i][j].getType() == BURNING) {  //simply the burning tree dies.
                     futureState[i][j] = new CELL(EMPTY,i,j,0); //burnt or empty
                 } //works
