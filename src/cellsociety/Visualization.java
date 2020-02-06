@@ -27,7 +27,8 @@ import java.util.ResourceBundle;
  * @author Tyler Meier (tkm22)
  */
 public class Visualization extends Application {
-    public static final int SIZE = 700;
+    public static final int HEIGHT = 900;
+    public static final int WIDTH = 850;
     public static final Font titleFont = new Font("Arial", 80);
     public static final Font subtitleFont = new Font("Arial", 25);
     private static final String RESOURCES = "resources";
@@ -36,6 +37,7 @@ public class Visualization extends Application {
     private int FRAMES_PER_SECOND = 1;
     private int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private Boolean simStarted = false;
+    private Boolean firstRound = false;
     private Scene startScene, simScene;
     private Stage myStage, anotherStage;
     private Button chooseSimButtonMain, anotherWindow;
@@ -58,7 +60,7 @@ public class Visualization extends Application {
         myStage = primaryStage;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "allStrings");
         myStage.setTitle(myResources.getString("TITLE"));
-        startScene = setupStartScene(SIZE, SIZE);
+        startScene = setupStartScene(WIDTH, HEIGHT);
 
         frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
         animation = new Timeline();
@@ -87,7 +89,14 @@ public class Visualization extends Application {
     private String setUpFile(ReadXML mySimFileReader) throws IOException, SAXException {
         FileChooser fileChoose = new FileChooser();
         fileChoose.setTitle("Choose File");
-        File simFile = fileChoose.showOpenDialog(myStage);
+        File simFile;
+        if (!firstRound){
+            simFile = fileChoose.showOpenDialog(myStage);
+            firstRound = true;
+        }
+        else {
+            simFile = fileChoose.showOpenDialog(anotherStage);
+        }
         mySimFileReader.setUpFile(simFile);
         String simName = mySimFileReader.getParameters(mySimFileReader.TYPE);
         return simName;
@@ -129,7 +138,7 @@ public class Visualization extends Application {
                 else {
                     animation.setRate(FRAMES_PER_SECOND);
                 }
-                simScene = myView.setUpSimulationScene(SIZE, SIZE, simName, myCurrSim, mySimFileReader, chooseSimButtonMain, anotherWindow, animation);
+                simScene = myView.setUpSimulationScene(WIDTH, HEIGHT, simName, myCurrSim, mySimFileReader, chooseSimButtonMain, anotherWindow, animation, myStage);
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
@@ -152,9 +161,9 @@ public class Visualization extends Application {
                 newAnimation.setCycleCount(Timeline.INDEFINITE);
                 newAnimation.getKeyFrames().add(newFrame);
 
-                animation.stop();
+                //animation.stop();
 
-                simScene = myView.setUpSimulationScene(SIZE, SIZE, simName, myCurrSim, mySimFileReader, chooseSimButtonMain, anotherWindow, newAnimation);
+                simScene = myView.setUpSimulationScene(WIDTH, HEIGHT, simName, myCurrSim, mySimFileReader, chooseSimButtonMain, anotherWindow, newAnimation, myStage);
                 anotherStage.setScene(simScene);
                 anotherStage.show();
             } catch (IOException ex) {
@@ -185,6 +194,7 @@ public class Visualization extends Application {
             myView.step(myCurrSim);
         }
     }
+
 
     /**
      * Starts the program, acts as main class

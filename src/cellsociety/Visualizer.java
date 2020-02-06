@@ -42,6 +42,8 @@ class Visualizer extends Application {
     private Label buttonDescriptions;
     private ResourceBundle myResources;
     private Timeline theAnimation;
+    private Chart myChart;
+
 
     /**
      * Start method for visualizer, just need so it can extend application, this start
@@ -74,20 +76,21 @@ class Visualizer extends Application {
      *                  can play in this scene
      * @return scene, the whole set up scene for the simulation
      */
-    public Scene setUpSimulationScene(int width, int height, String stringName, simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Button oldAnotherWindow, Timeline animation) {
+    public Scene setUpSimulationScene(int width, int height, String stringName, simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Button oldAnotherWindow, Timeline animation, Stage myStage) {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "allStrings");
         theAnimation = animation;
+        myChart = new Chart();
 
         createAllButtons(myCurrSim, oldSimButton, oldAnotherWindow);
         createTopLabels(stringName);
         createButtonLabel();
         setUpGrid(myCurrSim, mySimFileReader);
 
-        BorderPane.setAlignment(allButtonsVBox, Pos.CENTER_LEFT);
+        BorderPane.setAlignment(allButtonsVBox, Pos.CENTER);
         BorderPane.setAlignment(topLabelsVBox, Pos.TOP_CENTER);
-        BorderPane.setAlignment(buttonDescriptions, Pos.CENTER_RIGHT);
-        BorderPane.setAlignment(group, Pos.CENTER);
-        BorderPane boPane = new BorderPane(group, topLabelsVBox, buttonDescriptions, null, allButtonsVBox);
+        BorderPane.setAlignment(buttonDescriptions, Pos.CENTER);
+        BorderPane.setAlignment(group, Pos.TOP_CENTER);
+        BorderPane boPane = new BorderPane(group, topLabelsVBox, buttonDescriptions, myChart.createChart(width, myStage), allButtonsVBox);
 
         animation.play();
 
@@ -183,7 +186,7 @@ class Visualizer extends Application {
 
 
         allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedSimUp, slowSimDown, chooseSimButtonSim, anotherWindowButton);
-        allButtonsVBox.setAlignment(Pos.CENTER_LEFT);
+        allButtonsVBox.setAlignment(Pos.CENTER);
         return allButtonsVBox;
     }
 
@@ -214,7 +217,6 @@ class Visualizer extends Application {
 
         topLabelsVBox.getChildren().addAll(nameLabel, rules);
         topLabelsVBox.setAlignment(Pos.TOP_CENTER);
-        topLabelsVBox.setSpacing(15);
         return topLabelsVBox;
     }
 
@@ -236,4 +238,5 @@ class Visualizer extends Application {
             theAnimation.setRate(theAnimation.getRate() - 1);
         }
     }
+
 }
