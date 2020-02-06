@@ -1,5 +1,6 @@
-package RuleSets;
+package cellsociety;
 
+import ruleset.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;

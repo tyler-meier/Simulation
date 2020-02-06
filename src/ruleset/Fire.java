@@ -1,6 +1,6 @@
-package RuleSets;
+package ruleset;
 
-import Neighbourhood.Square;
+import neighbourhood.Square;
 import cell.CELL;
 import org.xml.sax.SAXException;
 import grid.FiniteGrid;

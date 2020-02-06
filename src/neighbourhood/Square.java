@@ -1,11 +1,9 @@
-package Neighbourhood;
+package neighbourhood;
 
 
 import cell.CELL;
-import grid.FiniteGrid;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Square {
     private int row,col;

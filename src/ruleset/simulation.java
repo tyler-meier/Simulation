@@ -1,11 +1,11 @@
-package RuleSets;
+package ruleset;
 
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
-abstract class simulation {
+abstract public class simulation {
 
      abstract public void update();
 

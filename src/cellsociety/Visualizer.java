@@ -1,5 +1,7 @@
-package RuleSets;
+package cellsociety;
 
+import ruleset.ReadXML;
+import ruleset.simulation;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -72,7 +74,7 @@ class Visualizer extends Application {
      *                  is already set up for this button, it is just being passed onto this scene to be 'copied'
      * @param oldAnotherWindow the button that brings up a whole other window of the specified simulation, everything
      *                         is already set up for this button, it is just being passed onto this scene to be 'copied'
-     * @param animation the animation for this scene, being passed from Visualization so that the animation
+     * @param animation the animation for this scene, being passed from cellsociety.Visualization so that the animation
      *                  can play in this scene
      * @return scene, the whole set up scene for the simulation
      */
