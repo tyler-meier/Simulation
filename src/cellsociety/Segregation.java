@@ -145,8 +145,8 @@ public class Segregation extends simulation {
     public void readFile() {
         satis_Factor = Integer.parseInt(reader.getParameters("similarity"));
         FiniteGrid abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
-        myGrid = abc.Grid_Make1(reader);
-        myGrid2 = abc.Grid_Make1(reader);  //calls in the method from the class
+        myGrid = abc.Grid_Make(reader);
+        myGrid2 = abc.Grid_Make(reader);  //calls in the method from the class
     }
 
 

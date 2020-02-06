@@ -190,7 +190,7 @@ public class PredatorPrey extends simulation {
     public void readFile() { //sets up the grid
         breeding = Integer.parseInt(reader.getParameters("cycle"));
         FiniteGrid abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);
-        myGrid = abc.PPGrid(reader);
+        myGrid = abc.Grid_Make(reader);
 //        myGrid = new CELL[reader.getRow()][reader.getCol()];
 //        for(int i = 0; i< myGrid.length; i++){
 //            for(int j = 0; j< myGrid[0].length; j++){

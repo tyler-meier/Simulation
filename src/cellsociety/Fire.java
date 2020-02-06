@@ -81,7 +81,7 @@ public class Fire extends simulation {
     public void readFile() { //updates the grid in the way rules say. the first and last column and the first and last
         life_time = Double.parseDouble(reader.getParameters("probCatch"));
         FiniteGrid abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
-        myGrid = abc.Grid_Make1(reader);  //calls in the method from the class
+        myGrid = abc.Grid_Make(reader);  //calls in the method from the class
     }
 
 

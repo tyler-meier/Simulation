@@ -29,12 +29,8 @@ public class FiniteGrid {
         return reader.getCol();
 
     }
-//    public  getCell(int x, int y) {
-//        return myCells[x][y];
-//    }
 
-    //makes the finite grid for 4 classes
-    public CELL[][] Grid_Make1(ReadXML reader){ //grid for predator prey
+    public CELL[][] Grid_Make(ReadXML reader){ //grid for predator prey
        myGrid = new CELL[reader.getRow()][reader.getCol()];
        for(int i = 0; i< myGrid.length; i++){
            for(int j = 0; j< myGrid[0].length; j++){
@@ -44,19 +40,8 @@ public class FiniteGrid {
        return myGrid;
    }
 
-  //makes the finite grid for 1 class
-   public CELL[][] PPGrid(ReadXML reader){
-       Grid = new CELL[reader.getRow()][reader.getCol()];
-       //System.out.print(reader.getCol());
-       for(int i = 0; i< Grid.length; i++){
-           for(int j = 0; j< Grid[0].length; j++){
-               Grid[i][j] = new CELL(reader.getCell(i, j),i,j,0);
 
-           }
-       }
-       return Grid;
 
-   }
 
 
 }
