@@ -1,4 +1,4 @@
-package cellsociety;
+package visual;
 
 import javafx.application.Platform;
 import javafx.geometry.Pos;

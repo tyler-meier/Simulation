@@ -1,4 +1,5 @@
-import cellsociety.Visualizer;
+package visual;
+
 import javafx.scene.control.Alert;
 import ruleset.*;
 import javafx.animation.KeyFrame;
@@ -28,7 +29,7 @@ import java.util.ResourceBundle;
  *
  * @author Tyler Meier (tkm22)
  */
-public class Visualization extends Application {
+public class StartVisual extends Application {
     public static final int HEIGHT = 900;
     public static final int WIDTH = 850;
     public static final Font titleFont = new Font("Arial", 80);
@@ -46,7 +47,7 @@ public class Visualization extends Application {
     private Label welcomeLabel, explainLabel;
     private Simulation myCurrSim;
     private ReadXML mySimFileReader;
-    private Visualizer myView;
+    private SimVisual myView;
     private Timeline animation, newAnimation;
     private KeyFrame frame, newFrame;
     private ResourceBundle myResources;
@@ -58,7 +59,7 @@ public class Visualization extends Application {
      * @throws Exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws ParserConfigurationException {
         myStage = primaryStage;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "allStrings");
         myStage.setTitle(myResources.getString("TITLE"));
@@ -103,6 +104,7 @@ public class Visualization extends Application {
             mySimFileReader.setUpFile(simFile);
         } catch(IllegalArgumentException e){
             dealWithException();
+            return ("");
         }
 
         String simName = mySimFileReader.getParameters(mySimFileReader.TYPE);
@@ -131,12 +133,13 @@ public class Visualization extends Application {
         chooseSimButtonMain = new Button(myResources.getString("chooseSimButton"));
         anotherWindow = new Button(myResources.getString("windowButton"));
 
-        myView = new Visualizer();
+        myView = new SimVisual();
         mySimFileReader = new ReadXML();
 
         chooseSimButtonMain.setOnAction(e -> {
             try {
                 String simName = setUpFile(mySimFileReader);
+                if (simName.equals("")) return;
                 returnSim(simName);
                 if (!simStarted){
                     animation.play();
@@ -149,7 +152,7 @@ public class Visualization extends Application {
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
-                dealWithException(); //need to fix this to something else, change these exceptions, REALLY NEED TO CHANGE
+                dealWithException();
             } catch (SAXException ex) {
                 dealWithException();
             } catch (ParserConfigurationException ex) {
@@ -204,15 +207,9 @@ public class Visualization extends Application {
 
     private void dealWithException(){
         Alert errorMessage = new Alert(Alert.AlertType.ERROR);
-        errorMessage.setTitle("Error");
-        errorMessage.setContentText("Sorry, but you can't do what you just did!");
+        errorMessage.setTitle(myResources.getString("Error_Title"));
+        errorMessage.setContentText(myResources.getString("Error_Message"));
         errorMessage.show();
     }
 
-
-    /**
-     * Starts the program, acts as main class
-     * @param args what the program takes to run
-     */
-    public static void main (String[] args) { launch(args); }
 }

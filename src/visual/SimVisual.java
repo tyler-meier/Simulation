@@ -1,4 +1,4 @@
-package cellsociety;
+package visual;
 
 import xmlreading.ReadXML;
 import ruleset.Simulation;
@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
  *
  * @author Tyler Meier (tkm22)
  */
-public class Visualizer extends Application {
+public class SimVisual extends Application {
     public static final int OPEN = 1;
     public static final int FULL = 2;
     public static final double PREF_BUTTON_WIDTH = 250;
@@ -74,7 +74,7 @@ public class Visualizer extends Application {
      *                  is already set up for this button, it is just being passed onto this scene to be 'copied'
      * @param oldAnotherWindow the button that brings up a whole other window of the specified simulation, everything
      *                         is already set up for this button, it is just being passed onto this scene to be 'copied'
-     * @param animation the animation for this scene, being passed from Visualization so that the animation
+     * @param animation the animation for this scene, being passed from cellsociety.Visualization so that the animation
      *                  can play in this scene
      * @return scene, the whole set up scene for the simulation
      */
