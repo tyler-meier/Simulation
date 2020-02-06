@@ -1,14 +1,13 @@
 package cellsociety;
 
+import cell.CELL;
 import org.xml.sax.SAXException;
-import resources.cell.CELL;
+import grid.FiniteGrid;
 
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class GameOfLife extends simulation {
     public static final int ALIVE = 1;
@@ -58,12 +57,12 @@ public class GameOfLife extends simulation {
             for (int j = 0; j < myGrid[0].length; j++) {
                 int alive = getNeighbourCount(i,j);
                 if (myGrid[i][j].getType() == ALIVE) {
-                    if (alive < 2) futureState[i][j] = new CELL(DEAD);
-                    else if (alive>3) futureState[i][j] = new CELL(DEAD);
-                    else futureState[i][j] = new CELL(ALIVE);
+                    if (alive < 2) futureState[i][j] = new CELL(DEAD,i,j,0);
+                    else if (alive>3) futureState[i][j] = new CELL(DEAD,i,j,0);
+                    else futureState[i][j] = new CELL(ALIVE,i,j,0);
                 }
                 else if( myGrid[i][j].getType() == DEAD){
-                        if(alive ==3) futureState[i][j] = new CELL(ALIVE);
+                        if(alive ==3) futureState[i][j] = new CELL(ALIVE,i,j,0);
                         else  futureState[i][j] = myGrid[i][j];
                 }
                 aliveCount =0;
@@ -84,15 +83,8 @@ public class GameOfLife extends simulation {
 
     @Override
     public void readFile() {
-        myGrid = new CELL[reader.getRow()][reader.getCol()];
-        for(int i = 0; i< myGrid.length; i++){
-            for(int j = 0; j< myGrid[0].length; j++){
-                myGrid[i][j] = new CELL(reader.getCell(i, j));
-                //System.out.print(myGrid[i][j].getType());
-
-            }
-            //System.out.println();
-        }
+        FiniteGrid abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
+        myGrid = abc.Grid_Make1(reader);  //calls in the method from the class
 
     }
 

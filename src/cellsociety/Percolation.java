@@ -1,11 +1,10 @@
 package cellsociety;
 
-import org.w3c.dom.Element;
+import cell.CELL;
 import org.xml.sax.SAXException;
-import resources.cell.PCELL;
+import grid.FiniteGrid;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
 
 public class Percolation extends simulation {
@@ -14,11 +13,13 @@ public class Percolation extends simulation {
     Possible states for the percolation cells are: BLOCKED,OPEN,FULL.
      */
 
-    private PCELL [][] myGrid;
+    //private PCELL [][] myGrid;
     public static final int OPEN = 0;
     public static final int FULL = 1;
 
     private ReadXML reader;
+    CELL[][] myGrid;
+
 
 
     public Percolation(ReadXML myReader) throws ParserConfigurationException, IOException, SAXException {
@@ -26,6 +27,15 @@ public class Percolation extends simulation {
         readFile();
 
     }
+
+
+
+    @Override
+    public void readFile() {
+        FiniteGrid abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
+        myGrid = abc.Grid_Make1(reader);  //calls in the method from the class
+    }
+
 
     /*
     check if the following is in the bounds or not when the file parses in-- this is just a check method to make
@@ -64,12 +74,11 @@ Methods are broken down into smaller methods to prioritize design.
 
     @Override
     public void update() {
-            //if the cell is open but not full
-            PCELL[][] futureState = new PCELL[myGrid.length][myGrid[0].length];
+            CELL[][] futureState = new CELL[myGrid.length][myGrid[0].length];
             for(int i =0; i < myGrid.length; i++) {
                 for (int j = 0; j < myGrid[0].length; j++) {
                     if (isNeighborFull(i, j) && myGrid[i][j].getType() == OPEN ) {
-                       futureState[i][j] = new PCELL(FULL);
+                       futureState[i][j] = new CELL(FULL,i,j,0);
                     }
                     else
                         futureState[i][j] = myGrid[i][j];
@@ -91,15 +100,7 @@ Methods are broken down into smaller methods to prioritize design.
     }
 
 
-    @Override
-    public void readFile() {
-        myGrid = new PCELL[reader.getRow()][reader.getCol()];
-        for(int i = 0; i< myGrid.length; i++){
-            for(int j = 0; j< myGrid[0].length; j++){
-                myGrid[i][j] = new PCELL(reader.getCell(i, j));
-            }
-        }
-    }
+
 
 
     public static void main( String[] args) throws IOException, SAXException, ParserConfigurationException {

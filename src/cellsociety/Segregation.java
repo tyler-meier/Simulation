@@ -1,7 +1,8 @@
 package cellsociety;
 
+import cell.CELL;
 import org.xml.sax.SAXException;
-import resources.cell.CELL;
+import grid.FiniteGrid;
 
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -87,7 +88,7 @@ public class Segregation extends simulation {
         for(int row=0; row<myGrid2.length;row++){
             for(int col = 0; col< myGrid2[0].length;col++){
                 if(myGrid2[row][col].getType() == EMPTY){
-                    futureState[row][col] =new CELL(type);
+                    futureState[row][col] =new CELL(type,row,col,0);
                     myGrid2[row][col].setType(type);
                     x = 1;
                     break;
@@ -109,7 +110,7 @@ public class Segregation extends simulation {
                     double percentage = getPercent(i, j, TYPE_1);
                     if (percentage < satis_Factor) {
                         move(TYPE_1, futureState);
-                        futureState[i][j] = new CELL(EMPTY);
+                        futureState[i][j] = new CELL(EMPTY,i,j,0);
                         myGrid2[i][j].setType(EMPTY);
                     }
                     else{
@@ -120,8 +121,8 @@ public class Segregation extends simulation {
                     double percentage = getPercent(i, j, TYPE_2);
                     if (percentage < satis_Factor) {
                         move(TYPE_2, futureState);
-                        futureState[i][j] = new CELL(EMPTY);
-                        myGrid2[i][j] = new CELL(EMPTY);
+                        futureState[i][j] = new CELL(EMPTY,i,j,0);
+                        myGrid2[i][j] = new CELL(EMPTY,i,j,0);
                     }
                     else{ futureState[i][j] = myGrid[i][j];
                     }
@@ -140,22 +141,12 @@ public class Segregation extends simulation {
         return myGrid[row][column].getType();
     }
 
-    public void createGrid(CELL[][] grid){
-        for(int i = 0; i< grid.length; i++){
-            for(int j = 0; j< grid[0].length; j++){
-                grid[i][j] = new CELL(reader.getCell(i, j));
-                //System.out.print(myGrid[i][j]);
-            }
-        }
-    }
-
     @Override
     public void readFile() {
         satis_Factor = Integer.parseInt(reader.getParameters("similarity"));
-        myGrid = new CELL[reader.getRow()][reader.getCol()];
-        myGrid2 = new CELL[reader.getRow()][reader.getCol()];
-        createGrid(myGrid);
-        createGrid(myGrid2);
+        FiniteGrid abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
+        myGrid = abc.Grid_Make1(reader);
+        myGrid2 = abc.Grid_Make1(reader);  //calls in the method from the class
     }
 
 
