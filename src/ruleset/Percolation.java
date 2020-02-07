@@ -13,14 +13,8 @@ import java.util.ArrayList;
 
 
 public class Percolation extends Simulation {
-
-    /*
-    Possible states for the percolation cells are: BLOCKED,OPEN,FULL.
-     */
-
-    //private PCELL [][] myGrid;
-    public static final int OPEN = 0;
-    public static final int FULL = 1;
+    private final int OPEN = 0;
+    private final int FULL = 1;
     private  FiniteGrid abc;
     private ReadXML reader;
     CELL[][] myGrid;
@@ -41,16 +35,6 @@ public class Percolation extends Simulation {
     }
 
 
-    /*
-    check if the following is in the bounds or not when the file parses in-- this is just a check method to make
-    sure we are dealing with cells in the bounds.
-     */
-
-
-    /*
-   CellIsOpen method will check if the cell is open and empty, and if its open and full.
-   Methods are broken down into smaller methods to prioritize design.
-     */
     @Override
 
     public int cellStatus(int row, int column){
