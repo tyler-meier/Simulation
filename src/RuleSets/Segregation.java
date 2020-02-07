@@ -10,12 +10,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class Segregation extends simulation {
-    public  static final int EMPTY = 0;
-    public static final int TYPE_1 = 1;
-    public static final int TYPE_2= 2;
+    public   final int EMPTY = 0;
+    public  final int TYPE_1 = 1;
+    public  final int TYPE_2= 2;
     private CELL[][] myGrid, myGrid2;
-    public static double percent;
-    public static double totalN;
+    public  double percent;
+    public  double totalN;
     private int satis_Factor; //this will be given in the file.
 
 
@@ -72,9 +72,6 @@ public class Segregation extends simulation {
             totalN++;
             if (myGrid[i][j - 1].getType() == type) percent++;
         }
-
-
-
         percent = (percent / totalN) * 100;
         return percent;
 
@@ -93,39 +90,35 @@ public class Segregation extends simulation {
                     x = 1;
                     break;
 
-
                 }
-
             }
             if(x==1) break;
         }
     }
+
+
+     public void setUp(int i, int j, int type, CELL[][] myGrid, CELL[][] futureState, CELL[][] myGrid2){
+             double percentage = getPercent(i, j, type);
+             if (percentage < satis_Factor) {
+                 move(type, futureState);
+                 futureState[i][j] = new CELL(EMPTY,i,j,0);
+                 myGrid2[i][j].setType(EMPTY);
+             }
+             else{
+                 futureState[i][j] = myGrid[i][j];
+             }
+         }
 
     @Override
     public void update() {
         CELL[][] futureState = new CELL[myGrid.length][myGrid[0].length];
         for (int i = 0; i < myGrid.length; i++) {
             for (int j = 0; j < myGrid[0].length; j++) {
-                if (myGrid[i][j].getType() == TYPE_1) {
-                    double percentage = getPercent(i, j, TYPE_1);
-                    if (percentage < satis_Factor) {
-                        move(TYPE_1, futureState);
-                        futureState[i][j] = new CELL(EMPTY,i,j,0);
-                        myGrid2[i][j].setType(EMPTY);
-                    }
-                    else{
-                        futureState[i][j] = myGrid[i][j];
-                    }
+                if(myGrid[i][j].getType()== TYPE_1){
+                    setUp(i,j, TYPE_1,myGrid,futureState,myGrid2);
                 }
-                else if (myGrid[i][j].getType() == TYPE_2) {
-                    double percentage = getPercent(i, j, TYPE_2);
-                    if (percentage < satis_Factor) {
-                        move(TYPE_2, futureState);
-                        futureState[i][j] = new CELL(EMPTY,i,j,0);
-                        myGrid2[i][j] = new CELL(EMPTY,i,j,0);
-                    }
-                    else{ futureState[i][j] = myGrid[i][j];
-                    }
+                else if(myGrid[i][j].getType() == TYPE_2){
+                    setUp(i,j, TYPE_2,myGrid,futureState,myGrid2);
                 }
                 else {
                     futureState[i][j] = myGrid2[i][j];
@@ -134,7 +127,8 @@ public class Segregation extends simulation {
                 totalN =0;
             }
         }
-        myGrid = futureState; }
+        myGrid = futureState;
+    }
 
     @Override
     public int cellStatus(int row, int column) {

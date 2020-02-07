@@ -5,16 +5,12 @@ public class CELL {
     private int type;
     private int life_time;
 
-
-
     public CELL(int state, int row, int col, int life){
         Xrow = row;
         Ycol = col;
         type = state;
         life_time = life;
-
 }
-
 
     public int getX(){
         return Xrow;

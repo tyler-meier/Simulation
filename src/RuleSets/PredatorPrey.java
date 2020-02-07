@@ -1,6 +1,5 @@
 package RuleSets;
 
-import Neighbourhood.Square;
 import cell.CELL;
 import org.xml.sax.SAXException;
 import grid.FiniteGrid;
@@ -26,6 +25,7 @@ public class PredatorPrey extends simulation {
     private int FishN=0;
     private  ArrayList<CELL> myAdjN;
     private  CELL[][] futureState;
+    private FiniteGrid abc;
     //private int turn;
 
 
@@ -40,7 +40,7 @@ public class PredatorPrey extends simulation {
 
         private  Boolean SHARK_EAT_FISH(int i, int  j){
             FishN= 0;
-            myAdjN = formNeighbours(i,j,myGrid); //find adjN of the cell
+            myAdjN = formNeighbours(i,j); //find adjN of the cell
             if(myGrid[i][j].getType() == SHARK) { //if it is shark
                 FishNei = new ArrayList<>();
                 FishNei = FISH_NUMBER(); //get the arraylist of all its neighbours and count the number of fishes
@@ -59,13 +59,13 @@ public class PredatorPrey extends simulation {
                             EAT = true;
                         } } } }
             else if ( myGrid[i][j].getType() == FISH && EAT == false) {Fish_Move(i,j);}
-            return EAT; }
+            return EAT;
+    }
 
 
-
-    public ArrayList<CELL> formNeighbours(int i, int j, CELL[][] Grid){
-        Square nei = new Square(i, j);
-        return nei.getFourNeighbourCount(i,j,myGrid);
+    public ArrayList<CELL> formNeighbours(int i, int j){
+        System.out.print(abc.getFourNeighbourCount(i,j));
+        return abc.getFourNeighbourCount(i,j);
     }
 
 
@@ -159,7 +159,7 @@ public class PredatorPrey extends simulation {
     @Override
     public void readFile() { //sets up the grid
         breeding = Integer.parseInt(reader.getParameters("cycle"));
-        FiniteGrid abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);
+        abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);
         myGrid = abc.Grid_Make(reader);
     }
 

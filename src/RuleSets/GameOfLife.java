@@ -67,8 +67,6 @@ public class GameOfLife extends simulation {
                 }
                 aliveCount =0;
             }
-
-
         }
         myGrid = futureState;
 

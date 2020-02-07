@@ -4,11 +4,12 @@ package grid;
 import cell.CELL;
 import RuleSets.ReadXML;
 
+import java.util.ArrayList;
+
 
 public class FiniteGrid {
     public int row, col;
     CELL[][] myGrid;
-    CELL[][] Grid;
     public ReadXML reader;
     private int turn;
 
@@ -17,17 +18,6 @@ public class FiniteGrid {
         reader = myReader;
         row = x;
         col =y;
-    }
-
-    public int getXsize(){
-        System.out.print(reader.getRow());
-        return reader.getRow();
-
-    }
-
-    public int getYsize(){
-        return reader.getCol();
-
     }
 
     public CELL[][] Grid_Make(ReadXML reader){ //grid for predator prey
@@ -39,6 +29,44 @@ public class FiniteGrid {
        }
        return myGrid;
    }
+
+    public ArrayList<CELL> getFourNeighbourCount(int i, int j) {
+        ArrayList<CELL> neighbours = new ArrayList<>();
+        if (isBounds(i,j+1))  neighbours.add(myGrid[i][j+1]);
+        if (isBounds(i,j-1))  neighbours.add(myGrid[i][j-1]);
+        if (isBounds(i-1,j))  neighbours.add(myGrid[i-1][j]);
+        if (isBounds(i+1,j))  neighbours.add(myGrid[i+1][j]);
+        return neighbours;
+    }
+
+
+    public ArrayList<CELL> getEightNeighbourCount(int i, int j) {
+        ArrayList<CELL> neighbours = new ArrayList<>();
+        if (isBounds(i,j+1))  neighbours.add(myGrid[i][j+1]);
+        if (isBounds(i,j-1))  neighbours.add(myGrid[i][j-1]);
+        if (isBounds(i-1,j))  neighbours.add(myGrid[i-1][j]);
+        if (isBounds(i+1,j))  neighbours.add(myGrid[i+1][j]);
+        if (isBounds(i-1,j-1))  neighbours.add(myGrid[i-1][j-1]);
+        if (isBounds(i+1,j+1))  neighbours.add(myGrid[i+1][j+1]);
+        if (isBounds(i-1,j+1))  neighbours.add(myGrid[i-1][j+1]);
+        if (isBounds(i+1,j-1))  neighbours.add(myGrid[i+1][j-1]);
+        return neighbours;
+
+    }
+    public Boolean isBounds(int row, int col){
+        if(row< 0 || row>= myGrid.length){
+            return false;
+        }
+        if(col < 0|| col>= myGrid[0].length){
+            return false;
+        }
+
+        return true;
+
+    }
+
+
+
 
 
 
