@@ -83,6 +83,7 @@ public class Segregation extends Simulation {
 
 
 
+
     public void move(int type, CELL[][] futureState){
         int x =0;
         for(int row=0; row<myGrid2.length;row++){
