@@ -25,10 +25,20 @@ public class Chart {
     private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     public StackPane createChart(int width, Stage currentStage){
+        setAxis();
+        createLineChart(width);
+        updateChart(currentStage);
+        createStackPane();
+        return bottom;
+    }
+    private void setAxis(){
         xAxis.setLabel("Cycles"); //found code to do this online
         xAxis.setAnimated(false);
         yAxis.setLabel("Value");
         yAxis.setAnimated(false);
+    }
+
+    private void createLineChart(int width){
         lineChart.setTitle("Cell counts");
         lineChart.setAnimated(false);
         series.setName("Orange Red Cell");
@@ -38,24 +48,29 @@ public class Chart {
         lineChart.getData().add(series2);
         lineChart.getData().add(series3);
         lineChart.setMaxSize(width, HEIGHT);
+    }
 
+    public void updateChart(Stage currentStage){
         scheduledExecutorService.scheduleAtFixedRate(() -> {
-                    Integer random = ThreadLocalRandom.current().nextInt(10);
-                    Platform.runLater(() -> {
+            Integer random = ThreadLocalRandom.current().nextInt(10);
+            Platform.runLater(() -> {
 
-                        // put random number with current time
-                        series.getData().add(new XYChart.Data<>(1, random));
-                        series2.getData().add(new XYChart.Data<>(1, 3));
-                        series3.getData().add(new XYChart.Data<>(1, 4));
-                        //if ((series.getData().size() || series2.getData().size() || series3.getData().size()) > 10) {series.getData().remove(0);}
-                    });
-                }, 0, 1, TimeUnit.SECONDS);
-        bottom.setPrefHeight(400);
-        bottom.setAlignment(lineChart, Pos.TOP_CENTER);
-        bottom.getChildren().add(lineChart);
+                // put random number with current time
+                series.getData().add(new XYChart.Data<>(1, random));
+                series2.getData().add(new XYChart.Data<>(1, 3));
+                series3.getData().add(new XYChart.Data<>(1, 4));
+                //if ((series.getData().size() || series2.getData().size() || series3.getData().size()) > 10) {series.getData().remove(0);}
+            });
+        }, 0, 1, TimeUnit.SECONDS);
+
         currentStage.setOnCloseRequest(event -> {
             scheduledExecutorService.shutdownNow();
         });
-        return bottom;
+    }
+
+    public void createStackPane(){
+        bottom.setPrefHeight(400);
+        bottom.setAlignment(lineChart, Pos.TOP_CENTER);
+        bottom.getChildren().add(lineChart);
     }
 }
