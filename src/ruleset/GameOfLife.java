@@ -36,6 +36,8 @@ public class GameOfLife extends Simulation {
 
     }
 
+
+
    //count the number of dead and alive for each cell. this method is called for every cell in update method.
     public int  getNeighbourCount(int i, int j) {
                 if (isBounds(i-1,j-1) && (myGrid[i - 1][j - 1].getType() == ALIVE)) aliveCount++;

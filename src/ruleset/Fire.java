@@ -27,19 +27,7 @@ public class Fire extends Simulation {
     }
 
 
-    public void CellTree(int i, int j , CELL[][] future){
-        for (CELL cell : neighbours) {  //for all the neighburs of the current cell
-            if (cell.getType() == BURNING ) { //if the neighbours burning, tree
-                double random = Math.random(); //generate a number btw 0 and 1
-                if (random <= life_time) { // if the percent is greater than prob catch
-                    futureState[i][j] = new CELL(BURNING,i,j,0); //it burns
-                   break;
-                }
-            }
-            else
-                futureState[i][j] = new CELL(TREE,i,j,0); //does nothing.
-        }
-    }
+
 
 //    public ArrayList<CELL> getFourNeighbourCount(int i, int j) {
 //        ArrayList<CELL> neighbours = new ArrayList<>();
@@ -61,12 +49,17 @@ public class Fire extends Simulation {
 //    }
 
 
+    //literally removed the above code and put it in FiniteGrid class. and called it down in method
+
+
+
     @Override
     public void update() {
         futureState = new CELL[myGrid.length][myGrid[0].length]; //new cell set
         for (int i = 0; i < myGrid.length; i++) {
             for (int j =0; j < myGrid[0].length; j++) {
-                 neighbours = abc.getFourNeighbourCount(i, j);
+                 neighbours = abc.getFourNeighbourCount(i, j); //neighbours added
+                 //System.out.println(i + " " + j);
                 if (myGrid[i][j].getType() == BURNING) {  //simply the burning tree dies.
                     futureState[i][j] = new CELL(EMPTY,i,j,0); //burnt or empty
                 }
@@ -77,6 +70,22 @@ public class Fire extends Simulation {
             }
         }
         myGrid = futureState;
+    }
+
+
+
+    public void CellTree(int i, int j , CELL[][] future){
+        for (CELL cell : neighbours) {  //for all the neighburs of the current cell
+            if (cell.getType() == BURNING ) { //if the neighbours burning, tree
+                double random = Math.random(); //generate a number btw 0 and 1
+                if (random <= life_time) { // if the percent is greater than prob catch
+                    futureState[i][j] = new CELL(BURNING,i,j,0); //it burns
+                    break;
+                }
+            }
+            else
+                futureState[i][j] = new CELL(TREE,i,j,0); //does nothing.
+        }
     }
 
     @Override
