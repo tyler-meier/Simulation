@@ -2,26 +2,29 @@ package visual;
 
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class Chart {
     public static final int HEIGHT = 250;
 
-    private final NumberAxis xAxis = new NumberAxis();
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+    private final CategoryAxis xAxis = new CategoryAxis();
     private final NumberAxis yAxis = new NumberAxis();
-    private final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+    private final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
     private final StackPane bottom = new StackPane();
-    private final XYChart.Series<Number, Number> series = new XYChart.Series<>();
-    private final XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
-    private final XYChart.Series<Number, Number> series3 = new XYChart.Series<>();
+    private final XYChart.Series<String, Number> series = new XYChart.Series<>();
+    private final XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+    private final XYChart.Series<String, Number> series3 = new XYChart.Series<>();
     private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     public StackPane createChart(int width, Stage currentStage){
@@ -52,11 +55,11 @@ public class Chart {
     public void updateChart(int green, int red, int white){
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
+                Date now = new Date();
 
-                // put random number with current time
-                //series.getData().add(new XYChart.Data<>(1, red));
-                series2.getData().add(new XYChart.Data<>(1, green));
-                series3.getData().add(new XYChart.Data<>(1, white));
+                //series.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), red));
+                series2.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), green));
+                //series3.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), white));
             });
         }, 0, 1, TimeUnit.SECONDS);
 
