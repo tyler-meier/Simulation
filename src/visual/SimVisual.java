@@ -1,5 +1,7 @@
-package RuleSets;
+package visual;
 
+import xmlreading.ReadXML;
+import ruleset.Simulation;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -23,34 +25,36 @@ import java.util.ResourceBundle;
  *
  * @author Tyler Meier (tkm22)
  */
-class Visualizer extends Application {
+public class SimVisual extends Application {
     public static final int OPEN = 1;
     public static final int FULL = 2;
     public static final double PREF_BUTTON_WIDTH = 250;
     public static final double PREF_BUTTON_HEIGHT = 100;
-    public static final Font titleFont = new Font("Arial", 50);
-    public static int RECTANGLE_SIZE_ROW;
-    public static int RECTANGLE_SIZE_COL;
-    public static int GRID_SIZE = 350;
+    private static final Font titleFont = new Font("Arial", 50);
+    public static final int GRID_SIZE = 350;
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
-    public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
 
-    private Button pause, resume, stepThrough;
+    private int RECTANGLE_SIZE_ROW;
+    private int RECTANGLE_SIZE_COL;
+    private Button pause, resume, stepThrough, slowSimDown, speedSimUp, chooseSimButtonSim, anotherWindowButton;
     private Rectangle[][] myGrid;
     private Group group;
     private VBox allButtonsVBox, topLabelsVBox;
     private Label buttonDescriptions;
     private ResourceBundle myResources;
+    private Timeline theAnimation;
+    private Chart myChart;
+
 
     /**
      * Start method for visualizer, just need so it can extend application, this start
      * method doesn't actually do anything
-     * @param primaryStage null stage, doesn't actually show anything
+     * @param secondaryStage null stage, doesn't actually show anything
      * @throws Exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage secondaryStage) throws Exception {
 
     }
 
@@ -66,27 +70,29 @@ class Visualizer extends Application {
      * @param myCurrSim the current simulation that is about to be run, what the scene is creating
      * @param mySimFileReader a ReadXML object that allows the grid to read the file and set up
      *                        the rectangles in the correct positions and correct colors
-     * @param simButton the button that allows the user to file choose a new simulation to run, everything
-     *                  is already set up for this button, it is just being passed onto this scene
-     * @param animation the animation for this scene, being passed from Visualization so that the animation
+     * @param oldSimButton the button that allows the user to file choose a new simulation to run, everything
+     *                  is already set up for this button, it is just being passed onto this scene to be 'copied'
+     * @param oldAnotherWindow the button that brings up a whole other window of the specified simulation, everything
+     *                         is already set up for this button, it is just being passed onto this scene to be 'copied'
+     * @param animation the animation for this scene, being passed from cellsociety.Visualization so that the animation
      *                  can play in this scene
-     * @param speedUp the button that allows the simulation to speed up by cycles, already set up in visualization
-     * @param slowDown the button that allows the simulation to slow down the cycle, already set up in visualization
      * @return scene, the whole set up scene for the simulation
      */
-    public Scene setUpSimulationScene(int width, int height, String stringName, simulation myCurrSim, ReadXML mySimFileReader, Button simButton, Timeline animation, Button speedUp, Button slowDown) {
+    public Scene setUpSimulationScene(int width, int height, String stringName, Simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Button oldAnotherWindow, Timeline animation, Stage myStage) {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "allStrings");
+        theAnimation = animation;
+        myChart = new Chart();
 
-        createAllButtons(speedUp, slowDown, simButton, animation, myCurrSim);
+        createAllButtons(myCurrSim, oldSimButton, oldAnotherWindow);
         createTopLabels(stringName);
         createButtonLabel();
         setUpGrid(myCurrSim, mySimFileReader);
 
-        BorderPane.setAlignment(allButtonsVBox, Pos.CENTER_LEFT);
+        BorderPane.setAlignment(allButtonsVBox, Pos.CENTER);
         BorderPane.setAlignment(topLabelsVBox, Pos.TOP_CENTER);
-        BorderPane.setAlignment(buttonDescriptions, Pos.CENTER_RIGHT);
-        BorderPane.setAlignment(group, Pos.CENTER);
-        BorderPane boPane = new BorderPane(group, topLabelsVBox, buttonDescriptions, null, allButtonsVBox);
+        BorderPane.setAlignment(buttonDescriptions, Pos.CENTER);
+        BorderPane.setAlignment(group, Pos.TOP_CENTER);
+        BorderPane boPane = new BorderPane(group, topLabelsVBox, buttonDescriptions, myChart.createChart(width, myStage), allButtonsVBox);
 
         animation.play();
 
@@ -101,7 +107,7 @@ class Visualizer extends Application {
      * updated in the simulation
      * @param myCurrSim the current simulation that is running at the moment
      */
-    public void step(simulation myCurrSim){
+    public void step(Simulation myCurrSim){
         myCurrSim.update();
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[0].length ; col++) {
@@ -118,7 +124,7 @@ class Visualizer extends Application {
         }
     }
 
-    private void setUpGrid(simulation myCurrSim, ReadXML mySimFileReader){
+    private void setUpGrid(Simulation myCurrSim, ReadXML mySimFileReader){
         group = new Group();
         myGrid = new Rectangle[mySimFileReader.getRow()][mySimFileReader.getCol()];
         RECTANGLE_SIZE_ROW = (GRID_SIZE/mySimFileReader.getRow());
@@ -148,31 +154,41 @@ class Visualizer extends Application {
         return rectangle;
     }
 
-    private VBox createAllButtons(Button speedUp, Button slowDown, Button simButton, Timeline animation, simulation myCurrSim){
+    private VBox createAllButtons(Simulation myCurrSim, Button oldSimButton, Button oldAnotherWindow){
         allButtonsVBox = new VBox();
 
         pause = new Button(myResources.getString("Pause"));
         resume = new Button (myResources.getString("Resume"));
         stepThrough = new Button(myResources.getString("StepThrough"));
+        speedSimUp = new Button(myResources.getString("speedUpButton"));
+        slowSimDown = new Button(myResources.getString("slowDownButton"));
+        chooseSimButtonSim = new Button(myResources.getString("chooseSimButton"));
+        anotherWindowButton = new Button(myResources.getString("windowButton"));
 
         pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         resume.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         stepThrough.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        speedUp.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        slowDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        simButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        speedSimUp.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        slowSimDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        chooseSimButtonSim.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        anotherWindowButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
 
         pause.setOnAction(e -> {
-            animation.stop();
+            theAnimation.stop();
             stepThrough.setOnAction(ev -> step(myCurrSim));
         });
         resume.setOnAction(e -> {
-            animation.play();
-            stepThrough.setOnAction(ev -> animation.play());
+            theAnimation.play();
+            stepThrough.setOnAction(ev -> theAnimation.play());
         });
+        speedSimUp.setOnAction(e -> speedSimUp());
+        slowSimDown.setOnAction(e -> slowSimDown());
+        chooseSimButtonSim.setOnAction(oldSimButton.getOnAction());
+        anotherWindowButton.setOnAction(oldAnotherWindow.getOnAction());
 
-        allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedUp, slowDown, simButton);
-        allButtonsVBox.setAlignment(Pos.CENTER_LEFT);
+
+        allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedSimUp, slowSimDown, chooseSimButtonSim, anotherWindowButton);
+        allButtonsVBox.setAlignment(Pos.CENTER);
         return allButtonsVBox;
     }
 
@@ -203,7 +219,6 @@ class Visualizer extends Application {
 
         topLabelsVBox.getChildren().addAll(nameLabel, rules);
         topLabelsVBox.setAlignment(Pos.TOP_CENTER);
-        topLabelsVBox.setSpacing(15);
         return topLabelsVBox;
     }
 
@@ -213,4 +228,17 @@ class Visualizer extends Application {
         buttonDescriptions.setWrapText(true);
         return buttonDescriptions;
     }
+
+    private void speedSimUp(){
+        if (theAnimation.getRate() != 60){
+            theAnimation.setRate(theAnimation.getRate() + 1);
+        }
+    }
+
+    private void slowSimDown(){
+        if (theAnimation.getRate() != 1){
+            theAnimation.setRate(theAnimation.getRate() - 1);
+        }
+    }
+
 }

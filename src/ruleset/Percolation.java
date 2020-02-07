@@ -1,16 +1,23 @@
-package RuleSets;
+package ruleset;
 
-import RuleSets.ReadXML;
-import RuleSets.simulation;
+
 import cell.CELL;
 import org.xml.sax.SAXException;
 import grid.FiniteGrid;
+import xmlreading.ReadXML;
 
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
-public class Percolation extends simulation {
+
+public class Percolation extends Simulation {
+
+    /*
+    Possible states for the percolation cells are: BLOCKED,OPEN,FULL.
+     */
+
+    //private PCELL [][] myGrid;
     public static final int OPEN = 0;
     public static final int FULL = 1;
     private ReadXML reader;

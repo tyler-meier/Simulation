@@ -2,7 +2,7 @@ package grid;
 
 
 import cell.CELL;
-import RuleSets.ReadXML;
+import xmlreading.ReadXML;
 
 import java.util.ArrayList;
 
