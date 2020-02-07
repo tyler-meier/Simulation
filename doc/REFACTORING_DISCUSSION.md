@@ -14,6 +14,5 @@ of coding was correct throughout
 *We shortened some of the long methods in our classes 
 *ALSO during lab we didnt create a separate branch and just worked together in main on refactoring or on
 our own branches and then merged so in this branch this will be the only thing pushed 
-(talked to Professor Duvall about out mistake)
-
+(talked to Professor Duvall about out mistake). 
 
