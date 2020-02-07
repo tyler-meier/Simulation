@@ -27,7 +27,6 @@ public class Chart {
     public StackPane createChart(int width, Stage currentStage){
         setAxis();
         createLineChart(width);
-        updateChart(currentStage);
         createStackPane();
         return bottom;
     }
@@ -50,22 +49,17 @@ public class Chart {
         lineChart.setMaxSize(width, HEIGHT);
     }
 
-    public void updateChart(Stage currentStage){
+    public void updateChart(int green, int red, int white){
         scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Integer random = ThreadLocalRandom.current().nextInt(10);
             Platform.runLater(() -> {
 
                 // put random number with current time
-                series.getData().add(new XYChart.Data<>(1, random));
-                series2.getData().add(new XYChart.Data<>(1, 3));
-                series3.getData().add(new XYChart.Data<>(1, 4));
-                //if ((series.getData().size() || series2.getData().size() || series3.getData().size()) > 10) {series.getData().remove(0);}
+                //series.getData().add(new XYChart.Data<>(1, red));
+                series2.getData().add(new XYChart.Data<>(1, green));
+                series3.getData().add(new XYChart.Data<>(1, white));
             });
         }, 0, 1, TimeUnit.SECONDS);
 
-        currentStage.setOnCloseRequest(event -> {
-            scheduledExecutorService.shutdownNow();
-        });
     }
 
     public void createStackPane(){
