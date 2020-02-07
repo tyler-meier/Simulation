@@ -9,6 +9,7 @@ import xmlreading.ReadXML;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Percolation extends Simulation {
@@ -20,8 +21,10 @@ public class Percolation extends Simulation {
     //private PCELL [][] myGrid;
     public static final int OPEN = 0;
     public static final int FULL = 1;
+    private  FiniteGrid abc;
     private ReadXML reader;
     CELL[][] myGrid;
+    private boolean full = false;
 
 
 
@@ -33,7 +36,7 @@ public class Percolation extends Simulation {
 
     @Override
     public void readFile() {
-        FiniteGrid abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
+        abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
         myGrid = abc.Grid_Make(reader);  //calls in the method from the class
     }
 
@@ -43,17 +46,6 @@ public class Percolation extends Simulation {
     sure we are dealing with cells in the bounds.
      */
 
-    public Boolean isBounds(int row, int col){
-        if(row<0 || row>= myGrid.length){
-            return false;
-        }
-        if(col <0|| col>= myGrid[0].length){
-            return false;
-        }
-
-        return true;
-
-    }
 
     /*
    CellIsOpen method will check if the cell is open and empty, and if its open and full.
@@ -88,20 +80,18 @@ public class Percolation extends Simulation {
         myGrid = futureState;
     }
 
+
+
     public Boolean isNeighborFull(int row, int col){
-        if (isBounds(row - 1, col) && (myGrid[row - 1][col].getType()) == FULL) return true;
-        else if (isBounds(row + 1, col) && (myGrid[row + 1][col].getType()) == FULL) return true;
-        else if (isBounds(row, col - 1) && (myGrid[row][col - 1].getType()) == FULL) return true;
-        else if (isBounds(row, col + 1) && (myGrid[row][col + 1].getType()) == FULL) return true;
-        else if (isBounds(row - 1, col - 1) && (myGrid[row - 1][col - 1].getType()) == FULL) return true;
-        else if (isBounds(row - 1, col + 1) && (myGrid[row - 1][col + 1].getType()) == FULL) return true;
-        else if (isBounds(row + 1, col + 1) && (myGrid[row + 1][col + 1].getType()) == FULL) return true;
-        else if (isBounds(row + 1, col - 1) && (myGrid[row + 1][col - 1].getType()) == FULL) return true;
-        return false;
+        full = false;
+        ArrayList<CELL> neighbours = abc.getFourNeighbourCount(row, col, myGrid);
+        for(CELL cell: neighbours){
+            if(cell.getType()== FULL) {
+                full = true;
+            }
+        }
+        return full;
     }
-
-
-
 
 
     public static void main( String[] args) throws IOException, SAXException, ParserConfigurationException {

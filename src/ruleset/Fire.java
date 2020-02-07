@@ -27,28 +27,6 @@ public class Fire extends Simulation {
     }
 
 
-
-
-//    public ArrayList<CELL> getFourNeighbourCount(int i, int j) {
-//        ArrayList<CELL> neighbours = new ArrayList<>();
-//        if (isBounds(i,j+1))  neighbours.add(myGrid[i][j+1]);
-//        if (isBounds(i,j-1))  neighbours.add(myGrid[i][j-1]);
-//        if (isBounds(i-1,j))  neighbours.add(myGrid[i-1][j]);
-//        if (isBounds(i+1,j))  neighbours.add(myGrid[i+1][j]);
-//        return neighbours;
-//    }
-//
-//    public Boolean isBounds(int row, int col){
-//        if(row< 0 || row>= myGrid.length){
-//            return false;
-//        }
-//        if(col < 0|| col>= myGrid[0].length){
-//            return false;
-//        }
-//        return true;
-//    }
-
-
     //literally removed the above code and put it in FiniteGrid class. and called it down in method
 
 
@@ -58,13 +36,12 @@ public class Fire extends Simulation {
         futureState = new CELL[myGrid.length][myGrid[0].length]; //new cell set
         for (int i = 0; i < myGrid.length; i++) {
             for (int j =0; j < myGrid[0].length; j++) {
-                 neighbours = abc.getFourNeighbourCount(i, j); //neighbours added
-                 //System.out.println(i + " " + j);
+                 neighbours = abc.getFourNeighbourCount(i, j, myGrid); //neighbours added
                 if (myGrid[i][j].getType() == BURNING) {  //simply the burning tree dies.
                     futureState[i][j] = new CELL(EMPTY,i,j,0); //burnt or empty
                 }
                 else if (myGrid[i][j].getType() == TREE) {
-                    CellTree(i,j,futureState);
+                    CellTree(i,j);
                 }
                 else{ futureState[i][j] = myGrid[i][j]; }
             }
@@ -74,7 +51,7 @@ public class Fire extends Simulation {
 
 
 
-    public void CellTree(int i, int j , CELL[][] future){
+    public void CellTree(int i, int j ){
         for (CELL cell : neighbours) {  //for all the neighburs of the current cell
             if (cell.getType() == BURNING ) { //if the neighbours burning, tree
                 double random = Math.random(); //generate a number btw 0 and 1
@@ -97,7 +74,7 @@ public class Fire extends Simulation {
     public void readFile() { //updates the grid in the way rules say. the first and last column and the first and last
         life_time = Double.parseDouble(reader.getParameters("probCatch"));
          abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
-        myGrid = abc.Grid_Make(reader);  //calls in the method from the class
+         myGrid = abc.getMyGrid();  //calls in the method from the class
     }
 
 

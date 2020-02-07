@@ -18,9 +18,10 @@ public class FiniteGrid {
         reader = myReader;
         row = x;
         col =y;
+        myGrid = Grid_Make(reader);
     }
 
-    public CELL[][] Grid_Make(ReadXML reader){ //grid for predator prey
+    public CELL[][] Grid_Make(ReadXML reader){
        myGrid = new CELL[reader.getRow()][reader.getCol()];
        for(int i = 0; i< myGrid.length; i++){
            for(int j = 0; j< myGrid[0].length; j++){
@@ -30,34 +31,40 @@ public class FiniteGrid {
        return myGrid;
    }
 
-    public ArrayList<CELL> getFourNeighbourCount(int i, int j) {
+   public CELL[][] getMyGrid() {
+        return myGrid;
+   }
+
+    public ArrayList<CELL> getFourNeighbourCount(int i, int j, CELL[][] grid) {
         ArrayList<CELL> neighbours = new ArrayList<>();
-        if (isBounds(i,j+1))  neighbours.add(myGrid[i][j+1]);
-        if (isBounds(i,j-1))  neighbours.add(myGrid[i][j-1]);
-        if (isBounds(i-1,j))  neighbours.add(myGrid[i-1][j]);
-        if (isBounds(i+1,j))  neighbours.add(myGrid[i+1][j]);
+        if (isBounds(i,j+1, grid))  neighbours.add(grid[i][j+1]);
+        if (isBounds(i,j-1, grid))  neighbours.add(grid[i][j-1]);
+        if (isBounds(i-1,j, grid))  neighbours.add(grid[i-1][j]);
+        if (isBounds(i+1,j, grid))  neighbours.add(grid [i+1][j]);
         return neighbours;
     }
 
 
-    public ArrayList<CELL> getEightNeighbourCount(int i, int j) {
+    public ArrayList<CELL> getEightNeighbourCount(int i, int j, CELL[][] grid) {
         ArrayList<CELL> neighbours = new ArrayList<>();
-        if (isBounds(i,j+1))  neighbours.add(myGrid[i][j+1]);
-        if (isBounds(i,j-1))  neighbours.add(myGrid[i][j-1]);
-        if (isBounds(i-1,j))  neighbours.add(myGrid[i-1][j]);
-        if (isBounds(i+1,j))  neighbours.add(myGrid[i+1][j]);
-        if (isBounds(i-1,j-1))  neighbours.add(myGrid[i-1][j-1]);
-        if (isBounds(i+1,j+1))  neighbours.add(myGrid[i+1][j+1]);
-        if (isBounds(i-1,j+1))  neighbours.add(myGrid[i-1][j+1]);
-        if (isBounds(i+1,j-1))  neighbours.add(myGrid[i+1][j-1]);
+        if (isBounds(i,j+1,grid))  neighbours.add(grid[i][j+1]);
+        if (isBounds(i,j-1, grid))  neighbours.add(grid[i][j-1]);
+        if (isBounds(i-1,j, grid))  neighbours.add(grid[i-1][j]);
+        if (isBounds(i+1,j, grid))  neighbours.add(grid[i+1][j]);
+        if (isBounds(i-1,j-1, grid))  neighbours.add(grid[i-1][j-1]);
+        if (isBounds(i+1,j+1, grid ))  neighbours.add(grid[i+1][j+1]);
+        if (isBounds(i-1,j+1, grid))  neighbours.add(grid[i-1][j+1]);
+        if (isBounds(i+1,j-1, grid))  neighbours.add(grid[i+1][j-1]);
         return neighbours;
 
     }
-    public Boolean isBounds(int row, int col){
-        if(row< 0 || row>= myGrid.length){
+
+
+    public Boolean isBounds(int row, int col, CELL[][] grid){
+        if(row< 0 || row>= grid.length){
             return false;
         }
-        if(col < 0|| col>= myGrid[0].length){
+        if(col < 0|| col>= grid[0].length){
             return false;
         }
 

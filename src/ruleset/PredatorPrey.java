@@ -65,8 +65,8 @@ public class PredatorPrey extends Simulation {
 
 
     public ArrayList<CELL> formNeighbours(int i, int j){
-        System.out.print(abc.getFourNeighbourCount(i,j));
-        return abc.getFourNeighbourCount(i,j);
+        System.out.print(abc.getFourNeighbourCount(i,j,myGrid));
+        return abc.getFourNeighbourCount(i,j,myGrid);
     }
 
 
