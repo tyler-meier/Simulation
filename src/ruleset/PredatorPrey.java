@@ -65,7 +65,6 @@ public class PredatorPrey extends Simulation {
 
 
     public ArrayList<CELL> formNeighbours(int i, int j){
-        System.out.print(abc.getFourNeighbourCount(i,j,myGrid));
         return abc.getFourNeighbourCount(i,j,myGrid);
     }
 
@@ -122,10 +121,8 @@ public class PredatorPrey extends Simulation {
             for (int j = 0; j < myGrid[0].length; j++) {  //loop through the CELL grid.
                 eaten = SHARK_EAT_FISH(i, j);
                 if (futureState[i][j] == null) futureState[i][j] = myGrid[i][j];
-                futureState[i][j].setLife((futureState[i][j].getLife())+1);
+                futureState[i][j].setLife((futureState[i][j].getLife()+1));
                 Breed(i, j);
-
-
             }
             myAdjN.clear();
             Empty.clear();

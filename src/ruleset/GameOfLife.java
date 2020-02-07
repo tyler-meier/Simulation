@@ -9,13 +9,15 @@ import xmlreading.ReadXML;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GameOfLife extends Simulation {
-    public static final int ALIVE = 1;
-    public static final int DEAD = 0;
+    private  final int ALIVE = 1;
+    private final int DEAD = 0;
     private CELL myGrid[][];
     private int aliveCount=0;
     private ReadXML reader;
+    private FiniteGrid abc;
 
 
     public GameOfLife(ReadXML myReader) throws ParserConfigurationException, IOException, SAXException {
@@ -24,35 +26,15 @@ public class GameOfLife extends Simulation {
 
     }
 
-    public Boolean isBounds(int row, int col){
-        if(row< 0 || row>= myGrid.length){
-            return false;
+    public int getNeighbourCount (int row, int col){
+        ArrayList<CELL> neighbours = abc.getEightNeighbourCount(row, col, myGrid);
+        for(CELL cell: neighbours){
+            if(cell.getType()== ALIVE) {
+                aliveCount++;
+            }
         }
-        if(col < 0 || col >= myGrid[0].length){
-            return false;
-        }
-
-        return true;
-
-    }
-
-
-
-
-
-   //count the number of dead and alive for each cell. this method is called for every cell in update method.
-    public int  getNeighbourCount(int i, int j) {
-                if (isBounds(i-1,j-1) && (myGrid[i - 1][j - 1].getType() == ALIVE)) aliveCount++;
-                if (isBounds(i+1,j+1) && (myGrid[i + 1][j + 1].getType() == ALIVE))  aliveCount++;
-                if (isBounds(i+1,j-1) && (myGrid[i + 1][j - 1].getType() == ALIVE))  aliveCount++;
-                if (isBounds(i-1,j+1) && (myGrid[i - 1][j+1].getType() == ALIVE))  aliveCount++;
-                if (isBounds(i,j+1) && (myGrid[i][j+1].getType()== ALIVE))  aliveCount++;
-                if (isBounds(i,j-1) && (myGrid[i ][j-1].getType() == ALIVE)) aliveCount++;
-                if (isBounds(i-1,j) && (myGrid[i-1][j].getType() == ALIVE)) aliveCount++;
-                if (isBounds(i+1,j) && (myGrid[i+1][j].getType() == ALIVE)) aliveCount++;
-
         return aliveCount;
-        }
+    }
 
 
     @Override
@@ -86,19 +68,12 @@ public class GameOfLife extends Simulation {
 
     @Override
     public void readFile() {
-        FiniteGrid abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
+         abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
         myGrid = abc.Grid_Make(reader);  //calls in the method from the class
 
     }
 
     public static void main(String args[]) throws ParserConfigurationException, IOException, SAXException {
-//        ReadXML mySim = new ReadXML();
-//        File xmlFile = new File("data/SampleGOL.xml");
-//        mySim.setUpFile(xmlFile);
-//        GameOfLife abc = new GameOfLife(mySim);
-//        //System.out.println();
-//        abc.update();
-//
 
 
     }

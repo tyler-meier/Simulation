@@ -11,7 +11,7 @@ public class FiniteGrid {
     public int row, col;
     CELL[][] myGrid;
     public ReadXML reader;
-    private int turn;
+
 
 
     public FiniteGrid(int x, int y, ReadXML myReader) {

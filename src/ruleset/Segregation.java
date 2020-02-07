@@ -9,6 +9,7 @@ import xmlreading.ReadXML;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Segregation extends Simulation {
@@ -20,6 +21,7 @@ public class Segregation extends Simulation {
     public  double percent;
     public  double totalN;
     private int satis_Factor; //this will be given in the file.
+    private FiniteGrid abc;
 
 
     private ReadXML reader;
@@ -39,49 +41,19 @@ public class Segregation extends Simulation {
         }
 
         return true;
-
     }
 
-    public double getPercent(int i, int j, int type) {
-        if (isBounds(i - 1, j) && myGrid[i - 1][j].getType() != EMPTY) {
-            totalN++; //count the total neighbours
-            if (myGrid[i - 1][j].getType() == type) percent++;
-        }
-        if (isBounds(i + 1, j) && myGrid[i + 1][j].getType() != EMPTY) {
-            totalN++;
-            if (myGrid[i + 1][j].getType() == type) percent++;
-        }
-        if (isBounds(i + 1, j + 1) && myGrid[i + 1][j + 1].getType() != EMPTY) {
-            totalN++;
-            if (myGrid[i + 1][j + 1].getType() == type) percent++;
-        }
-        if (isBounds(i - 1, j - 1) && myGrid[i - 1][j - 1].getType() != EMPTY) {
-            totalN++;
-            if (myGrid[i - 1][j - 1].getType() == type) percent++;
-        }
-        if (isBounds(i + 1, j - 1) && myGrid[i + 1][j - 1].getType() != EMPTY) {
-            totalN++;
-            if (myGrid[i + 1][j - 1].getType() == type) percent++;
-        }
-        if (isBounds(i - 1, j + 1) && myGrid[i - 1][j + 1].getType() != EMPTY) {
-            totalN++;
-            if (myGrid[i - 1][j + 1].getType() == type) percent++;
-        }
-        if (isBounds(i, j + 1) && myGrid[i][j +1].getType() != EMPTY) {
-            totalN++;
-            if (myGrid[i][j + 1].getType() == type) percent++;
-        }
-        if (isBounds(i, j - 1) && myGrid[i][j - 1].getType() != EMPTY) {
-            totalN++;
-            if (myGrid[i][j - 1].getType() == type) percent++;
+
+    public double getPercent(int i, int j, int type){
+        ArrayList<CELL> neighbours = abc.getEightNeighbourCount(i, j, myGrid);
+        for(CELL cell: neighbours){
+            if(cell.getType() != EMPTY) totalN++;
+                if(cell.getType()==type) percent++;
+
         }
         percent = (percent / totalN) * 100;
         return percent;
-
     }
-
-
-
 
 
     public void move(int type, CELL[][] futureState){
@@ -142,7 +114,7 @@ public class Segregation extends Simulation {
     @Override
     public void readFile() {
         satis_Factor = Integer.parseInt(reader.getParameters("similarity"));
-        FiniteGrid abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
+        abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);//creates a grid class
         myGrid = abc.Grid_Make(reader);
         myGrid2 = abc.Grid_Make(reader);  //calls in the method from the class
     }
