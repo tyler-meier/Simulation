@@ -30,10 +30,14 @@ public class SimVisual extends Application {
     public static final int FULL = 2;
     public static final double PREF_BUTTON_WIDTH = 250;
     public static final double PREF_BUTTON_HEIGHT = 100;
-    private static final Font titleFont = new Font("Arial", 50);
+    public static final Font titleFont = new Font("Arial", 50);
     public static final int GRID_SIZE = 350;
-    private static final String RESOURCES = "resources";
+    public static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+    public int LIGHTGREEN_COUNT = 0;
+    public int ORANGERED_COUNT = 0;
+    public int WHITE_COUNT = 0;
+
 
     private int RECTANGLE_SIZE_ROW;
     private int RECTANGLE_SIZE_COL;
@@ -109,19 +113,26 @@ public class SimVisual extends Application {
      */
     public void step(Simulation myCurrSim){
         myCurrSim.update();
+        LIGHTGREEN_COUNT = 0;
+        ORANGERED_COUNT = 0;
+        WHITE_COUNT = 0;
         for (int row = 0; row < myGrid.length; row++) {
             for (int col = 0 ; col < myGrid[0].length ; col++) {
                 if (myCurrSim.cellStatus(row,col) == OPEN){
+                    LIGHTGREEN_COUNT ++;
                     myGrid[row][col].setFill(Color.LIGHTGREEN);
                 }
                 else if (myCurrSim.cellStatus(row,col) == FULL){
+                    ORANGERED_COUNT ++;
                     myGrid[row][col].setFill(Color.ORANGERED);
                 }
                 else {
+                    WHITE_COUNT ++;
                     myGrid[row][col].setFill(Color.WHITE);
                 }
             }
         }
+        myChart.updateChart(LIGHTGREEN_COUNT, ORANGERED_COUNT, WHITE_COUNT);
     }
 
     private void setUpGrid(Simulation myCurrSim, ReadXML mySimFileReader){
