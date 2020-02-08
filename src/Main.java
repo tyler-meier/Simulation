@@ -1,9 +1,13 @@
 import visual.StartVisual;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 import javax.xml.parsers.ParserConfigurationException;
 
+/**
+ * Starts the entire program and simulations
+ *
+ * @author Tyler Meeir
+ */
 public class Main extends Application {
     private static StartVisual startView = new StartVisual();
 

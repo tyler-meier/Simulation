@@ -7,6 +7,12 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import java.util.ResourceBundle;
 
+/**
+ * Contains all of the methods that will create the chart
+ * to be used to see change in cell status over time
+ *
+ * @author Tyler Meier
+ */
 public class Chart {
     public static final int HEIGHT = 250;
 
@@ -22,9 +28,9 @@ public class Chart {
     /**
      * Creates the line chart that shows the change in cells over the time of the simulation
      * @param width sets the width of the line chart
-     * @param simName
-     * @param resource
-     * @return
+     * @param simName name of current simulation to be used for amount of series to use
+     * @param resource first part of the resource string
+     * @return the created stack pane of the entire chart
      */
     public StackPane createChart(int width, String simName, String resource){
         myResources = ResourceBundle.getBundle(resource + "allStrings");
@@ -34,11 +40,19 @@ public class Chart {
         return bottom;
     }
 
+    /**
+     * Updates the chart every time the step function is called
+     * so that it can hold the right data and stay in line with the
+     * speed of the simulation
+     * @param green count of the green cells
+     * @param red count of the red cells
+     * @param white count of the white cells
+     * @param step the number step that the sim is on to use for the x axis
+     */
     public void updateChart(int green, int red, int white, int step){
         series.getData().add(new XYChart.Data<>(step, red));
         series2.getData().add(new XYChart.Data<>(step, white));
         series3.getData().add(new XYChart.Data<>(step, green));
-
     }
 
     private void setAxis(){

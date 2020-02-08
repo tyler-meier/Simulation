@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.util.ResourceBundle;
 
 /**
@@ -81,7 +80,7 @@ public class SimVisual extends Application {
      *                  can play in this scene
      * @return scene, the whole set up scene for the simulation
      */
-    public Scene setUpSimulationScene(int width, int height, String stringName, Simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Button oldAnotherWindow, Timeline animation, Stage myStage) {
+    public Scene setUpSimulationScene(int width, int height, String stringName, Simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Button oldAnotherWindow, Timeline animation) {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "allStrings");
         STEP_COUNT = 0;
         theAnimation = animation;

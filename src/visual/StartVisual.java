@@ -54,7 +54,7 @@ public class StartVisual extends Application {
 
     /**
      * Initializes what will be displayed and how to display it, also sets the sim button
-     * so you can choose a simulation to display
+     * so you can choose a simulation to display. Also calls for the start scene to be created
      * @param primaryStage the primary stage of the program
      * @throws Exception
      */
@@ -136,6 +136,11 @@ public class StartVisual extends Application {
         myView = new SimVisual();
         mySimFileReader = new ReadXML();
 
+        simButtonFunction();
+        windowButtonFunction();
+    }
+
+    private void simButtonFunction(){
         chooseSimButtonMain.setOnAction(e -> {
             try {
                 String simName = setUpFile(mySimFileReader);
@@ -148,7 +153,7 @@ public class StartVisual extends Application {
                 else {
                     animation.setRate(FRAMES_PER_SECOND);
                 }
-                simScene = myView.setUpSimulationScene(WIDTH, HEIGHT, simName, myCurrSim, mySimFileReader, chooseSimButtonMain, anotherWindow, animation, myStage);
+                simScene = myView.setUpSimulationScene(WIDTH, HEIGHT, simName, myCurrSim, mySimFileReader, chooseSimButtonMain, anotherWindow, animation);
                 myStage.setScene(simScene);
                 myStage.show();
             } catch (IOException ex) {
@@ -159,7 +164,9 @@ public class StartVisual extends Application {
                 dealWithException();
             }
         });
+    }
 
+    private void windowButtonFunction(){
         anotherWindow.setOnAction(e ->{
             anotherStage = new Stage();
             try {
@@ -171,9 +178,7 @@ public class StartVisual extends Application {
                 newAnimation.setCycleCount(Timeline.INDEFINITE);
                 newAnimation.getKeyFrames().add(newFrame);
 
-                //animation.stop();
-
-                simScene = myView.setUpSimulationScene(WIDTH, HEIGHT, simName, myCurrSim, mySimFileReader, chooseSimButtonMain, anotherWindow, newAnimation, myStage);
+                simScene = myView.setUpSimulationScene(WIDTH, HEIGHT, simName, myCurrSim, mySimFileReader, chooseSimButtonMain, anotherWindow, newAnimation);
                 anotherStage.setScene(simScene);
                 anotherStage.show();
             } catch (IOException ex) {
@@ -183,7 +188,6 @@ public class StartVisual extends Application {
             } catch (ParserConfigurationException ex) {
                 dealWithException();
             }
-
         });
     }
 
