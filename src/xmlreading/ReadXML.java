@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,6 +26,12 @@ public class ReadXML {
     public static final String CELL = "cell";
     public static final String STATUS = "status";
     public static final String GRID_TYPE = "grid";
+    public static final String PROB_CATCH = "probCatch";
+    public static final String SIMILARITY = "similarity";
+    public static final String CYCLE = "cycle";
+    public static final String RANDOM = "Random";
+    public static final String TOTAL_STATES = "states";
+
 
     private final DocumentBuilder DOCUMENT_BUILDER;
     private Map<String, String> myParameters;
@@ -32,6 +39,7 @@ public class ReadXML {
     private int[][] myGrid;
     private int row;
     private int col;
+    private int totalStates;
 
     /**
      * Create Parser for a given XML file
@@ -44,7 +52,7 @@ public class ReadXML {
     }
 
     /**
-     * Acquires the root element of the xml file and reads grid and parameters
+     * Acquires the root element of the xml file, reads grid and parameters
      */
     public void setUpFile(File xmlFile) throws IOException, SAXException {
         myRoot = getRootElement(xmlFile);
@@ -58,7 +66,9 @@ public class ReadXML {
      * Returns the data for given attribute field
      */
     public String getParameters(String parameter){
-        return getAttribute(myRoot, parameter);
+        String myParameter = getAttribute(myRoot, parameter);
+        if(myParameter.equals("")) return myParameters.get(parameter);
+        return myParameter;
     }
     public int getRow(){
         return row;
@@ -79,25 +89,39 @@ public class ReadXML {
         return xmlDoc.getDocumentElement();
     }
     /**
-     *
+     * Add parameters to map so it can be retrived
      */
     private void setUpParameters(){
         myParameters = new HashMap<>();
-        myParameters.put(TYPE, getParameters(TYPE));
-        myParameters.put(GRID_TYPE, getParameters(GRID_TYPE));
-
+        myParameters.put(TYPE, getAttribute(myRoot, TYPE));
+        myParameters.put(GRID_TYPE, getAttribute(myRoot,GRID_TYPE));
+        setUpDefaultValues();
+    }
+    private void setUpDefaultValues(){
+        myParameters.put(PROB_CATCH, "0.55");
+        myParameters.put(CYCLE, "3");
+        myParameters.put(SIMILARITY, "30");
     }
     /**
      * Retrieves column and row values from xml files
      */
     private void setMyGrid(){
-        row = Integer.parseInt(getTextValue(myRoot, ROW));
-        col = Integer.parseInt(getTextValue(myRoot, COL));
+        setUpGridSize();
         myGrid = new int[row][col];
-        setCells();
+        if(myGridIsRandom()) createRandomGrid();
+        else setCells();
+    }
+    private void setUpGridSize(){
+        try {
+            row = Integer.parseInt(getTextValue(myRoot, ROW));
+            col = Integer.parseInt(getTextValue(myRoot, COL));
+        } catch (NumberFormatException e){
+            row = 10;
+            col = 10;
+        }
     }
     /**
-     * Retrieves status value from xml files and assigns it to the cells in the global data structure
+     * Methods that set up cell states based on user set up or randomly
      */
     private void setCells(){
         NodeList list = myRoot.getElementsByTagName(CELL);
@@ -106,6 +130,18 @@ public class ReadXML {
             for(int j = 0; j< col; j++){
                 myGrid[i][j] = Integer.parseInt(getTextValue((Element)list.item(index), STATUS));
                 index++;
+            }
+        }
+    }
+    private void createRandomGrid(){
+        Random random = new Random();
+        try{
+            totalStates = Integer.parseInt(getParameters(TOTAL_STATES));
+        }
+        catch (NumberFormatException e){ totalStates = 3;}
+        for(int i = 0; i< row; i++){
+            for(int j = 0; j< col; j++){
+                myGrid[i][j] = random.nextInt(totalStates);
             }
         }
     }
@@ -125,15 +161,20 @@ public class ReadXML {
         }
         else return "";
     }
-
-    /*public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+    /**
+     * Checks if grid cells are to be determined randomly
+     */
+    public boolean myGridIsRandom(){
+        return myParameters.get(GRID_TYPE).equals(RANDOM);
+    }
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         ReadXML mySim = new ReadXML();
-        File xmlFile = new File("data/samplePercolation.xml");
-        mySim.setRoot(xmlFile);
+        File xmlFile = new File("data/samplePercolationRandom");
+        mySim.setUpFile(xmlFile);
         Element root = mySim.getRootElement(xmlFile);
-        System.out.println("Simulation Type is: "+ mySim.getParameters("simulationType"));
+        System.out.println("Simulation Type is: "+ mySim.getRow());
         System.out.println("My first val is: "+ mySim.getTextValue(root, "col"));
         mySim.setMyGrid();
-    }*/
+    }
 }
 

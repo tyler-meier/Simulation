@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simulation simulationType="Percolation" grid="Random" states="3">
+    <title>Percolation Simulation</title>
+    <author>Erik Gregorio</author>
+    <col>10</col>
+</simulation>
