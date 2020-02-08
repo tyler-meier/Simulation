@@ -106,7 +106,6 @@ public class StartVisual extends Application {
             dealWithException();
             return ("");
         }
-
         String simName = mySimFileReader.getParameters(mySimFileReader.TYPE);
         return simName;
     }
