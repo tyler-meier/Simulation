@@ -68,8 +68,9 @@ public class Percolation extends Simulation {
 
     public Boolean isNeighborFull(int row, int col){
         full = false;
-        ArrayList<CELL> neighbours = abc.getEightNeighbourCount(row, col, myGrid);
+        ArrayList<CELL> neighbours = abc.getEightNeighbourCount(row,col,myGrid);
         for(CELL cell: neighbours){
+           // System.out.println(cell.getX()+ " " + cell.getY());
             if(cell.getType()== FULL) {
                 full = true;
             }
