@@ -202,12 +202,6 @@ public class StartVisual extends Application {
         explainLabel.setTextAlignment(TextAlignment.CENTER);
     }
 
-    private void step(){
-        if (myCurrSim != null) {
-            myView.step(myCurrSim);
-        }
-    }
-
     private void dealWithException(){
         Alert errorMessage = new Alert(Alert.AlertType.ERROR);
         errorMessage.setTitle(myResources.getString("Error_Title"));
@@ -215,4 +209,9 @@ public class StartVisual extends Application {
         errorMessage.show();
     }
 
+    private void step(){
+        if (myCurrSim != null) {
+            myView.step(myCurrSim);
+        }
+    }
 }

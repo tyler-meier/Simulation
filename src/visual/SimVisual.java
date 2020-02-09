@@ -100,6 +100,7 @@ public class SimVisual extends Application {
         animation.play();
 
         Scene scene = new Scene(boPane, width, height);
+        scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
         return scene;
     }
 
@@ -264,4 +265,8 @@ public class SimVisual extends Application {
         }
     }
 
+    private void handleMouseInput (double x, double y) {
+        System.out.println("rectangle clicked");
+        //if the click is on rectangle, if rectangle == OPEN
+    }
 }
