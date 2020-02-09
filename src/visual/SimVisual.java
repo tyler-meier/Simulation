@@ -221,7 +221,7 @@ public class SimVisual extends Application {
             rules.setText(myResources.getString("SegRules"));
         }
         else if (simName.equals("PRS")){
-            rules.setText(myResources.getString("SegRules"));
+            rules.setText(myResources.getString("RPSRules"));
         }
     }
 
