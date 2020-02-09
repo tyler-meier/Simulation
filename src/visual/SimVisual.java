@@ -147,6 +147,14 @@ public class SimVisual extends Application {
         anotherWindowButton = new Button(myResources.getString("windowButton"));
         saveButton = new Button(myResources.getString("saveButton"));
 
+        buttonSizes();
+        buttonActions(myCurrSim, oldSimButton, oldAnotherWindow);
+        allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedSimUp, slowSimDown, chooseSimButtonSim, anotherWindowButton, saveButton);
+        allButtonsVBox.setAlignment(Pos.CENTER);
+        return allButtonsVBox;
+    }
+
+    private void buttonSizes(){
         pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         resume.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         stepThrough.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
@@ -155,7 +163,9 @@ public class SimVisual extends Application {
         chooseSimButtonSim.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         anotherWindowButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         saveButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+    }
 
+    private void buttonActions(Simulation myCurrSim, Button oldSimButton, Button oldAnotherWindow){
         pause.setOnAction(e -> {
             theAnimation.stop();
             stepThrough.setOnAction(ev -> step(myCurrSim));
@@ -168,11 +178,6 @@ public class SimVisual extends Application {
         slowSimDown.setOnAction(e -> slowSimDown());
         chooseSimButtonSim.setOnAction(oldSimButton.getOnAction());
         anotherWindowButton.setOnAction(oldAnotherWindow.getOnAction());
-
-
-        allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedSimUp, slowSimDown, chooseSimButtonSim, anotherWindowButton, saveButton);
-        allButtonsVBox.setAlignment(Pos.CENTER);
-        return allButtonsVBox;
     }
 
     private VBox createTopLabels(String stringName){
