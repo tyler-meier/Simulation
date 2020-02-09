@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
  * @author Tyler Meier (tkm22)
  */
 public class SimVisual extends Application {
+    public static final int EMPTY = 0;
     public static final int OPEN = 1;
     public static final int FULL = 2;
     public static final double PREF_BUTTON_WIDTH = 250;
@@ -40,7 +41,7 @@ public class SimVisual extends Application {
 
     private int RECTANGLE_SIZE_ROW;
     private int RECTANGLE_SIZE_COL;
-    private Button pause, resume, stepThrough, slowSimDown, speedSimUp, chooseSimButtonSim, anotherWindowButton, saveButton;
+    private Button pause, resume, stepThrough, slowSimDown, speedSimUp, chooseSimButtonSim, saveButton;
     private Rectangle[][] myGrid;
     private Group group;
     private VBox allButtonsVBox, topLabelsVBox;
@@ -74,19 +75,17 @@ public class SimVisual extends Application {
      *                        the rectangles in the correct positions and correct colors
      * @param oldSimButton the button that allows the user to file choose a new simulation to run, everything
      *                  is already set up for this button, it is just being passed onto this scene to be 'copied'
-     * @param oldAnotherWindow the button that brings up a whole other window of the specified simulation, everything
-     *                         is already set up for this button, it is just being passed onto this scene to be 'copied'
      * @param animation the animation for this scene, being passed from cellsociety.Visualization so that the animation
      *                  can play in this scene
      * @return scene, the whole set up scene for the simulation
      */
-    public Scene setUpSimulationScene(int width, int height, String stringName, Simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Button oldAnotherWindow, Timeline animation) {
+    public Scene setUpSimulationScene(int width, int height, String stringName, Simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Timeline animation) {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "allStrings");
         STEP_COUNT = 0;
         theAnimation = animation;
         myChart = new Chart();
 
-        createAllButtons(myCurrSim, oldSimButton, oldAnotherWindow);
+        createAllButtons(myCurrSim, oldSimButton, stringName);
         createTopLabels(stringName);
         createButtonLabel();
         setUpGrid(myCurrSim, mySimFileReader);
@@ -110,32 +109,43 @@ public class SimVisual extends Application {
      * updated in the simulation
      * @param myCurrSim the current simulation that is running at the moment
      */
-    public void step(Simulation myCurrSim){
+    public void step(Simulation myCurrSim, String simulationName){
         myCurrSim.update();
         LIGHTGREEN_COUNT = 0;
         ORANGERED_COUNT = 0;
         WHITE_COUNT = 0;
-        for (int row = 0; row < myGrid.length; row++) {
-            for (int col = 0 ; col < myGrid[0].length ; col++) {
-                if (myCurrSim.cellStatus(row,col) == OPEN){
-                    LIGHTGREEN_COUNT ++;
-                    myGrid[row][col].setFill(Color.LIGHTGREEN);
-                }
-                else if (myCurrSim.cellStatus(row,col) == FULL){
-                    ORANGERED_COUNT ++;
-                    myGrid[row][col].setFill(Color.ORANGERED);
-                }
-                else {
-                    WHITE_COUNT ++;
-                    myGrid[row][col].setFill(Color.WHITE);
-                }
-            }
-        }
+        updateGrid(myCurrSim, simulationName);
         STEP_COUNT ++;
         myChart.updateChart(LIGHTGREEN_COUNT, ORANGERED_COUNT, WHITE_COUNT, STEP_COUNT);
     }
 
-    private VBox createAllButtons(Simulation myCurrSim, Button oldSimButton, Button oldAnotherWindow){
+    private void updateGrid(Simulation myCurrSim, String simulationName){
+        for (int row = 0; row < myGrid.length; row++) {
+            for (int col = 0 ; col < myGrid[0].length ; col++) {
+                int finalRow = row;
+                int finalCol = col;
+                if (myCurrSim.cellStatus(row,col) == OPEN){
+                    LIGHTGREEN_COUNT ++;
+                    myGrid[row][col].setFill(Color.LIGHTGREEN);
+                    if (!simulationName.equals("GameOfLife")){
+                        myGrid[row][col].setOnMouseClicked(e -> myCurrSim.changeCellStatus(finalRow, finalCol, OPEN));
+                    }
+                }
+                else if (myCurrSim.cellStatus(row,col) == FULL){
+                    ORANGERED_COUNT ++;
+                    myGrid[row][col].setFill(Color.ORANGERED);
+                    myGrid[row][col].setOnMouseClicked(e -> myCurrSim.changeCellStatus(finalRow, finalCol, FULL));
+                }
+                else {
+                    WHITE_COUNT ++;
+                    myGrid[row][col].setFill(Color.WHITE);
+                    myGrid[row][col].setOnMouseClicked(e -> myCurrSim.changeCellStatus(finalRow, finalCol, EMPTY));
+                }
+            }
+        }
+    }
+
+    private VBox createAllButtons(Simulation myCurrSim, Button oldSimButton, String simName){
         allButtonsVBox = new VBox();
 
         pause = new Button(myResources.getString("Pause"));
@@ -144,12 +154,11 @@ public class SimVisual extends Application {
         speedSimUp = new Button(myResources.getString("speedUpButton"));
         slowSimDown = new Button(myResources.getString("slowDownButton"));
         chooseSimButtonSim = new Button(myResources.getString("chooseSimButton"));
-        anotherWindowButton = new Button(myResources.getString("windowButton"));
         saveButton = new Button(myResources.getString("saveButton"));
 
         buttonSizes();
-        buttonActions(myCurrSim, oldSimButton, oldAnotherWindow);
-        allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedSimUp, slowSimDown, chooseSimButtonSim, anotherWindowButton, saveButton);
+        buttonActions(myCurrSim, oldSimButton, simName);
+        allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedSimUp, slowSimDown, chooseSimButtonSim, saveButton);
         allButtonsVBox.setAlignment(Pos.CENTER);
         return allButtonsVBox;
     }
@@ -161,14 +170,13 @@ public class SimVisual extends Application {
         speedSimUp.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         slowSimDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         chooseSimButtonSim.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        anotherWindowButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
         saveButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
     }
 
-    private void buttonActions(Simulation myCurrSim, Button oldSimButton, Button oldAnotherWindow){
+    private void buttonActions(Simulation myCurrSim, Button oldSimButton, String simName){
         pause.setOnAction(e -> {
             theAnimation.stop();
-            stepThrough.setOnAction(ev -> step(myCurrSim));
+            stepThrough.setOnAction(ev -> step(myCurrSim, simName));
         });
         resume.setOnAction(e -> {
             theAnimation.play();
@@ -177,7 +185,6 @@ public class SimVisual extends Application {
         speedSimUp.setOnAction(e -> speedSimUp());
         slowSimDown.setOnAction(e -> slowSimDown());
         chooseSimButtonSim.setOnAction(oldSimButton.getOnAction());
-        anotherWindowButton.setOnAction(oldAnotherWindow.getOnAction());
     }
 
     private VBox createTopLabels(String stringName){
@@ -197,7 +204,7 @@ public class SimVisual extends Application {
         return topLabelsVBox;
     }
 
-    public void setRulesText(String simName, Label rules){
+    private void setRulesText(String simName, Label rules){
         if (simName.equals("Percolation")){
             rules.setText(myResources.getString("PercolationRules"));
         }
@@ -263,5 +270,4 @@ public class SimVisual extends Application {
             theAnimation.setRate(theAnimation.getRate() - 1);
         }
     }
-
 }
