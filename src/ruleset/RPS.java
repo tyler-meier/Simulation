@@ -99,9 +99,14 @@ public class RPS extends Simulation  {
 
     @Override
     public void readFile() throws IOException, SAXException, ParserConfigurationException {
-        threshold = Integer.parseInt(reader.getParameters("cycle"));
+        threshold = Integer.parseInt(reader.getParameters("th"));
         abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);
         myGrid = abc.Grid_Make(reader);
 
+    }
+
+    @Override
+    public int changeCellStatus(int row, int col, int currStatus) {
+        return myGrid[row][col].changeType(currStatus);
     }
 }
