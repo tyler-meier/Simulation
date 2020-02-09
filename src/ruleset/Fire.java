@@ -77,6 +77,8 @@ public class Fire extends Simulation {
          myGrid = abc.getMyGrid();  //calls in the method from the class
     }
 
-
-
+    @Override
+    public int changeCellStatus(int row, int col, int currStatus) {
+        return myGrid[row][col].changeType(currStatus);
+    }
 }
