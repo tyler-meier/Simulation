@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<simulation simulationType="PRS" threshold="5">
+<simulation simulationType="RPS" threshold="5">
     <title>Paper Rock Scissors Simulation</title>
     <author>Erik Gregorio</author>
     <row>10</row>

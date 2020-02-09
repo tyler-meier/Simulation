@@ -220,7 +220,7 @@ public class SimVisual extends Application {
         else if (simName.equals("Segregation")){
             rules.setText(myResources.getString("SegRules"));
         }
-        else if (simName.equals("PRS")){
+        else if (simName.equals("RPS")){
             rules.setText(myResources.getString("RPSRules"));
         }
     }

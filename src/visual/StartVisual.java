@@ -120,7 +120,7 @@ public class StartVisual extends Application {
         else if(simName.equals("GameOfLife")){
            myCurrSim = new GameOfLife(mySimFileReader);
         }
-        else if(simName.equals("PRS")){
+        else if(simName.equals("RPS")){
             myCurrSim = new RPS(mySimFileReader);
         }
     }
