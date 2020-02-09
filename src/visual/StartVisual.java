@@ -33,10 +33,10 @@ public class StartVisual extends Application {
     public static final int HEIGHT = 900;
     public static final int WIDTH = 850;
     public static final Font titleFont = new Font("Arial", 80);
-    public static final Font subtitleFont = new Font("Arial", 25);
-    private static final String RESOURCES = "resources";
-    public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
 
+    private static final Font subtitleFont = new Font("Arial", 25);
+    private static final String RESOURCES = "resources";
+    private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     private int FRAMES_PER_SECOND = 1;
     private int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private Boolean simStarted = false;
