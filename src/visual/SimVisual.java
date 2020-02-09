@@ -220,6 +220,9 @@ public class SimVisual extends Application {
         else if (simName.equals("Segregation")){
             rules.setText(myResources.getString("SegRules"));
         }
+        else if (simName.equals("PRS")){
+            rules.setText(myResources.getString("SegRules"));
+        }
     }
 
     private Label createButtonLabel(){

@@ -120,6 +120,9 @@ public class StartVisual extends Application {
         else if(simName.equals("GameOfLife")){
            myCurrSim = new GameOfLife(mySimFileReader);
         }
+        else if(simName.equals("PRS")){
+            myCurrSim = new RPS(mySimFileReader);
+        }
     }
 
     private void setUpButtons() throws ParserConfigurationException {
