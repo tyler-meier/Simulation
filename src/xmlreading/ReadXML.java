@@ -40,6 +40,7 @@ public class ReadXML {
     private int row;
     private int col;
     private int totalStates;
+    private int DEFAULT_STATE = 0;
 
     /**
      * Create Parser for a given XML file
@@ -107,6 +108,7 @@ public class ReadXML {
      */
     private void setMyGrid(){
         setUpGridSize();
+        setTotalCellStates();
         myGrid = new int[row][col];
         if(myGridIsRandom()) createRandomGrid();
         else setCells();
@@ -120,6 +122,13 @@ public class ReadXML {
             col = 10;
         }
     }
+    private void setTotalCellStates(){
+        try{
+            totalStates = Integer.parseInt(getParameters(TOTAL_STATES));
+        } catch (NumberFormatException e){
+            totalStates = 3;
+        }
+    }
     /**
      * Methods that set up cell states based on user set up or randomly
      */
@@ -128,17 +137,15 @@ public class ReadXML {
         int index = 0;
         for(int i = 0; i< row; i++){
             for(int j = 0; j< col; j++){
-                myGrid[i][j] = Integer.parseInt(getTextValue((Element)list.item(index), STATUS));
+                int state = Integer.parseInt(getTextValue((Element)list.item(index), STATUS));
+                if(state<=totalStates) myGrid[i][j] = state;
+                else myGrid[i][j] = DEFAULT_STATE;
                 index++;
             }
         }
     }
     private void createRandomGrid(){
         Random random = new Random();
-        try{
-            totalStates = Integer.parseInt(getParameters(TOTAL_STATES));
-        }
-        catch (NumberFormatException e){ totalStates = 3;}
         for(int i = 0; i< row; i++){
             for(int j = 0; j< col; j++){
                 myGrid[i][j] = random.nextInt(totalStates);
