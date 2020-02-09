@@ -17,6 +17,7 @@ public class RPS extends Simulation  {
     public final int SCISSORS =1;
     public final int PAPER = 2;
     private ArrayList<CELL> ans = new ArrayList<>();
+    private CELL[][] futureState;
 
 
     private ReadXML reader;
@@ -59,38 +60,40 @@ public class RPS extends Simulation  {
     }
 
 
-
+   int count =0;
+    public void update_Rock(int i, int j, CELL[][] future){
+        if (myGrid[i][j].getType() == ROCK) {
+            count = handle_Rock(i, j);
+            if (count >= threshold) futureState[i][j] = new CELL(PAPER, i, j, 0);
+            else {
+                futureState[i][j] = myGrid[i][j];
+            }
+        }
+    }
 
     @Override
     public void update() {
-        CELL[][] futureState = new CELL[myGrid.length][myGrid[0].length];
+         futureState= new CELL[myGrid.length][myGrid[0].length];
         for(int i =0; i < myGrid.length;i++) {
             for (int j = 0; j < myGrid[0].length; j++) {
-                int count = 0;
-                if (myGrid[i][j].getType() == ROCK) {
-                    count = handle_Rock(i, j);
-                    if (count >= threshold) futureState[i][j] = new CELL(PAPER, i, j, 0);
-
-                    else {
-                        futureState[i][j] = myGrid[i][j];
-                    }
-                } else if (myGrid[i][j].getType() == SCISSORS) {
+                count = 0;
+                if (myGrid[i][j].getType()== ROCK){
+                    update_Rock(i,j,futureState);
+                }
+                else if (myGrid[i][j].getType() == SCISSORS) {
                     count = handle_SCISSORS(i, j);
                     if (count >= threshold) futureState[i][j] = new CELL(ROCK, i, j, 0);
-
                     else {
                         futureState[i][j] = myGrid[i][j];
                     }
                 } else {
+                    count = handle_PAPER(i,j);
                     if (count >= threshold) futureState[i][j] = new CELL(SCISSORS, i, j, 0);
 
                     else {
                         futureState[i][j] = myGrid[i][j];
-                    }
-                }
-            }
-        }
-    }
+                    } }
+            } }}
 
     @Override
     public int cellStatus(int row, int column) {
@@ -99,7 +102,7 @@ public class RPS extends Simulation  {
 
     @Override
     public void readFile() throws IOException, SAXException, ParserConfigurationException {
-        threshold = Integer.parseInt(reader.getParameters("th"));
+        threshold = Integer.parseInt(reader.getParameters("threshold"));
         abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);
         myGrid = abc.Grid_Make(reader);
 
