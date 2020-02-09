@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameOfLife extends Simulation {
-    private  final int ALIVE = 1;
-    private final int DEAD = 0;
+    public  final int ALIVE = 1;
+    public final int DEAD = 0;
     private CELL myGrid[][];
     private int aliveCount=0;
     private ReadXML reader;

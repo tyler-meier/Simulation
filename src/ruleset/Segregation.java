@@ -18,8 +18,8 @@ public class Segregation extends Simulation {
     public  final int TYPE_2= 2;
 
     private CELL[][] myGrid, myGrid2;
-    public  double percent;
-    public  double totalN;
+    private  double percent;
+    private  double totalN;
     private int satis_Factor; //this will be given in the file.
     private FiniteGrid abc;
 

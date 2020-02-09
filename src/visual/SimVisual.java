@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.util.ResourceBundle;
 
 /**
@@ -37,11 +36,11 @@ public class SimVisual extends Application {
     public int LIGHTGREEN_COUNT = 0;
     public int ORANGERED_COUNT = 0;
     public int WHITE_COUNT = 0;
-
+    public int STEP_COUNT = 0;
 
     private int RECTANGLE_SIZE_ROW;
     private int RECTANGLE_SIZE_COL;
-    private Button pause, resume, stepThrough, slowSimDown, speedSimUp, chooseSimButtonSim, anotherWindowButton;
+    private Button pause, resume, stepThrough, slowSimDown, speedSimUp, chooseSimButtonSim, anotherWindowButton, saveButton;
     private Rectangle[][] myGrid;
     private Group group;
     private VBox allButtonsVBox, topLabelsVBox;
@@ -49,7 +48,6 @@ public class SimVisual extends Application {
     private ResourceBundle myResources;
     private Timeline theAnimation;
     private Chart myChart;
-
 
     /**
      * Start method for visualizer, just need so it can extend application, this start
@@ -82,8 +80,9 @@ public class SimVisual extends Application {
      *                  can play in this scene
      * @return scene, the whole set up scene for the simulation
      */
-    public Scene setUpSimulationScene(int width, int height, String stringName, Simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Button oldAnotherWindow, Timeline animation, Stage myStage) {
+    public Scene setUpSimulationScene(int width, int height, String stringName, Simulation myCurrSim, ReadXML mySimFileReader, Button oldSimButton, Button oldAnotherWindow, Timeline animation) {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "allStrings");
+        STEP_COUNT = 0;
         theAnimation = animation;
         myChart = new Chart();
 
@@ -96,7 +95,7 @@ public class SimVisual extends Application {
         BorderPane.setAlignment(topLabelsVBox, Pos.TOP_CENTER);
         BorderPane.setAlignment(buttonDescriptions, Pos.CENTER);
         BorderPane.setAlignment(group, Pos.TOP_CENTER);
-        BorderPane boPane = new BorderPane(group, topLabelsVBox, buttonDescriptions, myChart.createChart(width, myStage), allButtonsVBox);
+        BorderPane boPane = new BorderPane(group, topLabelsVBox, buttonDescriptions, myChart.createChart(width, stringName, DEFAULT_RESOURCE_PACKAGE), allButtonsVBox);
 
         animation.play();
 
@@ -132,7 +131,90 @@ public class SimVisual extends Application {
                 }
             }
         }
-        myChart.updateChart(LIGHTGREEN_COUNT, ORANGERED_COUNT, WHITE_COUNT);
+        STEP_COUNT ++;
+        myChart.updateChart(LIGHTGREEN_COUNT, ORANGERED_COUNT, WHITE_COUNT, STEP_COUNT);
+    }
+
+    private VBox createAllButtons(Simulation myCurrSim, Button oldSimButton, Button oldAnotherWindow){
+        allButtonsVBox = new VBox();
+
+        pause = new Button(myResources.getString("Pause"));
+        resume = new Button (myResources.getString("Resume"));
+        stepThrough = new Button(myResources.getString("StepThrough"));
+        speedSimUp = new Button(myResources.getString("speedUpButton"));
+        slowSimDown = new Button(myResources.getString("slowDownButton"));
+        chooseSimButtonSim = new Button(myResources.getString("chooseSimButton"));
+        anotherWindowButton = new Button(myResources.getString("windowButton"));
+        saveButton = new Button(myResources.getString("saveButton"));
+
+        pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        resume.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        stepThrough.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        speedSimUp.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        slowSimDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        chooseSimButtonSim.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        anotherWindowButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+        saveButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
+
+        pause.setOnAction(e -> {
+            theAnimation.stop();
+            stepThrough.setOnAction(ev -> step(myCurrSim));
+        });
+        resume.setOnAction(e -> {
+            theAnimation.play();
+            stepThrough.setOnAction(ev -> theAnimation.play());
+        });
+        speedSimUp.setOnAction(e -> speedSimUp());
+        slowSimDown.setOnAction(e -> slowSimDown());
+        chooseSimButtonSim.setOnAction(oldSimButton.getOnAction());
+        anotherWindowButton.setOnAction(oldAnotherWindow.getOnAction());
+
+
+        allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedSimUp, slowSimDown, chooseSimButtonSim, anotherWindowButton, saveButton);
+        allButtonsVBox.setAlignment(Pos.CENTER);
+        return allButtonsVBox;
+    }
+
+    private VBox createTopLabels(String stringName){
+        topLabelsVBox = new VBox();
+        Label nameLabel = new Label(stringName);
+        Label rules = new Label();
+        setRulesText(stringName, rules);
+
+        nameLabel.setFont(titleFont);
+        nameLabel.setAlignment(Pos.CENTER);
+
+        rules.setAlignment(Pos.CENTER);
+        rules.setWrapText(true);
+
+        topLabelsVBox.getChildren().addAll(nameLabel, rules);
+        topLabelsVBox.setAlignment(Pos.TOP_CENTER);
+        return topLabelsVBox;
+    }
+
+    public void setRulesText(String simName, Label rules){
+        if (simName.equals("Percolation")){
+            rules.setText(myResources.getString("PercolationRules"));
+        }
+        else if (simName.equals("GameOfLife")){
+            rules.setText(myResources.getString("GOLRules"));
+        }
+        else if (simName.equals("Fire")){
+            rules.setText(myResources.getString("FireRules"));
+        }
+        else if (simName.equals("PredatorPrey")){
+            rules.setText(myResources.getString("PPRules"));
+        }
+        else if (simName.equals("Segregation")){
+            rules.setText(myResources.getString("SegRules"));
+        }
+    }
+
+    private Label createButtonLabel(){
+        buttonDescriptions = new Label(myResources.getString("ButtonRules"));
+        buttonDescriptions.setPrefWidth(150);
+        buttonDescriptions.setWrapText(true);
+        return buttonDescriptions;
     }
 
     private void setUpGrid(Simulation myCurrSim, ReadXML mySimFileReader){
@@ -163,81 +245,6 @@ public class SimVisual extends Application {
         rectangle.setX(x);
         rectangle.setY(y);
         return rectangle;
-    }
-
-    private VBox createAllButtons(Simulation myCurrSim, Button oldSimButton, Button oldAnotherWindow){
-        allButtonsVBox = new VBox();
-
-        pause = new Button(myResources.getString("Pause"));
-        resume = new Button (myResources.getString("Resume"));
-        stepThrough = new Button(myResources.getString("StepThrough"));
-        speedSimUp = new Button(myResources.getString("speedUpButton"));
-        slowSimDown = new Button(myResources.getString("slowDownButton"));
-        chooseSimButtonSim = new Button(myResources.getString("chooseSimButton"));
-        anotherWindowButton = new Button(myResources.getString("windowButton"));
-
-        pause.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        resume.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        stepThrough.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        speedSimUp.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        slowSimDown.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        chooseSimButtonSim.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-        anotherWindowButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
-
-        pause.setOnAction(e -> {
-            theAnimation.stop();
-            stepThrough.setOnAction(ev -> step(myCurrSim));
-        });
-        resume.setOnAction(e -> {
-            theAnimation.play();
-            stepThrough.setOnAction(ev -> theAnimation.play());
-        });
-        speedSimUp.setOnAction(e -> speedSimUp());
-        slowSimDown.setOnAction(e -> slowSimDown());
-        chooseSimButtonSim.setOnAction(oldSimButton.getOnAction());
-        anotherWindowButton.setOnAction(oldAnotherWindow.getOnAction());
-
-
-        allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedSimUp, slowSimDown, chooseSimButtonSim, anotherWindowButton);
-        allButtonsVBox.setAlignment(Pos.CENTER);
-        return allButtonsVBox;
-    }
-
-    private VBox createTopLabels(String stringName){
-        topLabelsVBox = new VBox();
-        Label nameLabel = new Label(stringName);
-        Label rules = new Label();
-        if (stringName.equals("Percolation")){
-            rules.setText(myResources.getString("PercolationRules"));
-        }
-        else if (stringName.equals("GameOfLife")){
-            rules.setText(myResources.getString("GOLRules"));
-        }
-        else if (stringName.equals("Fire")){
-            rules.setText(myResources.getString("FireRules"));
-        }
-        else if (stringName.equals("PredatorPrey")){
-            rules.setText(myResources.getString("PPRules"));
-        }
-        else if (stringName.equals("Segregation")){
-            rules.setText(myResources.getString("SegRules"));
-        }
-        nameLabel.setFont(titleFont);
-        nameLabel.setAlignment(Pos.CENTER);
-
-        rules.setAlignment(Pos.CENTER);
-        rules.setWrapText(true);
-
-        topLabelsVBox.getChildren().addAll(nameLabel, rules);
-        topLabelsVBox.setAlignment(Pos.TOP_CENTER);
-        return topLabelsVBox;
-    }
-
-    private Label createButtonLabel(){
-        buttonDescriptions = new Label(myResources.getString("ButtonRules"));
-        buttonDescriptions.setPrefWidth(150);
-        buttonDescriptions.setWrapText(true);
-        return buttonDescriptions;
     }
 
     private void speedSimUp(){
