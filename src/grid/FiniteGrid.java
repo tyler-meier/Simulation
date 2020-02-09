@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 
 public class FiniteGrid {
-    public int row, col;
+    private int row, col;
     CELL[][] myGrid;
-    public ReadXML reader;
+    private ReadXML reader;
 
 
 
