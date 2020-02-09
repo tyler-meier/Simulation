@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
  * @author erikgregorio
  */
 public class ReadXML {
+    public static final String SIM = "simulation";
     public static final String TYPE = "simulationType";
     public static final String ROW = "row";
     public static final String COL = "col";
@@ -29,8 +30,11 @@ public class ReadXML {
     public static final String PROB_CATCH = "probCatch";
     public static final String SIMILARITY = "similarity";
     public static final String CYCLE = "cycle";
+    public static final String THRESHOLD = "threshold";
     public static final String RANDOM = "Random";
     public static final String TOTAL_STATES = "states";
+    public static final int DEFAULT_STATE = 0;
+
 
 
     private final DocumentBuilder DOCUMENT_BUILDER;
@@ -40,7 +44,6 @@ public class ReadXML {
     private int row;
     private int col;
     private int totalStates;
-    private int DEFAULT_STATE = 0;
 
     /**
      * Create Parser for a given XML file
@@ -102,6 +105,7 @@ public class ReadXML {
         myParameters.put(PROB_CATCH, "0.55");
         myParameters.put(CYCLE, "3");
         myParameters.put(SIMILARITY, "30");
+        myParameters.put(THRESHOLD,"5");
     }
     /**
      * Retrieves column and row values from xml files
