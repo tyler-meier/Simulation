@@ -1,5 +1,6 @@
 package xmlreading;
 
+import javafx.stage.Stage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -20,10 +21,17 @@ public class SaveXML {
     private final Document mySaveFile;
     private Element myRoot;
     private Simulation mySimulation;
+    private Stage myStage;
 
     /**
      * Create Parser for a given XML file
      */
+    public SaveXML(Simulation sim, Stage stage) throws ParserConfigurationException {
+        DOCUMENT_BUILDER = getDocumentBuilder();
+        mySaveFile = DOCUMENT_BUILDER.newDocument();
+        mySimulation = sim;
+        myStage = stage;
+    }
     public SaveXML(Simulation sim) throws ParserConfigurationException {
         DOCUMENT_BUILDER = getDocumentBuilder();
         mySaveFile = DOCUMENT_BUILDER.newDocument();
@@ -32,9 +40,6 @@ public class SaveXML {
     public DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
         return DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
-
-
-
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         ReadXML mySim = new ReadXML();
         File xmlFile = new File("data/sampleGOL");
