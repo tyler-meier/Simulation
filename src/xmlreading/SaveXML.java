@@ -3,6 +3,9 @@ package xmlreading;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+import ruleset.GameOfLife;
+import ruleset.Percolation;
+import ruleset.Simulation;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,22 +14,34 @@ import java.io.File;
 import java.io.IOException;
 
 public class SaveXML {
+    public static final String XML_PATH = "";
 
     private final DocumentBuilder DOCUMENT_BUILDER;
+    private final Document mySaveFile;
+    private Element myRoot;
+    private Simulation mySimulation;
 
     /**
      * Create Parser for a given XML file
      */
-    public SaveXML() throws ParserConfigurationException {
+    public SaveXML(Simulation sim) throws ParserConfigurationException {
         DOCUMENT_BUILDER = getDocumentBuilder();
-        Document mySaveFile = DOCUMENT_BUILDER.newDocument();
+        mySaveFile = DOCUMENT_BUILDER.newDocument();
+        mySimulation = sim;
     }
     public DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
         return DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
 
+
+
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        SaveXML mySave = new SaveXML();
+        ReadXML mySim = new ReadXML();
+        File xmlFile = new File("data/sampleGOL");
+        mySim.setUpFile(xmlFile);
+        GameOfLife gol = new GameOfLife(mySim);
+        gol.update();
+        SaveXML mySave = new SaveXML(gol);
 
     }
 
