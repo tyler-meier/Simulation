@@ -175,6 +175,11 @@ public class PredatorPrey extends Simulation {
         PredatorPrey abc = new PredatorPrey(mySim);
         abc.update();
     }
+
+    @Override
+    public int changeCellStatus(int row, int col, int currStatus) {
+        return myGrid[row][col].changeType(currStatus);
+    }
 }
 
 
