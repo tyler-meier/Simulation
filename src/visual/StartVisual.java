@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.xml.sax.SAXException;
 import xmlreading.ReadXML;
-
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +32,7 @@ public class StartVisual extends Application {
     public static final int HEIGHT = 900;
     public static final int WIDTH = 850;
     public static final Font titleFont = new Font("Arial", 80);
+    public static String simulationName = "";
 
     private static final Font subtitleFont = new Font("Arial", 25);
     private static final String RESOURCES = "resources";
@@ -40,16 +40,15 @@ public class StartVisual extends Application {
     private int FRAMES_PER_SECOND = 1;
     private int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private Boolean simStarted = false;
-    private Boolean firstRound = false;
     private Scene startScene, simScene;
-    private Stage myStage, anotherStage;
-    private Button chooseSimButtonMain, anotherWindow;
+    private Stage myStage;
+    private Button chooseSimButtonMain;
     private Label welcomeLabel, explainLabel;
     private Simulation myCurrSim;
     private ReadXML mySimFileReader;
     private SimVisual myView;
-    private Timeline animation, newAnimation;
-    private KeyFrame frame, newFrame;
+    private Timeline animation;
+    private KeyFrame frame;
     private ResourceBundle myResources;
 
     /**
@@ -93,13 +92,7 @@ public class StartVisual extends Application {
         FileChooser fileChoose = new FileChooser();
         fileChoose.setTitle("Choose File");
         File simFile;
-        if (!firstRound) {
-            simFile = fileChoose.showOpenDialog(myStage);
-            firstRound = true;
-        } else {
-            simFile = fileChoose.showOpenDialog(anotherStage);
-        }
-
+        simFile = fileChoose.showOpenDialog(myStage);
         try{
             mySimFileReader.setUpFile(simFile);
         } catch(IllegalArgumentException e){
@@ -107,6 +100,7 @@ public class StartVisual extends Application {
             return ("");
         }
         String simName = mySimFileReader.getParameters(mySimFileReader.TYPE);
+        simulationName = simName;
         return simName;
     }
 
@@ -126,17 +120,18 @@ public class StartVisual extends Application {
         else if(simName.equals("GameOfLife")){
            myCurrSim = new GameOfLife(mySimFileReader);
         }
+        else if(simName.equals("RPS")){
+            myCurrSim = new RPS(mySimFileReader);
+        }
     }
 
     private void setUpButtons() throws ParserConfigurationException {
         chooseSimButtonMain = new Button(myResources.getString("chooseSimButton"));
-        anotherWindow = new Button(myResources.getString("windowButton"));
 
         myView = new SimVisual();
         mySimFileReader = new ReadXML();
 
         simButtonFunction();
-        windowButtonFunction();
     }
 
     private void simButtonFunction(){
@@ -152,34 +147,9 @@ public class StartVisual extends Application {
                 else {
                     animation.setRate(FRAMES_PER_SECOND);
                 }
-                simScene = myView.setUpSimulationScene(WIDTH, HEIGHT, simName, myCurrSim, mySimFileReader, chooseSimButtonMain, anotherWindow, animation);
+                simScene = myView.setUpSimulationScene(WIDTH, HEIGHT, simName, myCurrSim, mySimFileReader, chooseSimButtonMain, animation);
                 myStage.setScene(simScene);
                 myStage.show();
-            } catch (IOException ex) {
-                dealWithException();
-            } catch (SAXException ex) {
-                dealWithException();
-            } catch (ParserConfigurationException ex) {
-                dealWithException();
-            }
-        });
-    }
-
-    private void windowButtonFunction(){
-        anotherWindow.setOnAction(e ->{
-            anotherStage = new Stage();
-            try {
-                String simName = setUpFile(mySimFileReader);
-                returnSim(simName);
-
-                newFrame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), ev -> step());
-                newAnimation = new Timeline();
-                newAnimation.setCycleCount(Timeline.INDEFINITE);
-                newAnimation.getKeyFrames().add(newFrame);
-
-                simScene = myView.setUpSimulationScene(WIDTH, HEIGHT, simName, myCurrSim, mySimFileReader, chooseSimButtonMain, anotherWindow, newAnimation);
-                anotherStage.setScene(simScene);
-                anotherStage.show();
             } catch (IOException ex) {
                 dealWithException();
             } catch (SAXException ex) {
@@ -202,12 +172,6 @@ public class StartVisual extends Application {
         explainLabel.setTextAlignment(TextAlignment.CENTER);
     }
 
-    private void step(){
-        if (myCurrSim != null) {
-            myView.step(myCurrSim);
-        }
-    }
-
     private void dealWithException(){
         Alert errorMessage = new Alert(Alert.AlertType.ERROR);
         errorMessage.setTitle(myResources.getString("Error_Title"));
@@ -215,4 +179,9 @@ public class StartVisual extends Application {
         errorMessage.show();
     }
 
+    private void step(){
+        if (myCurrSim != null) {
+            myView.step(myCurrSim, simulationName);
+        }
+    }
 }

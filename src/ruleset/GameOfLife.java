@@ -78,5 +78,9 @@ public class GameOfLife extends Simulation {
 
     }
 
+    @Override
+    public int changeCellStatus(int row, int col, int currStatus) {
+        return myGrid[row][col].changeType(currStatus);
+    }
 
 }

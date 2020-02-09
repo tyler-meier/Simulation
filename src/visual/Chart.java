@@ -99,6 +99,11 @@ public class Chart {
             series2.setName(myResources.getString("Empty"));
             series3.setName(myResources.getString("Prey"));
         }
+        else if (name.equals("RPS")){
+            series.setName(myResources.getString("Paper"));
+            series2.setName(myResources.getString("Rock"));
+            series3.setName(myResources.getString("Scissors"));
+        }
     }
 
     private void createStackPane(){
