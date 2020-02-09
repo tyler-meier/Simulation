@@ -13,4 +13,6 @@ abstract public class Simulation {
 
     abstract public void readFile() throws IOException, SAXException, ParserConfigurationException;
 
+    abstract public int changeCellStatus(int row, int col, int currStatus);
+
 }

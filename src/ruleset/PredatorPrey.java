@@ -27,6 +27,7 @@ public class PredatorPrey extends Simulation {
     private  ArrayList<CELL> myAdjN;
     private  CELL[][] futureState;
     private FiniteGrid abc;
+
     //private int turn;
 
 
@@ -62,6 +63,11 @@ public class PredatorPrey extends Simulation {
             else if ( myGrid[i][j].getType() == FISH && EAT == false) {Fish_Move(i,j);}
             return EAT;
     }
+
+
+    private void Shark_die(int i, int j){
+    }
+
 
 
     public ArrayList<CELL> formNeighbours(int i, int j){
@@ -168,6 +174,11 @@ public class PredatorPrey extends Simulation {
         mySim.setUpFile(xmlFile);
         PredatorPrey abc = new PredatorPrey(mySim);
         abc.update();
+    }
+
+    @Override
+    public int changeCellStatus(int row, int col, int currStatus) {
+        return myGrid[row][col].changeType(currStatus);
     }
 }
 

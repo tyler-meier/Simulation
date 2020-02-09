@@ -119,7 +119,6 @@ public class Segregation extends Simulation {
         myGrid2 = abc.Grid_Make(reader);  //calls in the method from the class
     }
 
-
     public static void main(String args[]) throws ParserConfigurationException, IOException, SAXException {
         ReadXML mySim = new ReadXML();
         File xmlFile = new File("data/SampleSegregation.xml");
@@ -127,5 +126,9 @@ public class Segregation extends Simulation {
         Segregation abc = new Segregation(mySim);
         // System.out.println();
         abc.update();
+    }
+    @Override
+    public int changeCellStatus(int row, int col, int currStatus) {
+        return myGrid[row][col].changeType(currStatus);
     }
 }
