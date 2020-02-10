@@ -1,5 +1,6 @@
 package visual;
 
+import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import xmlreading.ReadXML;
 import ruleset.Simulation;
@@ -210,7 +211,7 @@ public class SimVisual extends Application {
             SaveXML mySave = new SaveXML(mySim, myReader,simFile);
             mySave.saveFile();
         } catch (Exception e) {
-            e.printStackTrace();
+            dealWithException();
         }
 
     }
@@ -300,5 +301,12 @@ public class SimVisual extends Application {
         if (theAnimation.getRate() != 1){
             theAnimation.setRate(theAnimation.getRate() - 1);
         }
+    }
+
+    private void dealWithException(){
+        Alert errorMessage = new Alert(Alert.AlertType.ERROR);
+        errorMessage.setTitle(myResources.getString("Error_Title"));
+        errorMessage.setContentText(myResources.getString("Error_Message"));
+        errorMessage.show();
     }
 }
