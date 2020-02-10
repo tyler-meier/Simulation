@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 /**
  * A class built to read XML files for the purpose of Simulating various Games. It can receive a file
  * and parse to set up the intial value of cells
- * @author erikgregorio
+ * @author Erik Gregorio
  */
 public class ReadXML {
     public static final String SIM = "simulation";
@@ -34,8 +34,6 @@ public class ReadXML {
     public static final String RANDOM = "Random";
     public static final String TOTAL_STATES = "states";
     public static final int DEFAULT_STATE = 0;
-
-
 
     private final DocumentBuilder DOCUMENT_BUILDER;
     private Map<String, String> myParameters;

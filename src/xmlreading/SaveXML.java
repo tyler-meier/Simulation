@@ -1,10 +1,8 @@
 package xmlreading;
 
-import javafx.stage.Stage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 import ruleset.*;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,9 +11,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
+
+/**
+ * A class built to take in a simulation and create appropiate elements to store inside an xml and stored
+ * where the user specifies.
+ * @author Erik Gregorio
+ */
 
 public class SaveXML {
     public static final String TITLE = "title";
@@ -48,7 +50,7 @@ public class SaveXML {
     private File userFile;
 
     /**
-     * Create Parser for a given XML file
+     * Create Parser to create an xml file
      */
     public SaveXML(Simulation sim, ReadXML reader, File file) throws ParserConfigurationException {
         DOCUMENT_BUILDER = getDocumentBuilder();
@@ -59,13 +61,17 @@ public class SaveXML {
         createTitleAuthor();
         myReader = reader;
     }
-    public SaveXML(Simulation sim) throws ParserConfigurationException {
-        DOCUMENT_BUILDER = getDocumentBuilder();
-        mySaveFile = DOCUMENT_BUILDER.newDocument();
-        mySimulation = sim;
-        createRoot();
-        createTitleAuthor();
+    private DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
+        return DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
+    private void createRoot(){
+        myRoot = mySaveFile.createElement(ReadXML.SIM);
+        myRoot.setAttribute(ReadXML.TYPE,getSimulationType());
+        mySaveFile.appendChild(myRoot);
+    }
+    /**
+     * Retrieves grid size and then creates an element for each cell and their status.
+     */
     public void saveCells(){
         setGrid();
         Element cells = mySaveFile.createElement(CELLS);
@@ -76,7 +82,7 @@ public class SaveXML {
         }
         myRoot.appendChild(cells);
     }
-    public void setGrid(){
+    private void setGrid(){
         Element row = mySaveFile.createElement(ReadXML.ROW);
         Element col = mySaveFile.createElement(ReadXML.COL);
         row.appendChild(mySaveFile.createTextNode(Integer.toString(myReader.getRow())));
@@ -84,7 +90,10 @@ public class SaveXML {
         myRoot.appendChild(row);
         myRoot.appendChild(col);
     }
-    public Element createCell(int row, int col){
+    /**
+     * Create element for a cell and retrives its status
+     */
+    private Element createCell(int row, int col){
         Element cell = mySaveFile.createElement(ReadXML.CELL);
         Element status = mySaveFile.createElement(ReadXML.STATUS);
         status.appendChild(getCellStatus(row, col));
@@ -94,14 +103,10 @@ public class SaveXML {
     private Node getCellStatus(int row, int col){
         return mySaveFile.createTextNode(Integer.toString(mySimulation.cellStatus(row, col)));
     }
-    private DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
-        return DocumentBuilderFactory.newInstance().newDocumentBuilder();
-    }
-    public void createRoot(){
-        myRoot = mySaveFile.createElement(ReadXML.SIM);
-        myRoot.setAttribute(ReadXML.TYPE,getSimulationType());
-        mySaveFile.appendChild(myRoot);
-    }
+
+    /**
+     * Creates the author and title cell for the simulation
+     */
     private void createTitleAuthor(){
         myTitle = mySaveFile.createElement(TITLE);
         myTitle.appendChild(mySaveFile.createTextNode(getSimulationTitle()));
@@ -110,13 +115,15 @@ public class SaveXML {
         myRoot.appendChild(myTitle);
         myRoot.appendChild(myAuthor);
     }
+    /**
+     * Retrieves simulation information (title and type)
+     */
     private String getSimulationType(){
         return getString(GOL, FIRE, PERCOLATION, PREDATOR_PREY, SEGREGATION, RPS);
     }
     private String getSimulationTitle(){
         return getString(GOL_TITLE, FIRE_TITLE, PERCOLATION_TITLE, PREDATOR_PREY_TITLE, SEGREGATION_TITLE, RPS_TITLE);
     }
-
     private String getString(String golTitle, String fireTitle, String percolationTitle, String predatorPreyTitle, String segregationTitle, String rpsTitle) {
         if(mySimulation instanceof GameOfLife) return golTitle;
         if(mySimulation instanceof Fire) return fireTitle;
@@ -125,7 +132,10 @@ public class SaveXML {
         if(mySimulation instanceof Segregation) return segregationTitle;
         return rpsTitle;
     }
-
+    /**
+     * Calls save file method to create the cell elements for the XML file. It also writes the root node into
+     * a user specified file.
+     */
     public void saveFile() throws TransformerException {
         saveCells();
         setTransformer();
@@ -133,7 +143,10 @@ public class SaveXML {
         StreamResult result = new StreamResult(userFile);
         transformer.transform(source,result);
     }
-
+    /**
+     * Creates transformer factory and  then sets an output properly to have the XML have a specified
+     * structure.
+     */
     private void setTransformer(){
         transformerFactory= TransformerFactory.newInstance();
         try {
