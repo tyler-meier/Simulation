@@ -54,6 +54,11 @@ public class SimVisual extends Application {
     private Chart myChart;
     private Stage myStage;
 
+    /**
+     * Constructor for the SimVisual class, used to set main stage equal to stage in this class,
+     * also used to help save files during the simulation
+     * @param stage the main stage of the simulations and the window
+     */
     public SimVisual(Stage stage){
         myStage = stage;
     }
@@ -166,6 +171,7 @@ public class SimVisual extends Application {
 
         buttonSizes();
         buttonActions(myCurrSim, oldSimButton, simName, myReader);
+
         allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedSimUp, slowSimDown, chooseSimButtonSim, saveButton);
         allButtonsVBox.setAlignment(Pos.CENTER);
         return allButtonsVBox;

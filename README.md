@@ -4,8 +4,9 @@ simulation
 This project implements a cellular automata simulator.
 
 Names: \
-    Erik Gregorio (eg158)
-    Farzeen Najam fn26
+    Erik Gregorio (eg158) \
+    Farzeen Najam (fn26) \
+    Tyler Meier (tkm22)
 
 ### Timeline
 
@@ -14,17 +15,19 @@ Start Date: January 23rd
 Finish Date: February 9th
 
 Hours Spent: \
-Erik: 15 hrs
-
+Erik: 15 hrs\
+Tyler: 20 + hrs\
 Hours Spent: 42+ hours 
 
 ### Primary Roles
-Erik: Configurations and debugging 
-Farzeen: Simulations Backup.
+Erik: Configurations and debugging \
+Farzeen: Simulations Backup.\
+Tyler: Visualizations (frontend) and debugging/help with sims
 
 ### Resources Used
-Erik: TutorialsPoint, Stackoverflow
-No resources used apart from TA help
+Erik: TutorialsPoint, Stackoverflow\
+No resources used apart from TA help\
+Tyler: StackOverflow, a bunch online dealing with frontend stuff
 
 ### Running the Program
 
@@ -33,7 +36,7 @@ Main class: Main
 Data files needed: There is no files necessary, but the data folder holds some
 sample files to run. It also hold two random files (segregation and percolation
 random) to show that our simulation can create a random grid. We also included
-a Segration file with invalid states and no rows/column values to show our
+a Segregation file with invalid states and no rows/column values to show our
 error catching. We used default values to make sure our files do not crash. 
 
 Features implemented:
@@ -50,6 +53,11 @@ Each simulation has grids of the cells from cell class. There is an abstract cla
 which has some methods implemented in every class. There are hexagonal neighbourhood
 4 neighbourhood and 8 neighbourhood. There is also a toroidal grid which has 4 neighbourhood
 and 8 neighbourhood. 
+
+Visualization Classes: Start Visual and sim visual, as well as chart
+class to show the chart on each sim. All of the basic things you 
+see on screen are implemented in the visualization classes.
+You can also click on rectangle cells to change their status. 
 
 ### Notes/Assumptions
 
@@ -69,3 +77,8 @@ very straightforward to work with and create.
 
 Farzeen: I really enjoyed making different simulations, it seemed like creating
 stories, I learnt a lot during the process as well.
+
+Tyler: I learned a lot about front end and layout and such while doing this project. I also
+learned that it can be a lot of work just choosing layout and putting things in place
+so didn't get to deal with logic and regular backend stuff but still had fun
+dealing with visual stuff. 
