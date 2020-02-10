@@ -142,7 +142,7 @@ public class ReadXML {
         for(int i = 0; i< row; i++){
             for(int j = 0; j< col; j++){
                 int state = Integer.parseInt(getTextValue((Element)list.item(index), STATUS));
-                if(state<=totalStates) myGrid[i][j] = state;
+                if(state<totalStates) myGrid[i][j] = state;
                 else myGrid[i][j] = DEFAULT_STATE;
                 index++;
             }
