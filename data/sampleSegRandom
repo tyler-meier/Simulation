@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<simulation simulationType="Segregation" similarity="80" grid="Random" states="3">
+<simulation simulationType="Segregation" similarity="50" grid="Random" states="3">
     <title>Segregation Simulation</title>
     <author>Erik Gregorio</author>
     <row>10</row>
