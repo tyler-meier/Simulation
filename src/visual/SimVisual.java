@@ -1,5 +1,6 @@
 package visual;
 
+import javafx.stage.FileChooser;
 import xmlreading.ReadXML;
 import ruleset.Simulation;
 import javafx.animation.Timeline;
@@ -15,6 +16,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import xmlreading.SaveXML;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.util.ResourceBundle;
 
 /**
@@ -49,6 +54,11 @@ public class SimVisual extends Application {
     private ResourceBundle myResources;
     private Timeline theAnimation;
     private Chart myChart;
+    private Stage myStage;
+
+    public SimVisual(Stage stage){
+        myStage = stage;
+    }
 
     /**
      * Start method for visualizer, just need so it can extend application, this start
@@ -85,7 +95,7 @@ public class SimVisual extends Application {
         theAnimation = animation;
         myChart = new Chart();
 
-        createAllButtons(myCurrSim, oldSimButton, stringName);
+        createAllButtons(myCurrSim, oldSimButton, stringName, mySimFileReader);
         createTopLabels(stringName);
         createButtonLabel();
         setUpGrid(myCurrSim, mySimFileReader);
@@ -145,7 +155,7 @@ public class SimVisual extends Application {
         }
     }
 
-    private VBox createAllButtons(Simulation myCurrSim, Button oldSimButton, String simName){
+    private VBox createAllButtons(Simulation myCurrSim, Button oldSimButton, String simName, ReadXML myReader){
         allButtonsVBox = new VBox();
 
         pause = new Button(myResources.getString("Pause"));
@@ -157,7 +167,7 @@ public class SimVisual extends Application {
         saveButton = new Button(myResources.getString("saveButton"));
 
         buttonSizes();
-        buttonActions(myCurrSim, oldSimButton, simName);
+        buttonActions(myCurrSim, oldSimButton, simName, myReader);
         allButtonsVBox.getChildren().addAll(pause, resume, stepThrough, speedSimUp, slowSimDown, chooseSimButtonSim, saveButton);
         allButtonsVBox.setAlignment(Pos.CENTER);
         return allButtonsVBox;
@@ -173,7 +183,7 @@ public class SimVisual extends Application {
         saveButton.setMaxSize(PREF_BUTTON_WIDTH, PREF_BUTTON_HEIGHT);
     }
 
-    private void buttonActions(Simulation myCurrSim, Button oldSimButton, String simName){
+    private void buttonActions(Simulation myCurrSim, Button oldSimButton, String simName, ReadXML myReader){
         pause.setOnAction(e -> {
             theAnimation.stop();
             stepThrough.setOnAction(ev -> step(myCurrSim, simName));
@@ -185,6 +195,20 @@ public class SimVisual extends Application {
         speedSimUp.setOnAction(e -> speedSimUp());
         slowSimDown.setOnAction(e -> slowSimDown());
         chooseSimButtonSim.setOnAction(oldSimButton.getOnAction());
+        saveButton.setOnAction(e -> saveFile(myCurrSim, myReader));
+    }
+
+    private void saveFile(Simulation mySim, ReadXML myReader){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File");
+        File simFile = fileChooser.showSaveDialog(myStage);
+        try {
+            SaveXML mySave = new SaveXML(mySim, myReader,simFile);
+            mySave.saveFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private VBox createTopLabels(String stringName){

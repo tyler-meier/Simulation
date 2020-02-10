@@ -128,7 +128,7 @@ public class StartVisual extends Application {
     private void setUpButtons() throws ParserConfigurationException {
         chooseSimButtonMain = new Button(myResources.getString("chooseSimButton"));
 
-        myView = new SimVisual();
+        myView = new SimVisual(myStage);
         mySimFileReader = new ReadXML();
 
         simButtonFunction();

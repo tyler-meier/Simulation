@@ -13,6 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -128,7 +129,6 @@ public class SaveXML {
     public void saveFile() throws TransformerException {
         saveCells();
         setTransformer();
-        System.out.println("here");
         DOMSource source = new DOMSource(mySaveFile);
         StreamResult result = new StreamResult(userFile);
         transformer.transform(source,result);
@@ -149,15 +149,5 @@ public class SaveXML {
         transformer.setOutputProperty(OUTPUTSETTING, "4");
     }
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, TransformerException {
-        ReadXML mySim = new ReadXML();
-        File xmlFile = new File("data/SampleGOL.xml");
-        File userFile = new File("data/emptyXML.xml");
-        mySim.setUpFile(xmlFile);
-        GameOfLife gol = new GameOfLife(mySim);
-        gol.update();
-        SaveXML mySave = new SaveXML(gol, mySim, userFile);
-        //mySave.saveFile();
-    }
 
 }

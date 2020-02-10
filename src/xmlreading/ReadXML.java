@@ -178,14 +178,6 @@ public class ReadXML {
     public boolean myGridIsRandom(){
         return myParameters.get(GRID_TYPE).equals(RANDOM);
     }
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        ReadXML mySim = new ReadXML();
-        File xmlFile = new File("data/samplePercolationRandom");
-        mySim.setUpFile(xmlFile);
-        Element root = mySim.getRootElement(xmlFile);
-        System.out.println("Simulation Type is: "+ mySim.getRow());
-        System.out.println("My first val is: "+ mySim.getTextValue(root, "col"));
-        mySim.setMyGrid();
-    }
+
 }
 
