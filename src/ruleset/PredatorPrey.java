@@ -75,7 +75,7 @@ public class PredatorPrey extends Simulation {
     }
 
 
-    public void move(int i, int j, int type) {
+    private void move(int i, int j, int type) {
         Empty = EMPTY_LIST();
         if (!Empty.isEmpty()) {
             CELL goal = chooseRandomNeighbour(Empty);
@@ -85,13 +85,13 @@ public class PredatorPrey extends Simulation {
         }
     }
 
-    public CELL chooseRandomNeighbour(List<CELL> neighbours) {
+    private CELL chooseRandomNeighbour(List<CELL> neighbours) {
         Random rand = new Random();
         return neighbours.get(Math.abs(rand.nextInt(neighbours.size()))); //find a random cell
 
     }
 
-    public ArrayList<CELL> FISH_NUMBER() {  //all the empty neighbours of the cell.
+    private ArrayList<CELL> FISH_NUMBER() {  //all the empty neighbours of the cell.
         for (CELL cell : myAdjN) {
             if (cell.getType() == FISH) {
                 FishNei.add(cell);
@@ -101,7 +101,7 @@ public class PredatorPrey extends Simulation {
         return FishNei;
     }
 
-    public ArrayList<CELL> EMPTY_LIST(){  //all the empty neighbours of the cell.
+    private ArrayList<CELL> EMPTY_LIST(){  //all the empty neighbours of the cell.
         ArrayList<CELL> ans = new ArrayList<>();
         for( CELL cell: myAdjN ){
             if( cell.getType() == EMPTY){
@@ -111,7 +111,7 @@ public class PredatorPrey extends Simulation {
         return ans;
     }
 
-    public void Fish_Move(int i, int j){
+    private void Fish_Move(int i, int j){
        if(myGrid[i][j].getType() == FISH && eaten == false) {//&& futureState[i][j] != null && futureState[i][j].getTYPE() != EMPTY ) {
            //System.out.println("we are in move for fishie");
             move(i,j,FISH);
@@ -145,7 +145,9 @@ public class PredatorPrey extends Simulation {
       return myGrid[row][column].getType();
     }
 
-    public void Breed(int i, int j){
+
+    //new baby sharks and baby fishes are made
+    private void Breed(int i, int j){
         NEW = EMPTY_LIST(); //breeding
         if(NEW != null && !NEW.isEmpty()){
             CELL new_bi = chooseRandomNeighbour(NEW); //chose a new cell for fish to breed

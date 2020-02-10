@@ -49,7 +49,7 @@ public class Fire extends Simulation {
 
 
 
-    public void CellTree(int i, int j ){
+    private void CellTree(int i, int j ){
         for (CELL cell : neighbours) {  //for all the neighburs of the current cell
             if (cell.getType() == BURNING ) { //if the neighbours burning, tree
                 double random = Math.random(); //generate a number btw 0 and 1

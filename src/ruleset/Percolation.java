@@ -50,6 +50,7 @@ public class Percolation extends Simulation {
     //value of the grid is the initial value of the grid.
 
     @Override
+    //updates percolation state if the neighbours are full and open
     public void update() {
         CELL[][] futureState = new CELL[myGrid.length][myGrid[0].length];
         for(int i =0; i < myGrid.length; i++) {
@@ -66,7 +67,7 @@ public class Percolation extends Simulation {
 
 
 
-    public Boolean isNeighborFull(int row, int col){
+    private Boolean isNeighborFull(int row, int col){
         full = false;
         ArrayList<CELL> neighbours = abc.getEightToroidal(row,col,myGrid);
         for(CELL cell: neighbours){

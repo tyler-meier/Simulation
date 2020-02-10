@@ -32,19 +32,7 @@ public class Segregation extends Simulation {
         readFile();
     }
 
-    public Boolean isBounds(int row, int col){
-        if(row< 0 || row>= myGrid.length){
-            return false;
-        }
-        if(col < 0|| col>= myGrid[0].length){
-            return false;
-        }
-
-        return true;
-    }
-
-
-    public double getPercent(int i, int j, int type){
+    private double getPercent(int i, int j, int type){
         ArrayList<CELL> neighbours = abc.getEightNeighbourCount(i, j, myGrid);
         for(CELL cell: neighbours){
             if(cell.getType() != EMPTY) totalN++;
@@ -56,7 +44,7 @@ public class Segregation extends Simulation {
     }
 
 
-    public void move(int type, CELL[][] futureState){
+    private void move(int type, CELL[][] futureState){
         int x =0;
         for(int row=0; row<myGrid2.length;row++){
             for(int col = 0; col< myGrid2[0].length;col++){
@@ -73,7 +61,7 @@ public class Segregation extends Simulation {
     }
 
 
-     public void setUp(int i, int j, int type, CELL[][] myGrid, CELL[][] futureState, CELL[][] myGrid2){
+     private void setUp(int i, int j, int type, CELL[][] myGrid, CELL[][] futureState, CELL[][] myGrid2){
              double percentage = getPercent(i, j, type);
              if (percentage < satis_Factor) {
                  move(type, futureState);
@@ -86,6 +74,7 @@ public class Segregation extends Simulation {
          }
 
     @Override
+    //updates the neighbours by letting them move according to the rules.
     public void update() {
         CELL[][] futureState = new CELL[myGrid.length][myGrid[0].length];
         for (int i = 0; i < myGrid.length; i++) {

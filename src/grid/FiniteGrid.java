@@ -88,7 +88,7 @@ public class FiniteGrid {
 
     }
 
-
+  //creates a toroidal grid with 8 neighbours
     public ArrayList<CELL> getEightToroidal(int i, int j, CELL[][] grid){
         ArrayList<CELL> cellNeighbours = new ArrayList<CELL>();
         int[] xCoord = {i, i+1, i-1}; //for 8 neighbours
@@ -115,7 +115,7 @@ public class FiniteGrid {
         if(edge == reader.getCol()) edge = 0;
         return edge;
     }
-   //four neighbours
+   //four neighbours with a toroidal neighbours
     public ArrayList<CELL> getFourToroidal(int i , int j, CELL[][] grid) {
         ArrayList<CELL> cellNeighbours = new ArrayList<CELL>();
         if(j== reader.getCol()-1) cellNeighbours.add(grid[i][0]);

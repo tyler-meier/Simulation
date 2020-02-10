@@ -26,7 +26,7 @@ public class RPS extends Simulation  {
         readFile();
     }
 
-    public int handle_Rock(int i, int j){
+    private int handle_Rock(int i, int j){
         int count_R = 0;
         ans  = abc.getEightNeighbourCount(i,j, myGrid);
             for (CELL cell : ans) {
@@ -34,8 +34,8 @@ public class RPS extends Simulation  {
             ans.clear();
         return count_R;
     }
-
-    public int handle_PAPER(int i, int j){
+    //counts paper and its neighbours which are scissors
+    private int handle_PAPER(int i, int j){
         int count_R = 0;
         ans  = abc.getEightNeighbourCount(i,j, myGrid);
         for (CELL cell : ans) {
@@ -44,8 +44,8 @@ public class RPS extends Simulation  {
         ans.clear();
         return count_R;
     }
-
-    public int handle_SCISSORS(int i, int j){
+     //counts scissors and its neighbours
+    private int handle_SCISSORS(int i, int j){
         int count_R = 0;
         ans  = abc.getEightNeighbourCount(i,j, myGrid);
         for (CELL cell : ans) {
@@ -57,7 +57,8 @@ public class RPS extends Simulation  {
 
 
    int count =0;
-    public void update_Rock(int i, int j, CELL[][] future){
+    //update the rock
+    private void update_Rock(int i, int j, CELL[][] future){
             count = handle_Rock(i, j);
             //System.out.println(count);
             if (count >= threshold) {
@@ -70,6 +71,7 @@ public class RPS extends Simulation  {
 
 
     @Override
+    //updates the new state of the simulation according to the solution.
     public void update() {
          futureState= new CELL[myGrid.length][myGrid[0].length];
          count = 0;
@@ -103,6 +105,7 @@ public class RPS extends Simulation  {
     }
 
     @Override
+    //reads the file in
     public void readFile() throws IOException, SAXException, ParserConfigurationException {
         threshold = Integer.parseInt(reader.getParameters("threshold"));
         abc = new FiniteGrid(reader.getRow(),reader.getCol(),reader);
