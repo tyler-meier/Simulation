@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<simulation simulationType="GameOfLife" grid="Random" states="3">
-    <title>Game of Life Simulation</title>
-    <author>Erik Gregorio</author>
-    <row>5</row>
-    <col>5</col>
-</simulation>
