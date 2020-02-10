@@ -21,6 +21,9 @@ public class FiniteGrid {
         col =y;
         myGrid = Grid_Make(reader);
     }
+    /*
+    This method makes the grid after reading the initial values from the file for each class
+     */
 
     public CELL[][] Grid_Make(ReadXML reader){
        myGrid = new CELL[reader.getRow()][reader.getCol()];
@@ -58,8 +61,10 @@ public class FiniteGrid {
         return neighbours;
 
     }
+/*
+ hexagonal grid for 6 neighbours
+ */
 
-    //hexagonal grid
 
     public ArrayList<CELL> getSixNeighbourCount(int i, int j, CELL[][] grid) {
         ArrayList<CELL> neighbours = new ArrayList<>();
@@ -74,9 +79,11 @@ public class FiniteGrid {
     }
 
 
-
-
-    public Boolean isBounds(int row, int col, CELL[][] grid){
+     /*
+  find if the bounds are in the range or not for each cell. This method is used in making neighbour
+  array.
+    */
+    private Boolean isBounds(int row, int col, CELL[][] grid){
         if(row< 0 || row>= grid.length){
             return false;
         }

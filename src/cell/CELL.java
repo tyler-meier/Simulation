@@ -33,6 +33,7 @@ public class CELL {
         return life_time;
     }
     public int changeType(int currStatus){
+
         if (currStatus == 1){
             this.type = 2;
             return type;

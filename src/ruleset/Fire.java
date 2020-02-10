@@ -10,13 +10,14 @@ import java.util.ArrayList;
 
 public class Fire extends Simulation {
     private CELL[][] myGrid;
-    public  final int TREE = 1;
-    public  final int BURNING = 2;
-    public  final int EMPTY = 0;
     private double life_time;
     private FiniteGrid abc;
     private ArrayList<CELL> neighbours;
     private CELL[][] futureState;
+
+    public  final int TREE = 1;
+    public  final int BURNING = 2;
+    public  final int EMPTY = 0;
 
 
 
@@ -26,7 +27,10 @@ public class Fire extends Simulation {
         readFile();
     }
 
-    //literally removed the above code and put it in FiniteGrid class. and called it down in method
+   /*
+   This method updates the forest based on the simulation rules. It checks if the neighbour prob
+
+    */
 
     @Override
     public void update() {

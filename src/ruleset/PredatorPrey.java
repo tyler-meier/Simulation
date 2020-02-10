@@ -121,6 +121,9 @@ public class PredatorPrey extends Simulation {
 
     boolean eaten =false;
     @Override
+    /*
+    This method updates the simulation and uses all the methods created above.
+     */
     public void update() {
         futureState = new CELL[myGrid.length][myGrid[0].length];
         for (int i = 0; i < myGrid.length; i++) {

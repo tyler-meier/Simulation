@@ -13,11 +13,12 @@ public class RPS extends Simulation  {
     private int threshold;
     private FiniteGrid abc;
     private CELL[][] myGrid;
+    private ArrayList<CELL> ans = new ArrayList<>();
+    private CELL[][] futureState;
+
     public final int ROCK =1;
     public final int SCISSORS =0;
     public final int PAPER = 2;
-    private ArrayList<CELL> ans = new ArrayList<>();
-    private CELL[][] futureState;
 
 
     private ReadXML reader;

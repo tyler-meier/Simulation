@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class GameOfLife extends Simulation {
     public  final int ALIVE = 1;
     public final int DEAD = 0;
+
     private CELL myGrid[][];
     private int aliveCount=0;
     private ReadXML reader;
@@ -25,8 +26,10 @@ public class GameOfLife extends Simulation {
         readFile();
 
     }
-
-    public int getNeighbourCount (int row, int col){
+/*
+count the number of neighbours which are alive.
+ */
+    private int getNeighbourCount (int row, int col){
         ArrayList<CELL> neighbours = abc.getEightNeighbourCount(row, col, myGrid);
         for(CELL cell: neighbours){
             if(cell.getType()== ALIVE) {
