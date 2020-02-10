@@ -13,8 +13,8 @@ public class RPS extends Simulation  {
     private int threshold;
     private FiniteGrid abc;
     private CELL[][] myGrid;
-    public final int ROCK =0;
-    public final int SCISSORS =1;
+    public final int ROCK =1;
+    public final int SCISSORS =0;
     public final int PAPER = 2;
     private ArrayList<CELL> ans = new ArrayList<>();
     private CELL[][] futureState;
@@ -26,17 +26,13 @@ public class RPS extends Simulation  {
         readFile();
     }
 
-
-
     public int handle_Rock(int i, int j){
         int count_R = 0;
         ans  = abc.getEightNeighbourCount(i,j, myGrid);
             for (CELL cell : ans) {
-                if (cell.getType() == PAPER) count_R++;
-            }
-        ans.clear();
+                if (cell.getType() == PAPER) count_R++; }
+            ans.clear();
         return count_R;
-
     }
 
     public int handle_PAPER(int i, int j){
@@ -62,21 +58,24 @@ public class RPS extends Simulation  {
 
    int count =0;
     public void update_Rock(int i, int j, CELL[][] future){
-        if (myGrid[i][j].getType() == ROCK) {
             count = handle_Rock(i, j);
-            if (count >= threshold) futureState[i][j] = new CELL(PAPER, i, j, 0);
+            //System.out.println(count);
+            if (count >= threshold) {
+                futureState[i][j] = new CELL(PAPER, i, j, 0);
+            }
             else {
                 futureState[i][j] = myGrid[i][j];
             }
         }
-    }
+
 
     @Override
     public void update() {
          futureState= new CELL[myGrid.length][myGrid[0].length];
+         count = 0;
         for(int i =0; i < myGrid.length;i++) {
             for (int j = 0; j < myGrid[0].length; j++) {
-                count = 0;
+                //System.out.print(myGrid[i][j].getType());// in this loop
                 if (myGrid[i][j].getType()== ROCK){
                     update_Rock(i,j,futureState);
                 }
@@ -89,11 +88,14 @@ public class RPS extends Simulation  {
                 } else {
                     count = handle_PAPER(i,j);
                     if (count >= threshold) futureState[i][j] = new CELL(SCISSORS, i, j, 0);
-
                     else {
                         futureState[i][j] = myGrid[i][j];
-                    } }
-            } }}
+                    }
+                }
+            }
+        }
+        myGrid = futureState;
+    }
 
     @Override
     public int cellStatus(int row, int column) {

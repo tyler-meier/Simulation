@@ -89,10 +89,10 @@ public class FiniteGrid {
     }
 
 
-    public ArrayList<CELL> storeEightToroidal(CELL cell, CELL[][] grid){
+    public ArrayList<CELL> getEightToroidal(int i, int j, CELL[][] grid){
         ArrayList<CELL> cellNeighbours = new ArrayList<CELL>();
-        int[] xCoord = {cell.getX(), cell.getX()+1, cell.getX()-1}; //for 8 neighbours
-        int[] yCoord = {cell.getY(), cell.getY()+1, cell.getY()-1}; //for eight neighbours
+        int[] xCoord = {i, i+1, i-1}; //for 8 neighbours
+        int[] yCoord = {j, j+1, j-1}; //for eight neighbours
 
         for(int row: xCoord) {
             for(int  col : yCoord) {
@@ -106,7 +106,7 @@ public class FiniteGrid {
                 }
             }
         }
-        cellNeighbours.remove(grid[cell.getX()][cell.getY()]);
+        cellNeighbours.remove(grid[i][j]);
         return cellNeighbours;
     }
 
@@ -116,16 +116,16 @@ public class FiniteGrid {
         return edge;
     }
    //four neighbours
-    public ArrayList<CELL> storeFourToroidal(CELL cell, CELL[][] grid) {
+    public ArrayList<CELL> getFourToroidal(int i , int j, CELL[][] grid) {
         ArrayList<CELL> cellNeighbours = new ArrayList<CELL>();
-        if(cell.getY()== reader.getCol()-1) cellNeighbours.add(grid[cell.getX()][0]);
-        else cellNeighbours.add(grid[cell.getX()][cell.getY()+1]);  //normal addition
-        if(cell.getY() == 0) cellNeighbours.add(grid[cell.getX()][reader.getCol()-1]); //West
-        else cellNeighbours.add(grid[cell.getX()][cell.getY()-1]);
-        if(cell.getX() == reader.getRow() - 1) cellNeighbours.add(grid[0][cell.getY()]); //South
-        else cellNeighbours.add(grid[cell.getX()+1][cell.getY()]);
-        if(cell.getX() == 0) cellNeighbours.add(grid[reader.getRow()-1][cell.getY()]); //North
-        else cellNeighbours.add(grid[cell.getX()-1][cell.getY()]);
+        if(j== reader.getCol()-1) cellNeighbours.add(grid[i][0]);
+        else cellNeighbours.add(grid[i][j+1]);  //normal addition
+        if(j == 0) cellNeighbours.add(grid[i][reader.getCol()-1]); //West
+        else cellNeighbours.add(grid[i][j-1]);
+        if(i == reader.getRow() - 1) cellNeighbours.add(grid[0][j]); //South
+        else cellNeighbours.add(grid[i+1][j]);
+        if(i == 0) cellNeighbours.add(grid[reader.getRow()-1][j]); //North
+        else cellNeighbours.add(grid[i-1][j]);
         return cellNeighbours;
     }
 
