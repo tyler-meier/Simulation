@@ -21,7 +21,7 @@ public class SaveXML {
     public static final String AUTHOR = "author";
     public static final String CELLS = "cells";
     public static final String GOL = "GameOfLife";
-    public static final String GOL_TITLE = "Game Of Life";
+    public static final String GOL_TITLE = "Game of Life Simulation";
     public static final String FIRE = "Fire";
     public static final String FIRE_TITLE = "Fire Simulation";
     public static final String SEGREGATION = "Segregation";
@@ -44,14 +44,16 @@ public class SaveXML {
     private Element myAuthor;
     private Simulation mySimulation;
     private ReadXML myReader;
+    private File userFile;
 
     /**
      * Create Parser for a given XML file
      */
-    public SaveXML(Simulation sim, ReadXML reader) throws ParserConfigurationException {
+    public SaveXML(Simulation sim, ReadXML reader, File file) throws ParserConfigurationException {
         DOCUMENT_BUILDER = getDocumentBuilder();
         mySaveFile = DOCUMENT_BUILDER.newDocument();
         mySimulation = sim;
+        userFile = file;
         createRoot();
         createTitleAuthor();
         myReader = reader;
@@ -64,6 +66,7 @@ public class SaveXML {
         createTitleAuthor();
     }
     public void saveCells(){
+        setGrid();
         Element cells = mySaveFile.createElement(CELLS);
         for(int i = 0; i<myReader.getRow(); i++){
             for(int j = 0; j<myReader.getRow(); j++){
@@ -71,6 +74,14 @@ public class SaveXML {
             }
         }
         myRoot.appendChild(cells);
+    }
+    public void setGrid(){
+        Element row = mySaveFile.createElement(ReadXML.ROW);
+        Element col = mySaveFile.createElement(ReadXML.COL);
+        row.appendChild(mySaveFile.createTextNode(Integer.toString(myReader.getRow())));
+        col.appendChild(mySaveFile.createTextNode(Integer.toString(myReader.getCol())));
+        myRoot.appendChild(row);
+        myRoot.appendChild(col);
     }
     public Element createCell(int row, int col){
         Element cell = mySaveFile.createElement(ReadXML.CELL);
@@ -119,8 +130,8 @@ public class SaveXML {
         setTransformer();
         System.out.println("here");
         DOMSource source = new DOMSource(mySaveFile);
-        ///StreamResult result = new StreamResult(new File("data/emptyXML.xml"));
-        //transformer.transform(source,result);
+        StreamResult result = new StreamResult(userFile);
+        transformer.transform(source,result);
     }
 
     private void setTransformer(){
@@ -141,11 +152,12 @@ public class SaveXML {
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, TransformerException {
         ReadXML mySim = new ReadXML();
         File xmlFile = new File("data/SampleGOL.xml");
+        File userFile = new File("data/emptyXML.xml");
         mySim.setUpFile(xmlFile);
         GameOfLife gol = new GameOfLife(mySim);
         gol.update();
-        SaveXML mySave = new SaveXML(gol);
-        mySave.saveFile();
+        SaveXML mySave = new SaveXML(gol, mySim, userFile);
+        //mySave.saveFile();
     }
 
 }
