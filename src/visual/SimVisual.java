@@ -17,8 +17,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import xmlreading.SaveXML;
-
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.util.ResourceBundle;
 
