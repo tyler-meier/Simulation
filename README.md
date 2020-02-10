@@ -5,6 +5,7 @@ This project implements a cellular automata simulator.
 
 Names: \
     Erik Gregorio (eg158)
+    Farzeen Najam fn26
 
 ### Timeline
 
@@ -15,11 +16,15 @@ Finish Date: February 9th
 Hours Spent: \
 Erik: 15 hrs
 
+Hours Spent: 42+ hours 
+
 ### Primary Roles
 Erik: Configurations and debugging 
+Farzeen: Simulations Backup.
 
 ### Resources Used
 Erik: TutorialsPoint, Stackoverflow
+No resources used apart from TA help
 
 ### Running the Program
 
@@ -40,7 +45,11 @@ generated grid inside the XML file to have the parser create a random grid.
 There is also a save feature which takes in a currently running simulation
 and saves it into a file and stores it where the user wants.
 
-
+Simulation classes: 6 different simulations that are in different classes.
+Each simulation has grids of the cells from cell class. There is an abstract class simulation
+which has some methods implemented in every class. There are hexagonal neighbourhood
+4 neighbourhood and 8 neighbourhood. There is also a toroidal grid which has 4 neighbourhood
+and 8 neighbourhood. 
 
 ### Notes/Assumptions
 
@@ -48,7 +57,7 @@ Assumptions or Simplifications:
 
 Interesting data files:
 
-Known Bugs:
+Known Bugs: 
 
 Extra credit:
 
@@ -57,3 +66,6 @@ Extra credit:
 Erik: I took sometime to get used to working with an XML file. However, once
 I got used to it, I realized why this file type is used in the industry. It is
 very straightforward to work with and create.
+
+Farzeen: I really enjoyed making different simulations, it seemed like creating
+stories, I learnt a lot during the process as well.
