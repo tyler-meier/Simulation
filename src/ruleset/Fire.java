@@ -26,10 +26,7 @@ public class Fire extends Simulation {
         readFile();
     }
 
-
     //literally removed the above code and put it in FiniteGrid class. and called it down in method
-
-
 
     @Override
     public void update() {
@@ -39,6 +36,7 @@ public class Fire extends Simulation {
                  neighbours = abc.getFourNeighbourCount(i, j, myGrid); //neighbours added
                 if (myGrid[i][j].getType() == BURNING) {  //simply the burning tree dies.
                     futureState[i][j] = new CELL(EMPTY,i,j,0); //burnt or empty
+
                 }
                 else if (myGrid[i][j].getType() == TREE) {
                     CellTree(i,j);
