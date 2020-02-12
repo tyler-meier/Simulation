@@ -62,13 +62,16 @@ public class ReadXML {
         setMyGrid();
     }
     public boolean isValidFile(String type){
+        // Method used to determine whether an XML file is the right type of file
         return getAttribute(myRoot, TYPE).equals(type);
     }
     /**
      * Returns the data for given attribute field
      */
     public String getParameters(String parameter){
+        // Retrieves the attribute of a simulation
         String myParameter = getAttribute(myRoot, parameter);
+        // If the parameter is not existent, retrieve the default parameter
         if(myParameter.equals("")) return myParameters.get(parameter);
         return myParameter;
     }
@@ -84,7 +87,9 @@ public class ReadXML {
     public int getCell(int row, int col){
         return myGrid[row][col];
     }
-
+    /**
+     * Returnsthe
+     */
     private Element getRootElement(File xmlFile) throws IOException, SAXException {
         DOCUMENT_BUILDER.reset();
         Document xmlDoc = DOCUMENT_BUILDER.parse(xmlFile);
@@ -94,12 +99,14 @@ public class ReadXML {
      * Add parameters to map so it can be retrived
      */
     private void setUpParameters(){
+        // Creates a new map for parameters and add the new simulation parameters
         myParameters = new HashMap<>();
         myParameters.put(TYPE, getAttribute(myRoot, TYPE));
         myParameters.put(GRID_TYPE, getAttribute(myRoot,GRID_TYPE));
         setUpDefaultValues();
     }
     private void setUpDefaultValues(){
+        //Adds default parameters incase parameters are not included
         myParameters.put(PROB_CATCH, "0.55");
         myParameters.put(CYCLE, "3");
         myParameters.put(SIMILARITY, "30");
@@ -109,6 +116,7 @@ public class ReadXML {
      * Retrieves column and row values from xml files
      */
     private void setMyGrid(){
+        // Creates grid and fills it based on the grid type specified by the user
         setUpGridSize();
         setTotalCellStates();
         myGrid = new int[row][col];
@@ -116,6 +124,7 @@ public class ReadXML {
         else setCells();
     }
     private void setUpGridSize(){
+        // Retrieves the grid size or sets the default to a 10 x 10 grid
         try {
             row = Integer.parseInt(getTextValue(myRoot, ROW));
             col = Integer.parseInt(getTextValue(myRoot, COL));
@@ -135,11 +144,13 @@ public class ReadXML {
      * Methods that set up cell states based on user set up or randomly
      */
     private void setCells(){
+        // Loop through the cell elements and set up a grid with the initial status of each cell
         NodeList list = myRoot.getElementsByTagName(CELL);
         int index = 0;
         for(int i = 0; i< row; i++){
             for(int j = 0; j< col; j++){
                 int state = Integer.parseInt(getTextValue((Element)list.item(index), STATUS));
+                // If the cell state is invalid default to a state of 0
                 if(state<totalStates) myGrid[i][j] = state;
                 else myGrid[i][j] = DEFAULT_STATE;
                 index++;
@@ -147,6 +158,7 @@ public class ReadXML {
         }
     }
     private void createRandomGrid(){
+        // Fills the grid based on random states as specified by the user
         Random random = new Random();
         for(int i = 0; i< row; i++){
             for(int j = 0; j< col; j++){

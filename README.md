@@ -62,6 +62,7 @@ You can also click on rectangle cells to change their status.
 ### Notes/Assumptions
 
 Assumptions or Simplifications:
+Save files use default settings as opposed to original setting in order to simplify the process.
 
 Interesting data files:
 

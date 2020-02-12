@@ -53,10 +53,13 @@ public class SaveXML {
      * Create Parser to create an xml file
      */
     public SaveXML(Simulation sim, ReadXML reader, File file) throws ParserConfigurationException {
+        // Retrieve document builder to create file
         DOCUMENT_BUILDER = getDocumentBuilder();
         mySaveFile = DOCUMENT_BUILDER.newDocument();
+        // Set up global variables that will be used in the simulation reading to create a XML File
         mySimulation = sim;
         userFile = file;
+        // Create root and add the title and author
         createRoot();
         createTitleAuthor();
         myReader = reader;
@@ -73,16 +76,20 @@ public class SaveXML {
      * Retrieves grid size and then creates an element for each cell and their status.
      */
     public void saveCells(){
+        // Creates the elements that will be used to describe the grid in the XML File
         setGrid();
+        // Loops through all cell and creates and element to them.
         Element cells = mySaveFile.createElement(CELLS);
         for(int i = 0; i<myReader.getRow(); i++){
             for(int j = 0; j<myReader.getRow(); j++){
                 cells.appendChild(createCell(i,j));
             }
         }
+        // Attaches cells to XML File
         myRoot.appendChild(cells);
     }
     private void setGrid(){
+        // Creates the elements that will be used to describe the grid in the XML File
         Element row = mySaveFile.createElement(ReadXML.ROW);
         Element col = mySaveFile.createElement(ReadXML.COL);
         row.appendChild(mySaveFile.createTextNode(Integer.toString(myReader.getRow())));
@@ -94,6 +101,7 @@ public class SaveXML {
      * Create element for a cell and retrives its status
      */
     private Element createCell(int row, int col){
+        // Creates the an element for each cell
         Element cell = mySaveFile.createElement(ReadXML.CELL);
         Element status = mySaveFile.createElement(ReadXML.STATUS);
         status.appendChild(getCellStatus(row, col));
@@ -101,6 +109,7 @@ public class SaveXML {
         return cell;
     }
     private Node getCellStatus(int row, int col){
+        // Retrieves the current status of a given cell
         return mySaveFile.createTextNode(Integer.toString(mySimulation.cellStatus(row, col)));
     }
 
@@ -108,6 +117,7 @@ public class SaveXML {
      * Creates the author and title cell for the simulation
      */
     private void createTitleAuthor(){
+        // Creates author and title elements for XML file
         myTitle = mySaveFile.createElement(TITLE);
         myTitle.appendChild(mySaveFile.createTextNode(getSimulationTitle()));
         myAuthor = mySaveFile.createElement(AUTHOR);
@@ -148,11 +158,12 @@ public class SaveXML {
      * structure.
      */
     private void setTransformer(){
+        // Creates a transformer factory in order to write the root into the XML File
         transformerFactory= TransformerFactory.newInstance();
         try {
             transformer = transformerFactory.newTransformer();
         } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         setTransformerOutput();
     }
