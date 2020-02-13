@@ -1,13 +1,15 @@
 # Simulation Design Final
 ### Names
 Erik Gregorio (eg158)
+Tyler Meier (tkm22)
 
 ## Team Roles and Responsibilities
 
  * Team Member #1: Erik \
  Responsible for configurations of the project.
 
- * Team Member #2
+ * Team Member #2: Tyler\
+ Responsible for all frontend and visualizations
 
  * Team Member #3
 
