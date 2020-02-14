@@ -11,7 +11,8 @@ Tyler Meier (tkm22)
  * Team Member #2: Tyler\
  Responsible for all frontend and visualizations, helped debugging as well
 
- * Team Member #3
+ * Team Member #3 Farzeen\
+ Responsible for the pure backend of the project: developing simulations.
 
 
 ## Design goals
@@ -33,6 +34,13 @@ need to change is a case for if the simName is that new simulation, and add rule
 so it sets up the correct scene. Also, I tried to make sure that all of the variables and method names
 in these classes were easy to understand and helped the user in figuring out the code
 
+Simulations: The main goal of the design was to make sure additional simulations could be added to the design with
+different neighbourhood,edges, and grids. For that, I needed to make sure that the 7 different classes I made
+were short, easy to navigate through and well written with comments necessary. Since i was writing a lot of code,
+I decided to split up my methods into smaller chunks which were specific to a certain behavior. There are no methods with
+more than 20 lines and all the classes are definitely less than 200 lines. There are no deep for/if loops
+which is always a nice design.
+
 #### What Features are Easy to Add
 Configurations: It is easy to add new parameters to the simulation.
 
@@ -42,6 +50,9 @@ scene, such as more buttons, you just have to look at how they are currently bei
 how to make them and set their action. I also thought adding the clickable to change cell status wasn't
 hard either, I just had to add a method to the abstract simulation class and implement it in all of the 
 sim subclasses and it started working
+
+Simulation: It is very easy to add more edge types, grid types of different neighbourhood. It is also easy
+to add more simulations for future.
 
 ## High-level Design
 Configurations: We tried to replicate other java parsers for my XML parser. For this implementation,
@@ -56,11 +67,19 @@ for the title and the rules in visualization, but without knowing what the speci
 sims, it takes in information from xml and uses that to show the simulation, but updating for whatever
 specific simulation it is.
 
+Simulations: There is an abstract class Simulation that has some abstract methods that are kind of shared
+with Visulization. The netty gritty details of the Simulation class is not revealed to visualization and to
+XML parser classes. The different simulations are in the different classes, and there is a grid class that has different
+implementation of the grid neighbourhood and the edge types. the methods are called in the main simulation 
+which enables the user to implement different features.
+
 #### Core Classes
 Configurations: ReadXML is vital to this program as it reads the simulation files.
 
 Visualizations: Core classes are StartVisual and SimVisual which set up the different scenes.
 Chart class is important only if you want the chart to be seen on each scene
+
+Simualtion: Simulation, Game of life, percolation, predator prey, fire, segregation, RPS., grid, CELL
 
 ## Assumptions that Affect the Design
 Configurations: 
@@ -68,6 +87,10 @@ Configurations:
 Visualizations: Assumptions made were that other sims were going to be added , so the design is set up
 so that this is able to be done easily without having to change a lot of the code (such as just 
 adding things to properties files and changing some name stuff)
+
+Simulation: Assumption that were made regarding the simulation was that every cell would have only 2 states 
+and it was decided by the majority in the team to not have a cell class which was not a good decision. After
+changing that 3 days before deadline, the cell class was introduced which allowed the code to flow nicely.
 
 #### Features Affected by Assumptions
 Configurations: In order to simplify the process, the save file feature uses default parameters as 
