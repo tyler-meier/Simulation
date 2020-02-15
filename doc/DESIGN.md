@@ -105,6 +105,9 @@ chart object to be called in sim visual. Again, the click to change cell status 
 to add an event handler for when the mouse is clicked on one of the rectangles and add a method in 
 the abstract simulation file that changed the cell when a rectangle was clicked. 
 
+Simulation: It was really hard to make further simulations since we did not have a cell class, but after the
+cell class was added, the design allowed us to make our project really flexible.
+
 ## New Features HowTo
 Configurations: In order to write new parameters to the simulations simply include then in the XML
 file. The back/front end should be able retrieve them via this method. 
@@ -132,11 +135,17 @@ private void buttonActions()
 In the code masterpiece I submitted I also separated the createAllButtons method into two to initialize
 the buttons in a separate method. To add more text just make sure you put into properties
 file and then call from myResources.
+               
+Simulation:
+To add new features, you would have to make a separate simulation class and call methods from the grid 
+class and choose the neighbourhood type and the edge type.
 
 #### Easy to Add Features
 Configurations: Adding new parameter for each simulation.
 
 Visualizations: Buttons on screen, chart, labels and text (rules/title)
+
+Simulation: different neighbourhood, and edges.
 
 #### Other Features not yet Done
 
@@ -154,3 +163,7 @@ However, to add this new feature I would have had to create a separate panel or 
 had either a text field that the user typed in or a slider bar that changed the params. I would have had
 to change some stuff in the setup of the scene itself and also in the update method to change whatever the new parameters
 would be set to.  
+
+Simulation: I could not implement the edge shapes because of the way the code was laid in terms of front end
+and backend. I was not sure how to make sure the front end goes with bank end to implement the edge shapes.
+We discussed it in team and were not sure about it. That is the only feature that was not implemented.
